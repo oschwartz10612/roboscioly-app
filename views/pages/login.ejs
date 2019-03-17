@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title>Homepage</title>
+    <link href="login.css" rel="stylesheet">
+    <% include ../partials/head %>
+  </head>
+  <body>
+    <% include ../partials/navbar %>
+    <main role="main" class="container">
+      <div class="jumbotron">
+        <h1>Login</h1>
+        <h5>Please login below</h5>
+        <a href="/auth/google"><img src="/img/btn_google_signin_dark_normal_web@2x.png" width="200" ></a>
+        <h5>or</h5>
+        <form method="post" action="/login">
+          <div class="form-group">
+            <label for="inputEmail">Email address</label>
+            <input type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Enter email" name="email">
+            <small id="emailHelp" class="form-text text-muted">We'll never share your email with anyone else.</small>
+          </div>
+          <div class="form-group">
+            <label for="inputPassword">Password</label>
+            <input type="password" class="form-control" id="exampleInputPassword1" placeholder="Password" name="pass">
+          </div>
+          <button type="submit" class="btn btn-primary">Submit</button>
+        </form>
+      </div>
+    </main>
+  </body>
+</html>
