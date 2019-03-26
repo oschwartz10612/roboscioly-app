@@ -1,15 +1,56 @@
 <!DOCTYPE html>
 <html lang="en" dir="ltr">
-  <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <title>Homepage</title>
-    <% include ../partials/head %>
-  </head>
-  <body>
-    <% include ../partials/navbar %>
 
-    <h1>Welcome to your profile!</h1>
-    <h2><%= user.name %></h2>
-  </body>
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <title>Homepage</title>
+  <% include ../partials/head %>
+</head>
+
+<body>
+  <% include ../partials/navbar %>
+
+  <div class="container">
+    <div class="jumbotron">
+      <div class="container">
+        <h2>Welcome to your application, <%= user.name %>!</h1>
+        <p>Fill out your app</p>
+      </div>
+      <br>
+      <div class="container">
+        <form action="/profile/form" method="post">
+          <div class="form-group">
+            <label for="text">Text Field</label>
+            <input id="text" name="text" type="text" class="form-control" value="<%= data.text %>">
+          </div>
+          <div class="form-group">
+            <label for="textarea">Text Area</label>
+            <textarea id="textarea" name="textarea" cols="40" rows="5" class="form-control"><%= data.textarea %></textarea>
+          </div>
+          <div class="form-group">
+            <label for="select">Select</label>
+            <div>
+              <select id="select" name="select" class="custom-select">
+                <%
+                var options = [ "Rabbit", "Fish", "Duck" ];
+                for ( var i = 0; i < options.length; i++ )
+                {
+                    var selected = ( data.dropdown == options[i] ) ? "selected" : "";
+                    %><option value="<%=options[ i ] %>" <%=selected %>><%= options[i] %></option><%
+                }
+                %>
+              </select>
+            </div>
+          </div>
+          <div class="form-group">
+            <button name="submit" type="submit" class="btn btn-primary">Save</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+
+</body>
+
 </html>
