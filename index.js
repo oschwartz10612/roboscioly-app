@@ -1,6 +1,7 @@
 const express = require('express');
 const authRoutes = require('./routes/auth-routes');
 const profileRoutes = require('./routes/profile-routes');
+const adminRoutes = require('./routes/admin-routes');
 const passportSetup = require('./config/passport-setup');
 const cookieSession = require('cookie-session');
 const keys = require('./config/keys')
@@ -23,6 +24,7 @@ app.set('view engine', 'ejs');
 
 app.use('/auth', authRoutes);
 app.use('/profile', profileRoutes);
+app.use('/admin', adminRoutes);
 
 app.get('/', function(req, res) {
     res.render('pages/index', {user: req.user});

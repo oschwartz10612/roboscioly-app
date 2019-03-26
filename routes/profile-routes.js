@@ -48,6 +48,7 @@ router.post('/form', express.urlencoded({ extended: true }), function(req, res) 
   } else {
     let data = {
       user_id: req.user.user_id,
+      name: req.user.name,
       text: req.body.text,
       textarea: req.body.textarea,
       dropdown: req.body.select
