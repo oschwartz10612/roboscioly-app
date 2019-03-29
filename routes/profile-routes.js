@@ -2,6 +2,7 @@ const router = require('express').Router();
 const express = require('express');
 const mysql = require('../config/mysql');
 
+
 const authCheck = function(req, res, next) {
   if (!req.user) {
     res.redirect('/auth/login');
@@ -11,50 +12,59 @@ const authCheck = function(req, res, next) {
 };
 
 router.get('/', authCheck, function(req, res) {
-  let sql = `SELECT * FROM data1 WHERE user_id = ?`;
+  let sql = 'SELECT * FROM ' + tabel + ' WHERE user_id = ?';
   let query = mysql.query(sql, req.user.user_id, (err, result) => {
       if (err) throw err;
       if (result[0] != null) {
+        var data = result[0];
+        delete data.user_id;
+        delete data.name;
+
         res.render('pages/profile', {
           user: req.user,
-          data: {
-            text: result[0].text,
-            textarea: result[0].textarea,
-            dropdown: result[0].dropdown
-          }
+          data: data
         });
       } else {
         res.render('pages/profile', {
-          user: req.user,
-          data: {
-            text: null,
-            textarea: null,
-            dropdown: null
-          }
+          user: req.user
         });
     }
   });
 });
 
 router.post('/form', express.urlencoded({ extended: true }), function(req, res) {
-  let sql = `SELECT * FROM data1 WHERE user_id = ?`;
+  const tabel = 'data1';
+  const values = Object.values(req.body);
+  const keys = Object.keys(req.body);
+
+  //Update tabel
+  let sql = 'SELECT * FROM ' + tabel + ' WHERE user_id = ?';
   let query = mysql.query(sql, req.user.user_id, (err, result) => {
   if (err) throw err;
   if (result[0] != null) {
-    let sql = `UPDATE data1 SET text = ?, textarea = ?, dropdown = ? WHERE user_id = ?`;
-    let query = mysql.query(sql, [req.body.text, req.body.textarea, req.body.select, req.user.user_id], (err, result) => {
+
+    let sql = 'UPDATE ' + tabel + ' SET ';
+    for (var i = 0; i < keys.length - 2; i++) {
+      sql = sql + keys[i] + ' = ?, '
+    }
+    sql = sql + keys[keys.length-2] + ' = ? WHERE user_id = ?';
+
+    var data = values;
+    data.splice(-1,1);
+    data.push(req.user.user_id);
+
+    let query = mysql.query(sql, data, (err, result) => {
       if (err) throw err;
     });
   } else {
-    let data = {
-      user_id: req.user.user_id,
-      name: req.user.name,
-      text: req.body.text,
-      textarea: req.body.textarea,
-      dropdown: req.body.select
-    };
-    let sql = 'INSERT INTO data1 SET ?';
-    let query = mysql.query(sql, data, (err, result) => {
+
+    //new submittion
+    let submittion = req.body;
+    delete submittion[keys[keys.length-1]];
+    submittion.user_id = req.user.user_id;
+
+    let sql = 'INSERT INTO ' + tabel + ' SET ?';
+    let query = mysql.query(sql, submittion, (err, result) => {
       if (err) throw err;
     });
   }
