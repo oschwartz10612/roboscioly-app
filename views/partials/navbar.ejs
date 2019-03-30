@@ -8,18 +8,19 @@
          <li class="nav-item active">
            <a class="nav-link" href="/">Home</a>
          </li>
-         <% if (!user) { %>
+         <% if (typeof user != 'undefined' && user.role == 'admin') { %>
          <li class="nav-item">
-           <a class="nav-link" href="/auth/login">Login</a>
-         </li>
-         <% } else { %>
-         <li class="nav-item">
-           <a class="nav-link" href="/auth/logout">Logout</a>
+           <a class="nav-link" href="/admin/">Submissions</a>
          </li>
          <% } %>
          <li class="nav-item">
            <a class="nav-link" href="/profile">Profile</a>
          </li>
        </ul>
+       <% if (!user) { %>
+         <a href="/auth/google"><img src="/img/btn_google_signin_dark_normal_web@2x.png" width="200" ></a>
+       <% } else { %>
+         <a href="/auth/logout" class="btn btn-outline-warning my-2 my-sm-0">Logout</a>
+      <% } %>
      </div>
    </nav>

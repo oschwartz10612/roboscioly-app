@@ -1,10 +1,6 @@
 const router = require('express').Router();
 const passport = require('passport');
 
-router.get('/login', function (req, res) {
-  res.render('pages/login', {user: req.user});
-});
-
 router.get('/logout', function (req, res) {
     req.logout();
     res.redirect('/');

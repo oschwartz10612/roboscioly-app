@@ -15,19 +15,9 @@ create database users;
 
 use users;
 
-create table google (google_id varchar(50), name varchar(50), user_id varchar(100));
+create table google (google_id varchar(50), name varchar(50), user_id varchar(100) role varchar(50));
 
 create table data1 (text varchar(50), textarea MEDIUMTEXT, dropdown varchar(20), user_id varchar(100));
-
-SELECT 
-    *
-FROM
-    data1
-INTO OUTFILE '/var/lib/mysql-files/data.csv'
-FIELDS ENCLOSED BY '"'
-TERMINATED BY ';'
-ESCAPED BY '"'
-LINES TERMINATED BY '\r\n';
 ```
 
 ## Contributing

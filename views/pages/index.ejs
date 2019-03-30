@@ -8,5 +8,35 @@
   </head>
   <body>
     <% include ../partials/navbar %>
+
+    <!-- Modal -->
+    <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+      <div class="modal-dialog" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="exampleModalLabel">Please login...</h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <div class="modal-body">
+            <p>We use Google's OAUTH2.0 to authenticate users</p>
+            <a href="/auth/google"><img src="/img/btn_google_signin_dark_normal_web@2x.png" width="200" ></a>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
   </body>
 </html>
+
+<% if(modal) { %>
+<script type="text/javascript">
+  $(window).on('load',function(){
+     $('#exampleModal').modal('show');
+  });
+</script>
+<% } %>

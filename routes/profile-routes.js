@@ -1,11 +1,12 @@
 const router = require('express').Router();
 const express = require('express');
 const mysql = require('../config/mysql');
+const tabel = 'data';
 
 
 const authCheck = function(req, res, next) {
   if (!req.user) {
-    res.redirect('/auth/login');
+    res.redirect('/home?login=y');
   } else {
     next();
   }
@@ -33,7 +34,6 @@ router.get('/', authCheck, function(req, res) {
 });
 
 router.post('/form', express.urlencoded({ extended: true }), function(req, res) {
-  const tabel = 'data1';
   const values = Object.values(req.body);
   const keys = Object.keys(req.body);
 
@@ -62,6 +62,7 @@ router.post('/form', express.urlencoded({ extended: true }), function(req, res) 
     let submittion = req.body;
     delete submittion[keys[keys.length-1]];
     submittion.user_id = req.user.user_id;
+    submittion.name = req.user.name;
 
     let sql = 'INSERT INTO ' + tabel + ' SET ?';
     let query = mysql.query(sql, submittion, (err, result) => {

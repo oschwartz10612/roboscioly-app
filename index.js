@@ -6,6 +6,8 @@ const passportSetup = require('./config/passport-setup');
 const cookieSession = require('cookie-session');
 const keys = require('./config/keys')
 const passport = require('passport');
+const bcrypt = require('bcrypt');
+const saltRounds = 10;
 
 const app = express();
 const port = 3000;
@@ -26,8 +28,16 @@ app.use('/auth', authRoutes);
 app.use('/profile', profileRoutes);
 app.use('/admin', adminRoutes);
 
+app.get('/home', function(req, res) {
+  if (req.query.login == 'y') {
+    res.render('pages/index', {user: req.user, modal: true});
+  } else {
+    res.render('pages/index', {user: req.user, modal: false});
+  }
+});
+
 app.get('/', function(req, res) {
-    res.render('pages/index', {user: req.user});
+  res.redirect('/home');
 });
 
 app.post('/login', function(req, res) {

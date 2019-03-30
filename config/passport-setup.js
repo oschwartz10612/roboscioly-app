@@ -29,7 +29,7 @@ passport.use(
           done(null, result[0]);
         }
         else {
-          let user = {google_id: profile.id, name: profile.displayName, user_id: uuidv4()};
+          let user = {google_id: profile.id, name: profile.displayName, user_id: uuidv4(), role: 'user'};
           let sql = 'INSERT INTO google SET ?';
           let query = mysql.query(sql, user, (err, result) => {
               if(err) throw err;
