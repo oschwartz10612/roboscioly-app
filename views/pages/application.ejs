@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <title>Homepage</title>
+  <% include ../partials/head %>
+</head>
+
+<body>
+  <% include ../partials/navbar %>
+
+  <div class="container">
+    <div class="jumbotron">
+      <div class="container">
+        <h2>Welcome to your application, <%= user.name %>!</h1>
+        <p>You may take as much time as you need to complete this application, but be aware of the due date. Remember to press save to save your progress. Whatever is entered with time is up will be submitted. Good luck!</p>
+      </div>
+      <hr>
+      <div class="container">
+        <form method="post" action="/profile/form">
+          <div class="form-group">
+            <label for="name">Name</label>
+            <input id="name" name="name" type="text" class="form-control" value="<%= typeof data!='undefined' ? data.name : '' %>">
+            <span id="nameHelpBlock" class="form-text text-muted">Use your full name so we can identify you correctly.</span>
+          </div>
+          <div class="form-group">
+            <label for="email">Student Email</label>
+            <input id="email" name="email" type="text" aria-describedby="emailHelpBlock" class="form-control" value="<%= typeof data!='undefined' ? data.email : '' %>">
+            <span id="emailHelpBlock" class="form-text text-muted">Use your FCPS email. This will be used to contact you after applications have been received. You must check this email!</span>
+          </div>
+          <div class="form-group">
+            <label for="grade">Grade</label>
+            <div>
+              <select id="grade" name="grade" class="custom-select">
+                <%
+                var options = [ "Freshman", "Sophomore", "Junior", "Senior" ];
+                if(typeof data === "undefined") {
+                  for ( var i = 0; i < options.length; i++ ) {
+                      var selected = ( options[0] == options[i] ) ? "selected" : "";
+                      %><option value="<%=options[ i ] %>" <%=selected %>><%= options[i] %></option><%
+                  }
+                }
+                else {
+                  for ( var i = 0; i < options.length; i++ ) {
+                      var selected = ( data.grade == options[i] ) ? "selected" : "";
+                      %><option value="<%=options[ i ] %>" <%=selected %>><%= options[i] %></option><%
+                  }
+                }
+                %>
+              </select>
+            </div>
+          </div>
+          <div class="form-group">
+            <label>Which science and/or technology courses have you or are currently taking?</label>
+            <span id="science_classHelpBlock" class="form-text text-muted">Check all that apply.</span>
+            <div>
+                <%
+                var boxes = ["Biology 1", "Biology 1 HN", "IB Biology SL", "IB Biology I (HL)", "IB Biology II HL", "Chemistry 1", "IB Chemistry I", "IB Chemistry II SL", "IB Chemistry II HL", "Physics", "Active Physics", "IB Physics I", "IB Physics II SL", "IB Physics II HL", "Geosystems", "Geosystems HN", "Astronomy", "IB Environmental Sys SL", "Oceanography", "Human Anatomy & Physiology"];
+                  for ( var i = 0; i < boxes.length; i++ ) {
+                      var checked = ( data['science_class_' + i] == boxes[i] ) ? "checked" : "";
+                      if(checked == "checked") {
+                        var option = "";
+                      }
+                      else {
+                        var option = boxes[i];
+                      }
+                      %>
+                      <div class="custom-controls-stacked">
+                        <div class="custom-control custom-checkbox">
+                          <input type="hidden" name="science_class_<%=i%>" value="<%=data['science_class_' + i]%>"><input id="science_class_<%=i%>" type="checkbox" aria-describedby="science_classHelpBlock" class="custom-control-input" onclick="this.previousSibling.value='<%=option%>'" <%=checked %>>
+                          <label for="science_class_<%=i%>" class="custom-control-label"><%=boxes[i]%></label>
+                        </div>
+                      </div>
+                      <% } %>
+            </div>
+          </div>
+          <div class="form-group">
+            <label>What Math class have you or are currently taking?</label>
+            <span id="math_classHelpBlock" class="form-text text-muted">Check all that apply.</span>
+            <div>
+                <%
+                var boxes = ["Algebra 1", "Geometry", "Geometry HN", "Algebra 2", "Algebra 2 HN", "Algebra 2 with Trig HN", "Discrete Math", "Trigonometry", "Pre-Calculus With Trig", "AP Statistics", "AP Calculus AB", "AP Calculus BC", "Probability & Statistics", "IB Math Studies SL", "IB Math I SL", "IB Math II SL", "IB Math I HL", "IB Math II HL", "IB Computer Science SL", "Multivariable Calculus", "Matrix Algebra"];
+                  for ( var i = 0; i < boxes.length; i++ ) {
+                      var checked = ( data['math_' + i] == boxes[i] ) ? "checked" : "";
+                      if(checked == "checked") {
+                        var option = "";
+                      }
+                      else {
+                        var option = boxes[i];
+                      }
+                      %>
+                      <div class="custom-controls-stacked">
+                        <div class="custom-control custom-checkbox">
+                          <input type="hidden" name="math_<%=i%>" value="<%=data['math_' + i]%>"><input id="math_<%=i%>" type="checkbox" aria-describedby="science_classHelpBlock" class="custom-control-input" onclick="this.previousSibling.value='<%=option%>'" <%=checked %>>
+                          <label for="math_<%=i%>" class="custom-control-label"><%=boxes[i]%></label>
+                        </div>
+                      </div>
+                      <% } %>
+            </div>
+          </div>
+          <div class="form-group">
+            <label>Were you on the Science Olympiad team last year?</label>
+            <div>
+              <div class="custom-control custom-radio custom-control-inline">
+                <input name="team" id="radio_0" type="radio" class="custom-control-input" value="Yes" aria-describedby="radioHelpBlock" required="required" <% if(typeof data != "undefined" && data.team == 'Yes') { %> checked="checked" <% } %>>
+                <label for="radio_0" class="custom-control-label">Yes</label>
+              </div>
+              <div class="custom-control custom-radio custom-control-inline">
+                <input name="team" id="radio_1" type="radio" class="custom-control-input" value="No" aria-describedby="radioHelpBlock" required="required" <% if(typeof data != "undefined" && data.team == 'No') { %> checked="checked" <% } %>>
+                <label for="radio_1" class="custom-control-label">No</label>
+              </div>
+              <span id="teamHelpBlock" class="form-text text-muted">This includes all alternates.</span>
+            </div>
+          </div>
+          <div class="form-group">
+            <label>Were you on the Science Olympiad States team last year?</label>
+            <div>
+              <div class="custom-control custom-radio custom-control-inline">
+                <input name="statesteam" id="statesteam_0" type="radio" aria-describedby="statesteamHelpBlock" class="custom-control-input" value="Yes" required="required" <% if(typeof data != "undefined" && data.statesteam == 'Yes') { %> checked="checked" <% } %>>
+                <label for="statesteam_0" class="custom-control-label">Yes</label>
+              </div>
+              <div class="custom-control custom-radio custom-control-inline">
+                <input name="statesteam" id="statesteam_1" type="radio" aria-describedby="statesteamHelpBlock" class="custom-control-input" value="No" required="required" <% if(typeof data != "undefined" && data.statesteam == 'No') { %> checked="checked" <% } %>>
+                <label for="statesteam_1" class="custom-control-label">No</label>
+              </div>
+              <span id="statesteamHelpBlock" class="form-text text-muted">This includes all alternates.</span>
+            </div>
+          </div>
+          <div class="form-group">
+            <label for="events">If you answered yes to the previous questions, what events did you do? Have done in years past?</label>
+            <input id="events" name="events" type="text" class="form-control" value="<%= typeof data!='undefined' ? data.events : '' %>">
+          </div>
+          <div class="form-group">
+            <label for="textarea">Science Olympiad is a major time commitment, where members are expected to fully prepare themselves for multiple competitions in the winter. What other activities will you be doing throughout the year? If these activities may conflict with Science Olympiad, how will you dedicate your time to this team?</label>
+            <textarea id="textarea" name="textarea" cols="40" rows="5" class="form-control"><%= typeof data!='undefined' ? data.textarea : '' %></textarea>
+          </div>
+          <div class="form-group">
+            <label for="textarea1">What do you believe your science/academic strengths are? Weaknesses?  Have you participated in other extracurricular science or math related activities? If so, list them.</label>
+            <textarea id="textarea1" name="textarea1" cols="40" rows="5" class="form-control"><%= typeof data!='undefined' ? data.textarea1 : '' %></textarea>
+          </div>
+          <div class="form-group">
+            <label for="textarea2">Explain the most challenging, in your opinion, topic covered in your science class. Please detail how you were able to master it and/or would still like to learn more about it.</label>
+            <textarea id="textarea2" name="textarea2" cols="40" rows="5" class="form-control"><%= typeof data!='undefined' ? data.textarea2 : '' %></textarea>
+          </div>
+          <div class="form-group">
+            <label for="textarea3">How well do you work with others? Give an example of a time where teamwork required you to mediate a conflict.</label>
+            <textarea id="textarea3" name="textarea3" cols="40" rows="5" class="form-control"><%= typeof data!='undefined' ? data.textarea3 : '' %></textarea>
+          </div>
+          <div class="form-group">
+            <label for="textarea4">What role do you see science playing in your life?</label>
+            <textarea id="textarea4" name="textarea4" cols="40" rows="5" class="form-control"><%= typeof data!='undefined' ? data.textarea4 : '' %></textarea>
+          </div>
+          <div class="form-group">
+            <label for="textarea5">Why do you want to join Science Olympiad? What about Science Olympiad is appealing?</label>
+            <textarea id="textarea5" name="textarea5" cols="40" rows="5" class="form-control"><%= typeof data!='undefined' ? data.textarea5 : '' %></textarea>
+          </div>
+          <div class="form-group">
+            <label for="textarea6">What do you want us to know about you?</label>
+            <textarea id="textarea6" name="textarea6" cols="40" rows="5" class="form-control"><%= typeof data!='undefined' ? data.textarea6 : '' %></textarea>
+          </div>
+          <div class="form-group">
+            <label for="textarea7">Tell us the best joke you know.</label>
+            <textarea id="textarea7" name="textarea7" cols="40" rows="5" class="form-control"><%= typeof data!='undefined' ? data.textarea7 : '' %></textarea>
+          </div>
+          <div class="form-group">
+            <label>By agreeing yes, I confirm that all of the information provided previously is accurate to the best of my knowledge. Knowingly providing false information will make you ineligible for the team.</label>
+            <div>
+              <div class="custom-control custom-radio custom-control-inline">
+                <input name="confirm" id="radio2_0" type="radio" class="custom-control-input" value="Yes" required="required" <% if(typeof data != "undefined" && data.confirm == 'Yes') { %> checked="checked" <% } %>>
+                <label for="radio2_0" class="custom-control-label">Yes</label>
+              </div>
+              <div class="custom-control custom-radio custom-control-inline">
+                <input name="confirm" id="radio2_1" type="radio" class="custom-control-input" value="No" required="required" <% if(typeof data != "undefined" && data.confirm == 'No') { %> checked="checked" <% } %>>
+                <label for="radio2_1" class="custom-control-label">No</label>
+              </div>
+            </div>
+          </div>
+          <div class="form-group">
+            <button name="submit" type="submit" class="btn btn-primary">Save</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</body>
+</html>

@@ -19,14 +19,13 @@ router.get('/', authCheck, function(req, res) {
       if (result[0] != null) {
         var data = result[0];
         delete data.user_id;
-        delete data.name;
 
-        res.render('pages/profile', {
+        res.render('pages/application', {
           user: req.user,
           data: data
         });
       } else {
-        res.render('pages/profile', {
+        res.render('pages/application', {
           user: req.user
         });
     }
