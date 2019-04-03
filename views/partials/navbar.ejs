@@ -1,26 +1,31 @@
-<nav class="navbar navbar-expand-md navbar-dark bg-dark mb-4">
-     <a class="navbar-brand" href="/">Auth</a>
-     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
-       <span class="navbar-toggler-icon"></span>
-     </button>
-     <div class="collapse navbar-collapse" id="navbarCollapse">
-       <ul class="navbar-nav mr-auto">
-         <li class="nav-item active">
-           <a class="nav-link" href="/">Home</a>
-         </li>
-         <% if (typeof user != 'undefined' && user.role == 'admin') { %>
-         <li class="nav-item">
-           <a class="nav-link" href="/admin/">Submissions</a>
-         </li>
-         <% } %>
-         <li class="nav-item">
-           <a class="nav-link" href="/profile">My Application</a>
-         </li>
-       </ul>
-       <% if (!user) { %>
-         <a href="/auth/google"><img src="/img/btn_google_signin_dark_normal_web@2x.png" width="200" ></a>
-       <% } else { %>
-         <a href="/auth/logout" class="btn btn-outline-warning my-2 my-sm-0">Logout</a>
+
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark mb-4">
+  <a class="navbar-brand" href="/">
+    <img src="/img/logo.png" width="30" height="30" class="mr-3 d-inline-block align-top" alt="">Robinson Science Olympiad</a>
+  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
+    <span class="navbar-toggler-icon"></span>
+  </button>
+  <div class="collapse navbar-collapse" id="navbarCollapse">
+    <ul class="navbar-nav mr-auto">
+      <li class="nav-item">
+        <a class="nav-link" href="/">Instructions</a>
+      </li>
+      <% if (typeof user != 'undefined' && user.role == 'admin') { %>
+      <li class="nav-item">
+        <a class="nav-link" href="/admin/">Submissions</a>
+      </li>
       <% } %>
-     </div>
-   </nav>
+      <li class="nav-item">
+        <a class="nav-link" href="/profile/apply">My Application</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="/profile/officer">My Officer App</a>
+      </li>
+    </ul>
+    <% if (!user) { %>
+    <a href="/auth/google"><img src="/img/btn_google_signin_dark_normal_web@2x.png" width="200"></a>
+    <% } else { %>
+    <a href="/auth/logout" class="btn btn-outline-warning my-2 my-sm-0">Logout</a>
+    <% } %>
+  </div>
+</nav>

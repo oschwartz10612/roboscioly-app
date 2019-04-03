@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title>Homepage</title>
+    <% include ../partials/head %>
+  </head>
+  <body>
+    <% include ../partials/navbar %>
+    <div class="container">
+      <div class="jumbotron">
+        <div class="container">
+          <h2>Welcome to your application, <%= user.name %>!</h1>
+          <p>You may take as much time as you need to complete this application, but be aware of the due date. Remember to press save to save your progress. Whatever is entered with time is up will be submitted. Good luck!</p>
+        </div>
+        <hr>
+          <form method="post" action="/profile/form">
+            <input type="hidden" name="table" value="officers">
+            <div class="form-group">
+              <label for="name">Name</label>
+              <input id="name" name="name" type="text" class="form-control" value="<%= typeof data!='undefined' ? data.name : '' %>">
+            </div>
+            <div class="form-group">
+              <label for="email">Student Email</label>
+              <input id="email" name="email" type="text" class="form-control" value="<%= typeof data!='undefined' ? data.email : '' %>">
+            </div>
+            <div class="form-group">
+              <label for="grade">Grade</label>
+              <div>
+                <select id="grade" name="grade" class="custom-select">
+                  <%
+                  var options = [ "Freshman", "Sophomore", "Junior", "Senior" ];
+                  if(typeof data === "undefined") {
+                    for ( var i = 0; i < options.length; i++ ) {
+                        var selected = ( options[0] == options[i] ) ? "selected" : "";
+                        %><option value="<%=options[ i ] %>" <%=selected %>><%= options[i] %></option><%
+                    }
+                  }
+                  else {
+                    for ( var i = 0; i < options.length; i++ ) {
+                        var selected = ( data.grade == options[i] ) ? "selected" : "";
+                        %><option value="<%=options[ i ] %>" <%=selected %>><%= options[i] %></option><%
+                    }
+                  }
+                  %>
+                </select>
+              </div>
+            </div>
+            <div class="form-group">
+              <label for="textarea">Why do you think you would be a good Science Olympiad officer?</label>
+              <textarea id="textarea" name="textarea" cols="40" rows="8" aria-describedby="textareaHelpBlock" class="form-control"><%= typeof data!='undefined' ? data.textarea : '' %></textarea>
+              <span id="textareaHelpBlock" class="form-text text-muted">This is it! Make sure you respond substantively as to why you are the right person for the job.</span>
+            </div>
+            <div class="form-group">
+              <label for="textarea1">Have you staffed any other leadership positions? If so, tell us about it!</label>
+              <textarea id="textarea1" name="textarea1" cols="40" rows="5" class="form-control"><%= typeof data!='undefined' ? data.textarea1 : '' %></textarea>
+            </div>
+            <div class="form-group">
+              <label for="textarea2">What is your greatest contribution to the team thus far?</label>
+              <textarea id="textarea2" name="textarea2" cols="40" rows="5" class="form-control"><%= typeof data!='undefined' ? data.textarea2 : '' %></textarea>
+            </div>
+            <div class="form-group">
+              <label for="textarea3">What would you like to see changed next year?</label>
+              <textarea id="textarea3" name="textarea3" cols="40" rows="5" class="form-control"><%= typeof data!='undefined' ? data.textarea3 : '' %></textarea>
+            </div>
+            <div class="form-group">
+              <label for="textarea4">How do you work with others?</label>
+              <textarea id="textarea4" name="textarea4" cols="40" rows="5" class="form-control"><%= typeof data!='undefined' ? data.textarea4 : '' %></textarea>
+            </div>
+            <div class="form-group">
+              <label>You MUST complete a spring application as well as this application by the ____. By checking yes below, you confirm that you have completed the spring application.</label>
+              <div>
+                <div>
+                  <div class="custom-control custom-radio custom-control-inline">
+                    <input name="confirm" id="radio2_0" type="radio" class="custom-control-input" value="Yes" required="required" <% if(typeof data != "undefined" && data.confirm == 'Yes') { %> checked="checked" <% } %>>
+                    <label for="radio2_0" class="custom-control-label">Yes</label>
+                  </div>
+                  <div class="custom-control custom-radio custom-control-inline">
+                    <input name="confirm" id="radio2_1" type="radio" class="custom-control-input" value="No" required="required" <% if(typeof data != "undefined" && data.confirm == 'No') { %> checked="checked" <% } %>>
+                    <label for="radio2_1" class="custom-control-label">No</label>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="form-group">
+              <button name="submit" type="submit" class="btn btn-primary">Save</button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </body>
+</html>
