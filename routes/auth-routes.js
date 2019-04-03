@@ -12,7 +12,7 @@ router.get('/google', passport.authenticate('google', {
 
 //callback route google
 router.get('/google/redirect', passport.authenticate('google'), function (req, res) {
-  res.redirect('/profile/apply');
+  res.redirect('/home/');
 });
 
 module.exports = router;

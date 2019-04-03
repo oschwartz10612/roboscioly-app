@@ -1,5 +1,4 @@
-
-<nav class="navbar navbar-expand-lg navbar-dark bg-dark mb-4">
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark mb-4 <%= typeof index!='undefined' ? 'fixed-top' : '' %>">
   <a class="navbar-brand" href="/">
     <img src="/img/logo.png" width="30" height="30" class="mr-3 d-inline-block align-top" alt="">Robinson Science Olympiad</a>
   <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
@@ -19,7 +18,7 @@
         <a class="nav-link" href="/profile/apply">My Application</a>
       </li>
       <li class="nav-item">
-        <a class="nav-link" href="/profile/officer">My Officer App</a>
+        <a class="nav-link" href="/profile/officer">My Officer Application</a>
       </li>
     </ul>
     <% if (!user) { %>
