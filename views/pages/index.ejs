@@ -1,89 +1,109 @@
 <!DOCTYPE html>
 <html lang="en" dir="ltr">
-  <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <title>Homepage</title>
-    <link rel="stylesheet" href="/css/home.css">
-    <% include ../partials/head %>
-  </head>
-  <body>
-    <% include ../partials/navbar %>
 
-    <!-- Modal -->
-    <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-      <div class="modal-dialog" role="document">
-        <div class="modal-content">
-          <div class="modal-header">
-            <h5 class="modal-title" id="exampleModalLabel">Please login...</h5>
-            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-              <span aria-hidden="true">&times;</span>
-            </button>
-          </div>
-          <div class="modal-body">
-            <p>We use Google's OAUTH2.0 to authenticate users</p>
-            <a href="/auth/google"><img src="/img/btn_google_signin_dark_normal_web@2x.png" width="200" ></a>
-          </div>
-          <div class="modal-footer">
-            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-          </div>
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <title>
+    <%= typeof user!='undefined' ? 'Instructions' : 'Apply to SciOly' %>
+  </title>
+  <link rel="stylesheet" href="/css/home.css">
+  <% include ../partials/head %>
+</head>
+
+<body>
+  <% include ../partials/navbar %>
+
+  <!-- Modal -->
+  <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLabel">Please login...</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <p>We use Google's OAUTH2.0 to authenticate users</p>
+          <a href="/auth/google"><img src="/img/btn_google_signin_dark_normal_web@2x.png" width="200"></a>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
         </div>
       </div>
     </div>
+  </div>
 
-    <main role="main">
-      <!-- Main jumbotron for a primary marketing message or call to action -->
-      <div class="jumbotron">
-        <div class="container">
-          <% if (!user) { %>
-          <h1 class="display-3">Welcome Science Olympians!</h1>
-          <p>This is a template for a simple marketing or informational website. It includes a large callout called a jumbotron and three supporting pieces of content. Use it as a starting point to create something more unique.</p>
-          <p><a class="btn btn-primary btn-lg" href="/auth/google" role="button">Login &raquo;</a></p>
-          <% } else { %>
-            <h1 class="display-3">Welcome, <%= user.name%>!</h1>
-            <p>This is a template for a simple marketing or informational website. It includes a large callout called a jumbotron and three supporting pieces of content. Use it as a starting point to create something more unique.</p>
-            <p><a class="btn btn-primary btn-lg" href="/profile/apply" role="button">Lets start! &raquo;</a></p>
-          <% } %>
+  <main role="main">
+    <!-- Main jumbotron for a primary marketing message or call to action -->
+    <div class="jumbotron">
+      <div class="container">
+        <% if (!user) { %>
+        <h1 class="display-3">Welcome Science Olympians!</h1>
+        <p>This is the Robinson Science Olympiad 2019-2020 Spring Application Portal. Apply to become a Science Olympiad team member or officer.</p>
+        <p><a class="btn btn-primary btn-lg" href="/profile/apply" role="button">Login &raquo;</a></p>
+        <% } else { %>
+        <h1 class="display-3">Welcome,
+          <%= user.name%>!</h1>
+          <p>This is the Robinson Science Olympiad 2019-2020 Spring Application Portal. Apply to become a Science Olympiad team member or officer.</p>
+        <p><a class="btn btn-primary btn-lg" href="/profile/apply" role="button">Lets start! &raquo;</a></p>
+        <% } %>
+      </div>
+    </div>
+
+    <div class="container">
+      <!-- Example row of columns -->
+      <div class="row">
+        <div class="col-md-4">
+          <h2>Step 1</h2>
+          <h5 class="text-muted">Research Science Olympiad</h5>
+          <p>Use the following websites to find more information about Science Olympiad. Read a bit about the program to make sure you want to join. If you submit an application, you should be ready to commit if accepted. We only will consider
+            serious applicants.
+            <ul>
+              <li>Come to our Spring interest meeting on May 1st!</li>
+              <li><a href="https://www.soinc.org/about/background">Background</a></li>
+              <li><a href="https://www.soinc.org/events/2019-event-table">Last year's events</a></li>
+              <li><a href="https://virginiaso.org/what-is-so.php">VASO Site</a></li>
+              <li><a href="https://en.wikipedia.org/wiki/Science_Olympiad">Wiki</a></li>
+              <li><a href="https://www.scioly19.club/about-us">Our Website</a></li>
+              <li>Feel free to email us with any questions and we will get back to you ASAP: leadership@scioly19.club</li>
+            </ul>
+          </p>
+          <p><a class="btn btn-secondary" href="/home" role="button">Lets go &raquo;</a></p>
+        </div>
+        <div class="col-md-4">
+          <h2>Step 2</h2>
+          <h5 class="text-muted">Complete your application</h5>
+          <p>Login with a Google account to begin completing your application for the team. Luckily this year the application saves your progress, so take as much time as you need, but heed the due date: _____. All applications must be in by this time! If you are a returning member and wish to apply for an officer position, use the officer tab at the top of the screen. You will be contacted with your student email upon the end of the spring application process. By applying in the spring you communicate to us that you are serious about joining Science Olympiad and we will take this into consideration.</p>
+          <p><a class="btn btn-secondary" href="/profile/apply" role="button">Lets go &raquo;</a></p>
+        </div>
+        <div class="col-md-4">
+          <h2>Step 3</h2>
+          <h5 class="text-muted">Submit a teacher recommendation</h5>
+          <p>To augment your application process and to ensure we are considering you as a candidate holistically, we request a teacher recommendation. ..............not sure how this will work yet...</p>
+          <p><a class="btn btn-secondary" href="/teacher" role="button">Lets go &raquo;</a></p>
         </div>
       </div>
 
-      <div class="container">
-        <!-- Example row of columns -->
-        <div class="row">
-          <div class="col-md-4">
-            <h2>Step 1</h2>
-            <p>Donec id elit non mi porta gravida at eget metus. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa justo sit amet risus. Etiam porta sem malesuada magna mollis euismod. Donec sed odio dui. </p>
-            <p><a class="btn btn-secondary" href="#" role="button">Lets go &raquo;</a></p>
-          </div>
-          <div class="col-md-4">
-            <h2>Step 2</h2>
-            <p>Donec id elit non mi porta gravida at eget metus. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa justo sit amet risus. Etiam porta sem malesuada magna mollis euismod. Donec sed odio dui. </p>
-            <p><a class="btn btn-secondary" href="#" role="button">Lets go &raquo;</a></p>
-          </div>
-          <div class="col-md-4">
-            <h2>Step 3</h2>
-            <p>Donec sed odio dui. Cras justo odio, dapibus ac facilisis in, egestas eget quam. Vestibulum id ligula porta felis euismod semper. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa justo sit amet risus.</p>
-            <p><a class="btn btn-secondary" href="#" role="button">Lets go &raquo;</a></p>
-          </div>
-        </div>
+      <hr>
 
-        <hr>
+    </div> <!-- /container -->
 
-      </div> <!-- /container -->
+  </main>
 
-    </main>
+  <footer class="container">
+    <p>&copy; Robinson Science Olympiad 2019-2020</p>
+  </footer>
 
-    <footer class="container">
-      <p>&copy; Robinson Science Olympiad 2019-2020</p>
-    </footer>
+</body>
 
-  </body>
 </html>
 
 <% if(modal) { %>
 <script type="text/javascript">
-  $(window).on('load',function(){
-     $('#exampleModal').modal('show');
+  $(window).on('load', function() {
+    $('#exampleModal').modal('show');
   });
 </script>
 <% } %>

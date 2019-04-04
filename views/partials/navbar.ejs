@@ -6,14 +6,18 @@
   </button>
   <div class="collapse navbar-collapse" id="navbarCollapse">
     <ul class="navbar-nav mr-auto">
-      <li class="nav-item">
-        <a class="nav-link" href="/">Instructions</a>
-      </li>
       <% if (typeof user != 'undefined' && user.role == 'admin') { %>
       <li class="nav-item">
         <a class="nav-link" href="/admin/">Submissions</a>
       </li>
       <% } %>
+    <% if (!user) { %>
+        </ul>
+        <a href="/auth/google"><img src="/img/btn_google_signin_dark_normal_web@2x.png" width="200"></a>
+    <% } else { %>
+      <li class="nav-item">
+        <a class="nav-link" href="/">Instructions</a>
+      </li>
       <li class="nav-item">
         <a class="nav-link" href="/profile/apply">My Application</a>
       </li>
@@ -21,9 +25,6 @@
         <a class="nav-link" href="/profile/officer">My Officer Application</a>
       </li>
     </ul>
-    <% if (!user) { %>
-    <a href="/auth/google"><img src="/img/btn_google_signin_dark_normal_web@2x.png" width="200"></a>
-    <% } else { %>
     <a href="/auth/logout" class="btn btn-outline-warning my-2 my-sm-0">Logout</a>
     <% } %>
   </div>
