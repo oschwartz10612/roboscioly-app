@@ -1,0 +1,252 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <title>Teacher Recommendations</title>
+  <% include ../partials/head %>
+</head>
+
+<body>
+  <% include ../partials/navbar %>
+
+  <div class="container">
+    <nav class="mb-4">
+      <div class="nav nav-tabs" id="nav-tab" role="tablist">
+        <a class="nav-item nav-link active" id="nav-home-tab" data-toggle="tab" href="#nav-home" role="tab" aria-controls="nav-home" aria-selected="true">Instructions</a>
+        <% for(var i = 0; i < students.length; i++) {%>
+          <a class="nav-item nav-link" id="nav-profile-tab<%=i%>" data-toggle="tab" href="#nav-profile<%=i%>" role="tab" aria-controls="nav-profile<%=i%>" aria-selected="false"><%= students[i].name %></a>
+        <% } %>
+      </div>
+    </nav>
+    <div class="tab-content" id="nav-tabContent">
+      <div class="tab-pane fade show active" id="nav-home" role="tabpanel" aria-labelledby="nav-home-tab">
+        <div class="jumbotron">
+          <h1>Instructions</h1>
+          <p>Use the tabs at the top of the page to complete recommendations for each of your students. Read the excerpt below to learn more briefly more about Science Olympiad to aid in your evaluation of the students.</p>
+          <hr>
+          <p>In order to be a successful Science Olympiad team member, the student should be hard working, self directed, team oriented, open to exploring unfamiliar concepts, and be passionate for the sciences. For those unfamiliar with how Science Olympiad operates: team members are assigned 3-4 events across multiple disciplines that have different partners. They must independently manage their time to coordinate with each of their partners to be prepared to compete. There is limited mentoring available; the students are largely responsible for seeking out their own resources and assistance. The expectation is they will invest the time required outside of practice to be prepared for competitions.</p>
+        </div>
+      </div>
+      <% for(var i = 0; i < students.length; i++) {%>
+        <div class="tab-pane fade" id="nav-profile<%=i%>" role="tabpanel" aria-labelledby="nav-profile-tab">
+          <div class="jumbotron">
+            <div class="container">
+              <h2>Recommendation for <%= students[i].name %></h1>
+              <p>You may save and come back to this at any time, but please be sure to complete it by May 30th. <%=data[i]%></p>
+            </div>
+            <hr>
+            <div class="container">
+              <form method="post" action="/profile/rec_form">
+                <input type="hidden" name="table" value="recs">
+                <input type="hidden" name="student_name" value="<%=students[i].name%>">
+                <input type="hidden" name="student_id" value="<%=students[i].user_id%>">
+                <input type="hidden" name="teacher_name" value="<%=user.name%>">
+                <div class="form-group">
+                  <label>Rate the student based on how successful you believe they would be in Science Olympiad:</label>
+                  <div>
+                    <div class="custom-control custom-radio custom-control-inline">
+                      <input name="success" id="success_0<%=i%>" type="radio" class="custom-control-input" value="1" <% if(typeof data[i] != "undefined" && data[i].success == '1') { %> checked="checked" <% } %>>
+                      <label for="success_0<%=i%>" class="custom-control-label">1</label>
+                    </div>
+                    <div class="custom-control custom-radio custom-control-inline">
+                      <input name="success" id="success_1<%=i%>" type="radio" class="custom-control-input" value="2" <% if(typeof data[i] != "undefined" && data[i].success == '2') { %> checked="checked" <% } %>>
+                      <label for="success_1<%=i%>" class="custom-control-label">2</label>
+                    </div>
+                    <div class="custom-control custom-radio custom-control-inline">
+                      <input name="success" id="success_2<%=i%>" type="radio" class="custom-control-input" value="3" <% if(typeof data[i] != "undefined" && data[i].success == '3') { %> checked="checked" <% } %>>
+                      <label for="success_2<%=i%>" class="custom-control-label">3</label>
+                    </div>
+                    <div class="custom-control custom-radio custom-control-inline">
+                      <input name="success" id="success_3<%=i%>" type="radio" class="custom-control-input" value="4" <% if(typeof data[i] != "undefined" && data[i].success == '4') { %> checked="checked" <% } %>>
+                      <label for="success_3<%=i%>" class="custom-control-label">4</label>
+                    </div>
+                    <div class="custom-control custom-radio custom-control-inline">
+                      <input name="success" id="success_4<%=i%>" type="radio" class="custom-control-input" value="5" <% if(typeof data[i] != "undefined" && data[i].success == '5') { %> checked="checked" <% } %>>
+                      <label for="success_4<%=i%>" class="custom-control-label">5</label>
+                    </div>
+                  </div>
+                </div>
+                <div class="form-group">
+                  <label>Work ethic:</label>
+                  <div>
+                    <div class="custom-control custom-radio custom-control-inline">
+                      <input name="radio" id="radio_0<%=i%>" type="radio" class="custom-control-input" value="1" <% if(typeof data[i] != "undefined" && data[i].radio == '1') { %> checked="checked" <% } %>>
+                      <label for="radio_0<%=i%>" class="custom-control-label">1</label>
+                    </div>
+                    <div class="custom-control custom-radio custom-control-inline">
+                      <input name="radio" id="radio_1<%=i%>" type="radio" class="custom-control-input" value="2" <% if(typeof data[i] != "undefined" && data[i].radio == '2') { %> checked="checked" <% } %>>
+                      <label for="radio_1<%=i%>" class="custom-control-label">2</label>
+                    </div>
+                    <div class="custom-control custom-radio custom-control-inline">
+                      <input name="radio" id="radio_2<%=i%>" type="radio" class="custom-control-input" value="3" <% if(typeof data[i] != "undefined" && data[i].radio == '3') { %> checked="checked" <% } %>>
+                      <label for="radio_2<%=i%>" class="custom-control-label">3</label>
+                    </div>
+                    <div class="custom-control custom-radio custom-control-inline">
+                      <input name="radio" id="radio_3<%=i%>" type="radio" class="custom-control-input" value="4" <% if(typeof data[i] != "undefined" && data[i].radio == '4') { %> checked="checked" <% } %>>
+                      <label for="radio_3<%=i%>" class="custom-control-label">4</label>
+                    </div>
+                    <div class="custom-control custom-radio custom-control-inline">
+                      <input name="radio" id="radio_4<%=i%>" type="radio" class="custom-control-input" value="5" <% if(typeof data[i] != "undefined" && data[i].radio == '5') { %> checked="checked" <% } %>>
+                      <label for="radio_4<%=i%>" class="custom-control-label">5</label>
+                    </div>
+                  </div>
+                </div>
+                <div class="form-group">
+                  <label>Teamwork and collaboration:</label>
+                  <div>
+                    <div class="custom-control custom-radio custom-control-inline">
+                      <input name="radio1" id="radio1_0<%=i%>" type="radio" class="custom-control-input" value="1" <% if(typeof data[i] != "undefined" && data[i].radio1 == '1') { %> checked="checked" <% } %>>
+                      <label for="radio1_0<%=i%>" class="custom-control-label">1</label>
+                    </div>
+                    <div class="custom-control custom-radio custom-control-inline">
+                      <input name="radio1" id="radio1_1<%=i%>" type="radio" class="custom-control-input" value="2" <% if(typeof data[i] != "undefined" && data[i].radio1 == '2') { %> checked="checked" <% } %>>
+                      <label for="radio1_1<%=i%>" class="custom-control-label">2</label>
+                    </div>
+                    <div class="custom-control custom-radio custom-control-inline">
+                      <input name="radio1" id="radio1_2<%=i%>" type="radio" class="custom-control-input" value="3" <% if(typeof data[i] != "undefined" && data[i].radio1 == '3') { %> checked="checked" <% } %>>
+                      <label for="radio1_2<%=i%>" class="custom-control-label">3</label>
+                    </div>
+                    <div class="custom-control custom-radio custom-control-inline">
+                      <input name="radio1" id="radio1_3<%=i%>" type="radio" class="custom-control-input" value="4" <% if(typeof data[i] != "undefined" && data[i].radio1 == '4') { %> checked="checked" <% } %>>
+                      <label for="radio1_3<%=i%>" class="custom-control-label">4</label>
+                    </div>
+                    <div class="custom-control custom-radio custom-control-inline">
+                      <input name="radio1" id="radio1_4<%=i%>" type="radio" class="custom-control-input" value="5" <% if(typeof data[i] != "undefined" && data[i].radio1 == '5') { %> checked="checked" <% } %>>
+                      <label for="radio1_4<%=i%>" class="custom-control-label">5</label>
+                    </div>
+                  </div>
+                </div>
+                <div class="form-group">
+                  <label>Responsibility:</label>
+                  <div>
+                    <div class="custom-control custom-radio custom-control-inline">
+                      <input name="radio2" id="radio2_0<%=i%>" type="radio" class="custom-control-input" value="1" <% if(typeof data[i] != "undefined" && data[i].radio2 == '1') { %> checked="checked" <% } %>>
+                      <label for="radio2_0<%=i%>" class="custom-control-label">1</label>
+                    </div>
+                    <div class="custom-control custom-radio custom-control-inline">
+                      <input name="radio2" id="radio2_1<%=i%>" type="radio" class="custom-control-input" value="2" <% if(typeof data[i] != "undefined" && data[i].radio2 == '2') { %> checked="checked" <% } %>>
+                      <label for="radio2_1<%=i%>" class="custom-control-label">2</label>
+                    </div>
+                    <div class="custom-control custom-radio custom-control-inline">
+                      <input name="radio2" id="radio2_2<%=i%>" type="radio" class="custom-control-input" value="3" <% if(typeof data[i] != "undefined" && data[i].radio2 == '3') { %> checked="checked" <% } %>>
+                      <label for="radio2_2<%=i%>" class="custom-control-label">3</label>
+                    </div>
+                    <div class="custom-control custom-radio custom-control-inline">
+                      <input name="radio2" id="radio2_3<%=i%>" type="radio" class="custom-control-input" value="4" <% if(typeof data[i] != "undefined" && data[i].radio2 == '4') { %> checked="checked" <% } %>>
+                      <label for="radio2_3<%=i%>" class="custom-control-label">4</label>
+                    </div>
+                    <div class="custom-control custom-radio custom-control-inline">
+                      <input name="radio2" id="radio2_4<%=i%>" type="radio" class="custom-control-input" value="5" <% if(typeof data[i] != "undefined" && data[i].radio2 == '5') { %> checked="checked" <% } %>>
+                      <label for="radio2_4<%=i%>" class="custom-control-label">5</label>
+                    </div>
+                  </div>
+                </div>
+                <div class="form-group">
+                  <label>Scientific Inquiry:</label>
+                  <div>
+                    <div class="custom-control custom-radio custom-control-inline">
+                      <input name="radio3" id="radio3_0<%=i%>" type="radio" class="custom-control-input" value="1" <% if(typeof data[i] != "undefined" && data[i].radio3 == '1') { %> checked="checked" <% } %>>
+                      <label for="radio3_0<%=i%>" class="custom-control-label">1</label>
+                    </div>
+                    <div class="custom-control custom-radio custom-control-inline">
+                      <input name="radio3" id="radio3_1<%=i%>" type="radio" class="custom-control-input" value="2" <% if(typeof data[i] != "undefined" && data[i].radio3 == '2') { %> checked="checked" <% } %>>
+                      <label for="radio3_1<%=i%>" class="custom-control-label">2</label>
+                    </div>
+                    <div class="custom-control custom-radio custom-control-inline">
+                      <input name="radio3" id="radio3_2<%=i%>" type="radio" class="custom-control-input" value="3" <% if(typeof data[i] != "undefined" && data[i].radio3 == '3') { %> checked="checked" <% } %>>
+                      <label for="radio3_2<%=i%>" class="custom-control-label">3</label>
+                    </div>
+                    <div class="custom-control custom-radio custom-control-inline">
+                      <input name="radio3" id="radio3_3<%=i%>" type="radio" class="custom-control-input" value="4" <% if(typeof data[i] != "undefined" && data[i].radio3 == '4') { %> checked="checked" <% } %>>
+                      <label for="radio3_3<%=i%>" class="custom-control-label">4</label>
+                    </div>
+                    <div class="custom-control custom-radio custom-control-inline">
+                      <input name="radio3" id="radio3_4<%=i%>" type="radio" class="custom-control-input" value="5" <% if(typeof data[i] != "undefined" && data[i].radio3 == '5') { %> checked="checked" <% } %>>
+                      <label for="radio3_4<%=i%>" class="custom-control-label">5</label>
+                    </div>
+                  </div>
+                </div>
+                <div class="form-group">
+                  <label>Ability to apply scientific theory into practice:</label>
+                  <div>
+                    <div class="custom-control custom-radio custom-control-inline">
+                      <input name="radio4" id="radio4_0<%=i%>" type="radio" class="custom-control-input" value="1" <% if(typeof data[i] != "undefined" && data[i].radio4 == '1') { %> checked="checked" <% } %>>
+                      <label for="radio4_0<%=i%>" class="custom-control-label">1</label>
+                    </div>
+                    <div class="custom-control custom-radio custom-control-inline">
+                      <input name="radio4" id="radio4_1<%=i%>" type="radio" class="custom-control-input" value="2" <% if(typeof data[i] != "undefined" && data[i].radio4 == '2') { %> checked="checked" <% } %>>
+                      <label for="radio4_1<%=i%>" class="custom-control-label">2</label>
+                    </div>
+                    <div class="custom-control custom-radio custom-control-inline">
+                      <input name="radio4" id="radio4_2<%=i%>" type="radio" class="custom-control-input" value="3" <% if(typeof data[i] != "undefined" && data[i].radio4 == '3') { %> checked="checked" <% } %>>
+                      <label for="radio4_2<%=i%>" class="custom-control-label">3</label>
+                    </div>
+                    <div class="custom-control custom-radio custom-control-inline">
+                      <input name="radio4" id="radio4_3<%=i%>" type="radio" class="custom-control-input" value="4" <% if(typeof data[i] != "undefined" && data[i].radio4 == '4') { %> checked="checked" <% } %>>
+                      <label for="radio4_3<%=i%>" class="custom-control-label">4</label>
+                    </div>
+                    <div class="custom-control custom-radio custom-control-inline">
+                      <input name="radio4" id="radio4_4<%=i%>" type="radio" class="custom-control-input" value="5" <% if(typeof data[i] != "undefined" && data[i].radio4 == '5') { %> checked="checked" <% } %>>
+                      <label for="radio4_4<%=i%>" class="custom-control-label">5</label>
+                    </div>
+                  </div>
+                </div>
+                <div class="form-group">
+                  <label>In your experience with the student, if they were presented with a concept they had trouble grasping, which of the following reactions best describes their response:</label>
+                  <div>
+                    <div class="custom-controls-stacked">
+                      <div class="custom-control custom-radio">
+                        <input name="radio5" id="radio5_0<%=i%>" type="radio" class="custom-control-input" value="1" <% if(typeof data[i] != "undefined" && data[i].radio5 == '1') { %> checked="checked" <% } %>>
+                        <label for="radio5_0<%=i%>" class="custom-control-label">Bang their head on the desk, cry and give up.</label>
+                      </div>
+                    </div>
+                    <div class="custom-controls-stacked">
+                      <div class="custom-control custom-radio">
+                        <input name="radio5" id="radio5_1<%=i%>" type="radio" class="custom-control-input" value="2" <% if(typeof data[i] != "undefined" && data[i].radio5 == '2') { %> checked="checked" <% } %>>
+                        <label for="radio5_1<%=i%>" class="custom-control-label">Spend some time pondering and ask considered questions.</label>
+                      </div>
+                    </div>
+                    <div class="custom-controls-stacked">
+                      <div class="custom-control custom-radio">
+                        <input name="radio5" id="radio5_2<%=i%>" type="radio" class="custom-control-input" value="3" <% if(typeof data[i] != "undefined" && data[i].radio5 == '3') { %> checked="checked" <% } %>>
+                        <label for="radio5_2<%=i%>" class="custom-control-label">Ask an abundance of questions hoping to have the answer given to them on a silver platter.</label>
+                      </div>
+                    </div>
+                    <div class="custom-controls-stacked">
+                      <div class="custom-control custom-radio">
+                        <input name="radio5" id="radio5_3<%=i%>" type="radio" class="custom-control-input" value="4" <% if(typeof data[i] != "undefined" && data[i].radio5 == '4') { %> checked="checked" <% } %>>
+                        <label for="radio5_3<%=i%>" class="custom-control-label">Independently seek out resources and assistance to grasp the material.</label>
+                      </div>
+                    </div>
+                    <div class="custom-controls-stacked">
+                      <div class="custom-control custom-radio">
+                        <input name="radio5" id="radio5_4<%=i%>" type="radio" class="custom-control-input" value="5" <% if(typeof data[i] != "undefined" && data[i].radio5 == '5') { %> checked="checked" <% } %>>
+                        <label for="radio5_4<%=i%>" class="custom-control-label">Work with peers to grasp concepts.</label>
+                      </div>
+                    </div>
+                    <div class="custom-controls-stacked">
+                      <div class="custom-control custom-radio">
+                        <input name="radio5" id="radio5_5<%=i%>" type="radio" class="custom-control-input" value="6" <% if(typeof data[i] != "undefined" && data[i].radio5 == '6') { %> checked="checked" <% } %>>
+                        <label for="radio5_5<%=i%>" class="custom-control-label">Communicate with teacher the needs for additional help and follow up for assistance.</label>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="form-group">
+                  <label for="textarea<%=i%>">Is there anything else you want to tell us about the student?</label>
+                  <textarea id="textarea<%=i%>" name="textarea" cols="40" rows="5" class="form-control"><%= typeof data[i]!='undefined' ? data[i].textarea : '' %></textarea>
+                </div>
+                <div class="form-group">
+                  <button name="submit" type="submit" class="btn btn-primary">Save</button>
+                </div>
+              </form>
+            </div>
+          </div>
+        </div>
+      <% } %>
+    </div>
+  </div>
+</body>
+</html>

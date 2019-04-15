@@ -20,6 +20,7 @@
       <hr>
       <div class="container">
         <form method="post" action="/profile/form">
+          <h4>Personal Information</h4>
           <input type="hidden" name="table" value="team">
           <div class="form-group">
             <label for="name">Name</label>
@@ -53,6 +54,55 @@
               </select>
             </div>
           </div>
+          <hr>
+          <h4>Teacher Recommendation</h4>
+          <p>Select <strong>EITHER</strong> a Math <strong>OR</strong> Science teacher for your recommendation. They will comeplte your recommendation electronically, but be sure to ask them first.</p>
+          <div class="form-group">
+            <label for="grade">Math teacher for recommendation</label>
+            <div>
+              <select id="math_teacher" name="math_teacher" class="custom-select" required="required">
+                <%
+                var options = [ "Select","Karndt David","Nancy Bandman","Nahid Behrooz","Sandra Bergesen","Amanda Bolden","Mary Bowersox","Barbara Brand","Roisin Burford","Carol Buschman","Pam Carpenter","Angie Chang","Leah Chang","Bob Collidge","Colleen Conwell","Kevin Crenshaw","Ada Cuadrado","Chris DelGrosso","Christopher Devine","Kathryn Dirga","Jim Evans","Gail Gardiner","Ben Gildea","Mark Gomperts","Varinder Grewal","Julia Hiles","Geeta Khemani","Mark Koeppen","Douglas Kraemer","Kaitlynn Kraemer","Paul Laguna","Emma Lawson","Kim Longworth","Teresa Lusby","Maria McCoy","Jane McKee","Karen Miller","Collin Schumpp","Sue Shepard","Marvin Sim","Alexia Small","Debbie Supernor","Christine Thomas","Stefanie Waigand","Ann Wong","Soosan Zarek" ];
+                if(typeof data === "undefined") {
+                  for ( var i = 0; i < options.length; i++ ) {
+                      var selected = ( options[0] == options[i] ) ? "selected" : "";
+                      %><option value="<%=options[ i ] %>" <%=selected %>><%= options[i] %></option><%
+                  }
+                }
+                else {
+                  for ( var i = 0; i < options.length; i++ ) {
+                      var selected = ( data.math_teacher == options[i] ) ? "selected" : "";
+                      %><option value="<%=options[ i ] %>" <%=selected %>><%= options[i] %></option><%
+                  }
+                }
+                %>
+              </select>
+            </div>
+          </div>
+          <div class="form-group">
+            <label for="grade">Math teacher for recommendation</label>
+            <div>
+              <select id="science_teacher" name="science_teacher" class="custom-select" required="required">
+                <%
+                var options = [ "Owen Schwartz","Ana Tuszka","Abbie Achatz","Faith Angove","Christopher Bird","Holly Cho","Julie Corbett","Neena Dosaj","Megan Dygve","Evan Fisher","Meaghan Fry","Douglas Gross","Travis Hess","Jennifer Holder","Tory Karg","Kathryn Krouse","Kristen Marker","Eric Misencik","James Nickle","Steven Rothman","Jeff Stevens","Austin Walter","Bradley Webster","Alison Wolfe","Kristin Webster","Juliana Stroup" ];
+                if(typeof data === "undefined") {
+                  for ( var i = 0; i < options.length; i++ ) {
+                      var selected = ( options[0] == options[i] ) ? "selected" : "";
+                      %><option value="<%=options[ i ] %>" <%=selected %>><%= options[i] %></option><%
+                  }
+                }
+                else {
+                  for ( var i = 0; i < options.length; i++ ) {
+                      var selected = ( data.science_teacher == options[i] ) ? "selected" : "";
+                      %><option value="<%=options[ i ] %>" <%=selected %>><%= options[i] %></option><%
+                  }
+                }
+                %>
+              </select>
+            </div>
+          </div>
+          <hr>
+          <h4>Classes</h4>
           <div class="form-group">
             <label>Which science and/or technology courses have you or are currently taking?</label>
             <span id="science_classHelpBlock" class="form-text text-muted">Check all that apply.</span>
@@ -164,41 +214,42 @@
             </div>
           </div>
           <hr>
+          <h4>Short Answer</h4>
           <div class="form-group">
             <label for="events">If you answered yes to the previous questions, what events did you do? Have done in years past?</label>
             <input id="events" name="events" type="text" class="form-control" value="<%= typeof data!='undefined' ? data.events : '' %>">
           </div>
           <div class="form-group">
             <label for="textarea">Science Olympiad is a major time commitment, where members are expected to fully prepare themselves for multiple competitions in the winter. What other activities will you be doing throughout the year? If these activities may conflict with Science Olympiad, how will you dedicate your time to this team?</label>
-            <textarea id="textarea" name="textarea" cols="40" rows="5" class="form-control"><%= typeof data!='undefined' ? data.textarea : '' %></textarea>
+            <textarea id="textarea" name="textarea" spellcheck="true" cols="40" rows="5" class="form-control"><%= typeof data!='undefined' ? data.textarea : '' %></textarea>
           </div>
           <div class="form-group">
             <label for="textarea1">What do you believe your science/academic strengths are? Weaknesses?  Have you participated in other extracurricular science or math related activities? If so, list them.</label>
-            <textarea id="textarea1" name="textarea1" cols="40" rows="5" class="form-control"><%= typeof data!='undefined' ? data.textarea1 : '' %></textarea>
+            <textarea id="textarea1" name="textarea1" spellcheck="true" cols="40" rows="5" class="form-control"><%= typeof data!='undefined' ? data.textarea1 : '' %></textarea>
           </div>
           <div class="form-group">
             <label for="textarea2">Explain the most challenging, in your opinion, topic covered in your science class. Please detail how you were able to master it and/or would still like to learn more about it.</label>
-            <textarea id="textarea2" name="textarea2" cols="40" rows="5" class="form-control"><%= typeof data!='undefined' ? data.textarea2 : '' %></textarea>
+            <textarea id="textarea2" name="textarea2" spellcheck="true" cols="40" rows="5" class="form-control"><%= typeof data!='undefined' ? data.textarea2 : '' %></textarea>
           </div>
           <div class="form-group">
             <label for="textarea3">How well do you work with others? Give an example of a time where teamwork required you to mediate a conflict.</label>
-            <textarea id="textarea3" name="textarea3" cols="40" rows="5" class="form-control"><%= typeof data!='undefined' ? data.textarea3 : '' %></textarea>
+            <textarea id="textarea3" name="textarea3" spellcheck="true" cols="40" rows="5" class="form-control"><%= typeof data!='undefined' ? data.textarea3 : '' %></textarea>
           </div>
           <div class="form-group">
             <label for="textarea4">What role do you see science playing in your life?</label>
-            <textarea id="textarea4" name="textarea4" cols="40" rows="5" class="form-control"><%= typeof data!='undefined' ? data.textarea4 : '' %></textarea>
+            <textarea id="textarea4" name="textarea4" spellcheck="true" cols="40" rows="5" class="form-control"><%= typeof data!='undefined' ? data.textarea4 : '' %></textarea>
           </div>
           <div class="form-group">
             <label for="textarea5">Why do you want to join Science Olympiad? What about Science Olympiad is appealing?</label>
-            <textarea id="textarea5" name="textarea5" cols="40" rows="5" class="form-control"><%= typeof data!='undefined' ? data.textarea5 : '' %></textarea>
+            <textarea id="textarea5" name="textarea5" spellcheck="true" cols="40" rows="5" class="form-control"><%= typeof data!='undefined' ? data.textarea5 : '' %></textarea>
           </div>
           <div class="form-group">
             <label for="textarea6">What do you want us to know about you?</label>
-            <textarea id="textarea6" name="textarea6" cols="40" rows="5" class="form-control"><%= typeof data!='undefined' ? data.textarea6 : '' %></textarea>
+            <textarea id="textarea6" name="textarea6" spellcheck="true" cols="40" rows="5" class="form-control"><%= typeof data!='undefined' ? data.textarea6 : '' %></textarea>
           </div>
           <div class="form-group">
             <label for="textarea7">Tell us the best joke you know.</label>
-            <textarea id="textarea7" name="textarea7" cols="40" rows="5" class="form-control"><%= typeof data!='undefined' ? data.textarea7 : '' %></textarea>
+            <textarea id="textarea7" name="textarea7" spellcheck="true" cols="40" rows="5" class="form-control"><%= typeof data!='undefined' ? data.textarea7 : '' %></textarea>
           </div>
           <div class="form-group">
             <label>By agreeing yes, I confirm that all of the information provided previously is accurate to the best of my knowledge. Knowingly providing false information will make you ineligible for the team.</label>

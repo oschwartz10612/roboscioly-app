@@ -19,7 +19,8 @@ router.get('/', authCheck, function(req, res) {
     if (result[0] != null) {
       var payload = {
         user: req.user,
-        team: result
+        team: result,
+        submissions: true
       }
       let sql = `SELECT * FROM officers`;
       let query = mysql.query(sql, req.user.user_id, (err, result) => {

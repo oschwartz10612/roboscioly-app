@@ -1,3 +1,7 @@
 body {
   padding-top: 3.5rem;
 }
+.instructions {
+  margin-left: 200px;
+  margin-right: 200px;
+}

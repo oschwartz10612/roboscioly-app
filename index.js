@@ -27,9 +27,9 @@ app.use('/admin', adminRoutes);
 
 app.get('/home', function(req, res) {
   if (req.query.login == 'y') {
-    res.render('pages/index', {user: req.user, modal: true, index: true});
+    res.render('pages/index', {user: req.user, modal: true, index: true, instructions: true});
   } else {
-    res.render('pages/index', {user: req.user, modal: false, index: true});
+    res.render('pages/index', {user: req.user, modal: false, index: true, instructions: true});
   }
 });
 

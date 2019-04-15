@@ -43,24 +43,27 @@
         <h1 class="display-3">Welcome Science Olympians!</h1>
         <p>This is the Robinson Science Olympiad 2019-2020 Spring Application Portal. Apply to become a Science Olympiad team member or officer.</p>
         <p><a class="btn btn-primary btn-lg" href="/profile/apply" role="button">Login &raquo;</a></p>
+        <% } else if(user.role == 'teacher') { %>
+          <h1 class="display-3">Welcome,
+            <%= user.name%>!</h1>
+          <p>Complete your student recommendations now!</p>
+          <p><a class="btn btn-primary btn-lg" href="/profile/recommendations" role="button">Lets start! &raquo;</a></p>
         <% } else { %>
-        <h1 class="display-3">Welcome,
-          <%= user.name%>!</h1>
-          <p>This is the Robinson Science Olympiad 2019-2020 Spring Application Portal. Apply to become a Science Olympiad team member or officer.</p>
-        <p><a class="btn btn-primary btn-lg" href="/profile/apply" role="button">Lets start! &raquo;</a></p>
+          <h1 class="display-3">Welcome,
+            <%= user.name%>!</h1>
+          <p>Start your applcation now!</p>
+          <p><a class="btn btn-primary btn-lg" href="/profile/apply" role="button">Lets start! &raquo;</a></p>
         <% } %>
       </div>
     </div>
 
-    <div class="container">
+    <div class="instructions">
       <!-- Example row of columns -->
       <div class="row">
-        <div class="col-md-4">
+        <div class="col">
           <h2>Step 1</h2>
           <h5 class="text-muted">Research Science Olympiad</h5>
-          <p>Use the following websites to find more information about Science Olympiad. Read a bit about the program to make sure you want to join. If you submit an application, you should be ready to commit if accepted. We only will consider
-            serious applicants.
-            <ul>
+          <p>Use the following websites to find more information about Science Olympiad. Read a bit about the program or join us at our interest meeting.<ul>
               <li>Come to our Spring interest meeting on May 1st!</li>
               <li><a href="https://www.soinc.org/about/background">Background</a></li>
               <li><a href="https://www.soinc.org/events/2019-event-table">Last year's events</a></li>
@@ -72,17 +75,25 @@
           </p>
           <p><a class="btn btn-secondary" href="/home" role="button">Lets go &raquo;</a></p>
         </div>
-        <div class="col-md-4">
+        <div class="col">
           <h2>Step 2</h2>
           <h5 class="text-muted">Complete your application</h5>
-          <p>Login with a Google account to begin completing your application for the team. Luckily this year the application saves your progress, so take as much time as you need, but heed the due date: _____. All applications must be in by this time! If you are a returning member and wish to apply for an officer position, use the officer tab at the top of the screen. You will be contacted with your student email upon the end of the spring application process. By applying in the spring you communicate to us that you are serious about joining Science Olympiad and we will take this into consideration.</p>
+          <div class="lead" id="clock"></div>
+          <p>Login with a Google account to begin completing your application for the team. Luckily this year the application saves your progress, so take as much time as you need, but heed the <strong>due date: May 10th!</strong> All applications must
+            be in by this time! If you are a returning member and wish to apply for an officer position, use the officer tab at the top of the screen. You will be contacted with your student email upon the end of the spring application process. By
+            applying in the spring you communicate to us that you are serious about joining Science Olympiad and we will take this into consideration.</p>
           <p><a class="btn btn-secondary" href="/profile/apply" role="button">Lets go &raquo;</a></p>
         </div>
-        <div class="col-md-4">
+        <div class="col">
           <h2>Step 3</h2>
           <h5 class="text-muted">Submit a teacher recommendation</h5>
-          <p>To augment your application process and to ensure we are considering you as a candidate holistically, we request a teacher recommendation. ..............not sure how this will work yet...</p>
-          <p><a class="btn btn-secondary" href="/teacher" role="button">Lets go &raquo;</a></p>
+          <p>To augment your application process and to ensure we are considering you as a candidate holistically, we request a teacher recommendation. Make sure to mark at least one math OR science teacher on your application. Make sure to let your teacher know you have asked for a recommendation. They will complete this online here.</p>
+          <p><a class="btn btn-secondary" href="/profile/apply" role="button">Lets go &raquo;</a></p>
+        </div>
+        <div class="col">
+          <h2>Step 4</h2>
+          <h5 class="text-muted">Take the test</h5>
+          <p>All applicants must take the entrance exam. This will be administered during RAISE and after school in the fall. You will receive more information through your FCPS email address next year, so stay alert!</p>
         </div>
       </div>
 

@@ -7,7 +7,7 @@ router.get('/logout', function (req, res) {
 });
 
 router.get('/google', passport.authenticate('google', {
-  scope: ['profile']
+  scope: ['profile', 'email']
 }));
 
 //callback route google

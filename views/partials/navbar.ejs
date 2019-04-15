@@ -6,26 +6,32 @@
   </button>
   <div class="collapse navbar-collapse" id="navbarCollapse">
     <ul class="navbar-nav mr-auto">
-      <% if (typeof user != 'undefined' && user.role == 'admin') { %>
-      <li class="nav-item">
-        <a class="nav-link" href="/admin/">Submissions</a>
-      </li>
-      <% } %>
-    <% if (!user) { %>
-        </ul>
-        <a href="/auth/google"><img src="/img/btn_google_signin_dark_normal_web@2x.png" width="200"></a>
-    <% } else { %>
-      <li class="nav-item">
-        <a class="nav-link" href="/">Instructions</a>
-      </li>
-      <li class="nav-item">
-        <a class="nav-link" href="/profile/apply">My Application</a>
-      </li>
-      <li class="nav-item">
-        <a class="nav-link" href="/profile/officer">My Officer Application</a>
-      </li>
-    </ul>
-    <a href="/auth/logout" class="btn btn-outline-warning my-2 my-sm-0">Logout</a>
-    <% } %>
+      <% if (typeof user != 'undefined' && user.role == 'teacher') { %>
+        <li class="nav-item <%= typeof rec!='undefined' ? 'active' : '' %>">
+          <a class="nav-link" href="/profile/recommendations">My Recommendations</a>
+        </li>
+      <%} else { %>
+        <% if (typeof user != 'undefined' && user.role == 'admin') { %>
+          <li class="nav-item <%= typeof submissions!='undefined' ? 'active' : '' %>">
+            <a class="nav-link" href="/admin/">Submissions</a>
+          </li>
+        <% } %>
+        <% if (!user) { %>
+          </ul>
+          <a href="/auth/google"><img src="/img/btn_google_signin_dark_normal_web@2x.png" width="200"></a>
+        <% } else { %>
+          <li class="nav-item <%= typeof instructions!='undefined' ? 'active' : '' %>">
+            <a class="nav-link" href="/">Instructions</a>
+          </li>
+          <li class="nav-item <%= typeof app!='undefined' ? 'active' : '' %>">
+            <a class="nav-link" href="/profile/apply">My Application</a>
+          </li>
+          <li class="nav-item <%= typeof officer!='undefined' ? 'active' : '' %>">
+            <a class="nav-link" href="/profile/officer">My Officer Application</a>
+          </li>
+          </ul>
+          <a href="/auth/logout" class="btn btn-outline-warning my-2 my-sm-0">Logout</a>
+      <% }
+    } %>
   </div>
 </nav>
