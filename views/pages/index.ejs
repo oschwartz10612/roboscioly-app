@@ -57,7 +57,8 @@
       </div>
     </div>
 
-    <div class="instructions">
+    <% if(typeof user != 'undefined' && user.role == 'teacher') {} else {%>
+    <div class="container">
       <!-- Example row of columns -->
       <div class="row">
         <div class="col">
@@ -100,6 +101,7 @@
       <hr>
 
     </div> <!-- /container -->
+    <% } %>
 
   </main>
 

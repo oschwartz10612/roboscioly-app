@@ -58,9 +58,20 @@ router.get('/recommendations', authCheck, function(req, res) {
               rec: true
             });
           }
+          else {
+            res.render('pages/recommendations', {
+              students: students,
+              data: [],
+              user: req.user,
+              rec: true
+            });
+          }
         });
       } else {
-
+        res.render('pages/recommendations', {
+          user: req.user,
+          rec: true
+        });
       }
     });
 

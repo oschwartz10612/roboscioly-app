@@ -22,19 +22,19 @@
     </nav>
     <div class="tab-content" id="nav-tabContent">
       <div class="tab-pane fade show active" id="nav-home" role="tabpanel" aria-labelledby="nav-home-tab">
-        <div class="jumbotron">
+
           <h1>Instructions</h1>
           <p>Use the tabs at the top of the page to complete recommendations for each of your students. Read the excerpt below to learn more briefly more about Science Olympiad to aid in your evaluation of the students.</p>
           <hr>
           <p>In order to be a successful Science Olympiad team member, the student should be hard working, self directed, team oriented, open to exploring unfamiliar concepts, and be passionate for the sciences. For those unfamiliar with how Science Olympiad operates: team members are assigned 3-4 events across multiple disciplines that have different partners. They must independently manage their time to coordinate with each of their partners to be prepared to compete. There is limited mentoring available; the students are largely responsible for seeking out their own resources and assistance. The expectation is they will invest the time required outside of practice to be prepared for competitions.</p>
-        </div>
+
       </div>
       <% for(var i = 0; i < students.length; i++) {%>
         <div class="tab-pane fade" id="nav-profile<%=i%>" role="tabpanel" aria-labelledby="nav-profile-tab">
-          <div class="jumbotron">
+
             <div class="container">
               <h2>Recommendation for <%= students[i].name %></h1>
-              <p>You may save and come back to this at any time, but please be sure to complete it by May 30th. <%=data[i]%></p>
+              <p>You may save and come back to this at any time, but please be sure to complete it by May 30th.</p>
             </div>
             <hr>
             <div class="container">
@@ -244,7 +244,7 @@
               </form>
             </div>
           </div>
-        </div>
+
       <% } %>
     </div>
   </div>
