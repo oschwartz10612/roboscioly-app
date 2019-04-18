@@ -10,6 +10,8 @@
         <li class="nav-item <%= typeof rec!='undefined' ? 'active' : '' %>">
           <a class="nav-link" href="/profile/recommendations">My Recommendations</a>
         </li>
+        </ul>
+        <a href="/auth/logout" class="btn btn-outline-warning my-2 my-sm-0">Logout</a>
       <%} else { %>
         <% if (typeof user != 'undefined' && user.role == 'admin') { %>
           <li class="nav-item <%= typeof submissions!='undefined' ? 'active' : '' %>">

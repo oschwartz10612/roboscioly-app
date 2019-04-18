@@ -12,7 +12,7 @@
       <div class="jumbotron">
         <div class="container">
           <h2>Welcome to your officer application, <%= user.name %>!</h1>
-          <p><strong>All officer applicants must complete the spring application!</strong> You may take as much time as you need to complete this application, but be aware of the due date. Remember to press save to save your progress. Whatever is entered when time is up will be submitted. Good luck!</p>
+          <p><strong>All officer applicants must complete the spring application!</strong> You may take as much time as you need to complete this application, but be aware of the due date. Remember to press save to save your progress. Whatever is entered at the end of the day on May 5th up will be evaluated. Good luck!</p>
         </div>
         <hr>
           <form method="post" action="/profile/form">
@@ -69,7 +69,7 @@
               <textarea id="textarea4" name="textarea4" spellcheck="true" cols="40" rows="5" class="form-control"><%= typeof data!='undefined' ? data.textarea4 : '' %></textarea>
             </div>
             <div class="form-group">
-              <label>You MUST complete a spring application as well as this application by the ____. By checking yes below, you confirm that you have completed the spring application.</label>
+              <label>You MUST complete a spring application as well as this application by May 10th. By checking yes below, you confirm that you have completed the spring application.</label>
               <div>
                 <div>
                   <div class="custom-control custom-radio custom-control-inline">
