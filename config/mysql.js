@@ -2,9 +2,9 @@ const mysql = require('mysql');
 const keys = require('./keys');
 
 const config = {
-    user: process.env.SQL_USER,
-    password: process.env.SQL_PASSWORD,
-    database: process.env.SQL_DATABASE
+    user: keys.mysql.user,
+    password: keys.mysql.password,
+    database: keys.mysql.database
   };
 
   if (process.env.INSTANCE_CONNECTION_NAME && process.env.NODE_ENV === 'production') {
