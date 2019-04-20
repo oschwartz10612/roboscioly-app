@@ -22,8 +22,10 @@
               <input id="name" name="name" type="text" class="form-control" value="<%= typeof data!='undefined' ? data.name : '' %>">
             </div>
             <div class="form-group">
-              <label for="email">Student Email</label>
+              <label for="email">Email</label>
               <input id="email" name="email" type="text" class="form-control" value="<%= typeof data!='undefined' ? data.email : '' %>">
+              <span id="emailHelpBlock" class="form-text text-muted"><strong>Do not</strong> use your FCPS email. This will be used to contact
+                you after applications have been received. You must check this email!</span>
             </div>
             <div class="form-group">
               <label for="grade">Grade</label>
