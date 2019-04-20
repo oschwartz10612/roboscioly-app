@@ -9,12 +9,13 @@
   <body>
     <% include ../partials/navbar %>
     <div class="container">
-      <div class="jumbotron">
-        <div class="container">
+
+        <div class="mb-4">
           <h2>Welcome to your officer application, <%= user.name %>!</h1>
           <p><strong>All officer applicants must complete the spring application!</strong> You may take as much time as you need to complete this application, but be aware of the due date. Remember to press save to save your progress. Whatever is entered at the end of the day on <strong>May 10th</strong> up will be evaluated. Good luck!</p>
         </div>
-        <hr>
+
+        <div class="jumbotron pt-4 pb-4">
           <form method="post" action="/profile/form">
             <input type="hidden" name="table" value="officers">
             <div class="form-group">
@@ -85,11 +86,11 @@
                 </div>
               </div>
             </div>
-            <div class="form-group">
-              <button name="submit" type="submit" class="btn btn-success" id="submit">Save</button>
-            </div>
-          </form>
-        </div>
+          </div>
+          <div class="form-group mb-5">
+            <button name="submit" type="submit" class="btn btn-success" id="submit">Save</button>
+          </div>
+        </form>
       </div>
     </div>
   </body>
