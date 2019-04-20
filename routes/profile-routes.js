@@ -35,7 +35,7 @@ router.get('/apply', authCheck, function(req, res) {
 router.get('/recommendations', authCheck, function(req, res) {
   if (req.user.role == 'teacher') {
     let sql = 'SELECT * FROM team WHERE math_teacher = ? OR science_teacher = ?';
-    let query = mysql.query(sql, [req.user.name, req.user.name], (err, result) => {
+    let query = mysql.query(sql, [req.user.email, req.user.email], (err, result) => {
       if (result[0] != null) {
 
         var students = result;

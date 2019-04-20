@@ -6,29 +6,31 @@
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
   <title>Team Application</title>
   <% include ../partials/head %>
-  <link rel="stylesheet" href="/css/recs.css">
+  <style>
+    .bot {
+      padding-bottom: 30px !important;
+    }
+  </style>
 </head>
 
 <body>
   <% include ../partials/navbar %>
 
   <div class="container">
-    <div class="jumbotron">
-      <div class="container">
-        <h2>Welcome to your application,
-          <%= user.name %>!</h1>
-          <p>You may take as much time as you need to complete this application, but be aware of the due date. Remember
-            to press save to save your progress. Whatever is entered at the end of the day on <strong>May 10th</strong>
-            up will be evaluated. Good luck!</p>
-          <button class="btn btn-primary" onclick="submit()">Save</button>
-      </div>
+
+    <div class="mb-4">
+      <h2>Welcome to your application,
+        <%= user.name %>!</h1>
+        <p>You may take as much time as you need to complete this application, but be aware of the due date. Remember
+          to press save to save your progress. Whatever is entered at the end of the day on <strong>May 10th</strong>
+          up will be evaluated. Good luck!</p>
     </div>
 
     <form method="post" action="/profile/form">
 
       <div class="row">
         <div class="col-6">
-          <div class="jumbotron">
+          <div class="jumbotron pt-4 pb-4">
             <h4>Personal Information</h4>
             <input type="hidden" name="table" value="team">
             <div class="form-group">
@@ -118,9 +120,21 @@
                 <span id="statesteamHelpBlock" class="form-text text-muted">This includes all alternates.</span>
               </div>
             </div>
+            <div class="form-group">
+              <label for="events">If you answered yes to the previous questions, what events did you do? Have done in
+                years
+                past?</label>
+              <input id="events" name="events" type="text" class="form-control"
+                value="<%= typeof data!='undefined' ? data.events : '' %>">
+            </div>
+            <div class="form-group">
+              <label for="six_words">Six words that describe me are: </label>
+              <input id="six_words" name="six_words" type="text" class="form-control"
+                value="<%= typeof data!='undefined' ? data.six_words : '' %>">
+            </div>
           </div>
 
-          <div class="jumbotron pb-5">
+          <div class="jumbotron pt-4 pb-4 top">
             <h4>Teacher Recommendation</h4>
             <p>Select <strong>EITHER</strong> a Math <strong>OR</strong> Science teacher for your recommendation. They
               will complete your recommendation electronically, but be sure to ask them first.</p>
@@ -130,11 +144,10 @@
                 <select id="math_teacher" name="math_teacher" class="custom-select" required="required">
                   <%
                 var options = [ "None","Karndt David","Nancy Bandman","Nahid Behrooz","Sandra Bergesen","Amanda Bolden","Mary Bowersox","Barbara Brand","Roisin Burford","Carol Buschman","Pam Carpenter","Angie Chang","Leah Chang","Bob Collidge","Colleen Conwell","Kevin Crenshaw","Ada Cuadrado","Chris DelGrosso","Christopher Devine","Kathryn Dirga","Jim Evans","Gail Gardiner","Ben Gildea","Mark Gomperts","Varinder Grewal","Julia Hiles","Geeta Khemani","Mark Koeppen","Douglas Kraemer","Kaitlynn Kraemer","Paul Laguna","Emma Lawson","Kim Longworth","Teresa Lusby","Maria McCoy","Jane McKee","Karen Miller","Collin Schumpp","Sue Shepard","Marvin Sim","Alexia Small","Debbie Supernor","Christine Thomas","Stefanie Waigand","Ann Wong","Soosan Zarek" ];
+                var emails = ["None", "dkarndt@fcpsschools.net","NMBandman@fcpsschools.net","NBehrooz@fcpsschools.net","SCBergesen@fcpsschools.net","aebolden@fcpsschools.net","MTBowersox@fcpsschools.net","BABrand@fcpsschools.net","RMBurford@fcpsschools.net","cjbuschman@fcpsschools.net","PCarpenter@fcpsschools.net","achang1@fcpsschools.net","achang@fcpsschools.net","rbcollidge1@fcpsschools.net","CHConwell@fcpsschools.net","kmcrenshaw@fcpsschools.net","ANCuadrado@fcpsschools.net","CJDelGrosso@fcpsschools.net","crdevine@fcpsschools.net","kedirga@fcpsschools.net","JEEvans@fcpsschools.net","GDGardiner@fcpsschools.net","bjgildea@fcpsschools.net","mgomperts@fcpsschools.net","VSGrewal@fcpsschools.net","JBHiles@fcpsschools.net","GKhemani@fcpsschools.net","mfkoeppen@fcpsschools.net","dkraemer@fcpsschools.net","kvkraemer@fcpsschools.net","PCLaguna@fcpsschools.net","ellawson@fcpsschools.net","KALongworth@fcpsschools.net","tglusby@fcpsschools.net","mkmccoy@fcpsschools.net","AJMcKee@fcpsschools.net","KAMiller5@fcpsschools.net","cschumpp@fcpsschools.net","srshepard@fcpsschools.net","MSim@fcpsschools.net","aksmall@fcpsschools.net","DBSupernor@fcpsschools.net","CVThomas@fcpsschools.net","SLWaigand@fcpsschools.net","ANWong@fcpsschools.net","SZarek@fcpsschools.net"];
                 if(typeof data === "undefined") {
-                  for ( var i = 0; i < options.length; i++ ) {
-                      var selected = ( options[0] == options[i] ) ? "selected" : "";
-                      %>
-                  <option value="<%=options[ i ] %>" <%=selected %>>
+                  for ( var i = 0; i < options.length; i++ ) { %>
+                  <option value="<%=emails[ i ] %>">
                     <%= options[i] %>
                   </option>
                   <%
@@ -142,9 +155,9 @@
                 }
                 else {
                   for ( var i = 0; i < options.length; i++ ) {
-                      var selected = ( data.math_teacher == options[i] ) ? "selected" : "";
+                      var selected = ( data.math_teacher == emails[i] ) ? "selected" : "";
                       %>
-                  <option value="<%=options[ i ] %>" <%=selected %>>
+                  <option value="<%=emails[ i ] %>" <%=selected %>>
                     <%= options[i] %>
                   </option>
                   <%
@@ -160,11 +173,10 @@
                 <select id="science_teacher" name="science_teacher" class="custom-select" required="required">
                   <%
                 var options = [ "None","Ana Tuszka","Abbie Achatz","Faith Angove","Christopher Bird","Holly Cho","Julie Corbett","Neena Dosaj","Megan Dygve","Evan Fisher","Meaghan Fry","Douglas Gross","Travis Hess","Jennifer Holder","Tory Karg","Kathryn Krouse","Kristen Marker","Eric Misencik","James Nickle","Steven Rothman","Jeff Stevens","Austin Walter","Bradley Webster","Alison Wolfe","Kristin Webster","Juliana Stroup" ];
+                var emails = [ "None","artuszka@fcpsschools.net","abachatz@fcpsschools.net","FLAngove@fcpsschools.net","CWBird@fcpsschools.net","htcho@fcpsschools.net","jlcorbett@fcpsschools.net","NDosaj@fcpsschools.net","MPDygve@fcpsschools.net","edfisher@fcpsschools.net","mmfry@fcpsschools.net","DAGross@fcpsschools.net","TSHess@fcpsschools.net","jholder1@fcpsschools.net","VGKarg@fcpsschools.net","kokrouse@fcpsschools.net","kmmarker@fcpsschools.net","esmisencik@fcpsschools.net","JENickle@fcpsschools.net","smrothman@fcpsschools.net","jwstevens@fcpsschools.net","awwalter@fcpsschools.net","BSWebster@fcpsschools.net","amwolfe@fcpsschools.net","kswebster@fcpsschools.net","jstroup@fcpsschools.net"];
                 if(typeof data === "undefined") {
-                  for ( var i = 0; i < options.length; i++ ) {
-                      var selected = ( options[0] == options[i] ) ? "selected" : "";
-                      %>
-                  <option value="<%=options[ i ] %>" <%=selected %>>
+                  for ( var i = 0; i < options.length; i++ ) { %>
+                  <option value="<%=emails[ i ] %>" <%=selected %>>
                     <%= options[i] %>
                   </option>
                   <%
@@ -172,9 +184,9 @@
                 }
                 else {
                   for ( var i = 0; i < options.length; i++ ) {
-                      var selected = ( data.science_teacher == options[i] ) ? "selected" : "";
+                      var selected = ( data.science_teacher == emails[i] ) ? "selected" : "";
                       %>
-                  <option value="<%=options[ i ] %>" <%=selected %>>
+                  <option value="<%=emails[ i ] %>" <%=selected %>>
                     <%= options[i] %>
                   </option>
                   <%
@@ -188,7 +200,7 @@
         </div>
 
         <div class="col-6">
-          <div class="jumbotron pb-4">
+          <div class="jumbotron pt-4 pb-4 bot">
             <h4>Classes</h4>
             <div class="form-group">
               <label>Which science and/or technology courses have you or are currently taking?</label>
@@ -238,7 +250,6 @@
             </div>
             <div class="form-group">
               <label>What Math class have you or are currently taking?</label>
-              <span id="math_classHelpBlock" class="form-text text-muted">Check all that apply.</span>
               <div>
                 <%
                 if(typeof data != "undefined") {
@@ -284,19 +295,18 @@
                     %>
               </div>
             </div>
-
+            <div class="form-group">
+              <label for="science_grade">Please provide your projected end of course grade for your Science class this
+                year as a percentage:</label>
+              <input id="science_grade" name="science_grade" type="text" class="form-control"
+                value="<%= typeof data!='undefined' ? data.science_grade : '' %>">
+            </div>
           </div>
         </div>
       </div>
 
-      <div class="jumbotron">
+      <div class="jumbotron pt-4 pb-4">
         <h4>Short Answer</h4>
-        <div class="form-group">
-          <label for="events">If you answered yes to the previous questions, what events did you do? Have done in years
-            past?</label>
-          <input id="events" name="events" type="text" class="form-control"
-            value="<%= typeof data!='undefined' ? data.events : '' %>">
-        </div>
         <div class="form-group">
           <label for="textarea">Science Olympiad is a major time commitment, where members are expected to fully prepare
             themselves for multiple competitions in the winter. What other activities will you be doing throughout the
@@ -365,7 +375,7 @@
         </div>
       </div>
       <div class="form-group">
-        <button name="submit" type="submit" class="btn btn-primary" id="submit">Save</button>
+        <button name="submit" type="submit" class="btn btn-success mb-5 mt-1" id="submit">Save</button>
       </div>
     </form>
   </div>
