@@ -6,6 +6,13 @@
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
   <title>Admin</title>
   <% include ../partials/head %>
+  <style>
+    .table td, 
+    .table th {
+        white-space: nowrap;
+        width: 1%;
+    }
+  </style>
 </head>
 
 <body>
@@ -50,6 +57,11 @@
     <hr>
 
     <h3>Officer Apps:</h3>
+    <% if(typeof officers == 'undefined') { %>
+      <div class="jumbotron">
+        There are no officer applications at this time...
+      </div>
+    <% } else { %>
     <div class="table-responsive">
       <table class="table table-bordered table-sm" id="officers">
         <thead>
@@ -82,6 +94,7 @@
         </tbody>
       </table>
     </div>
+    <% } %>
   </div>
   </div>
 </body>

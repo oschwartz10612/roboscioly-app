@@ -7,8 +7,13 @@
   <title>Team Application</title>
   <% include ../partials/head %>
   <style>
-    .bot {
-      padding-bottom: 65px !important;
+    .left_side_1 {
+      padding-top: 25px;
+      padding-bottom: 66px;
+    }
+    .left_side_2 {
+      padding-top: 25px;
+      padding-bottom: 66px;
     }
   </style>
 </head>
@@ -30,7 +35,7 @@
 
       <div class="row">
         <div class="col-6">
-          <div class="jumbotron pt-4 pb-4">
+          <div class="jumbotron left_side_1">
             <h4>Personal Information</h4>
             <input type="hidden" name="table" value="team">
             <div class="form-group">
@@ -76,13 +81,6 @@
                 %>
                 </select>
               </div>
-            </div>
-            <div class="form-group">
-              <label for="email">Letter ID</label>
-              <input id="letter" name="rec_id" type="text" aria-describedby="letterHelpBlock" class="form-control"
-                value="<%= typeof data!='undefined' ? data.rec_id : '' %>">
-              <span id="letterHelpBlock" class="form-text text-muted">If you received a recommendation letter from us,
-                please enter the ID number found on the top of your paper.</span>
             </div>
             <div class="form-group">
               <label>Were you on the Science Olympiad team last year?</label>
@@ -148,7 +146,7 @@
               </div>
           </div>
 
-          <div class="jumbotron pt-4 pb-4 top">
+          <div class="jumbotron left_side_2">
             <h4>Teacher Recommendation</h4>
             <p>Select <strong>EITHER</strong> a Math <strong>OR</strong> Science teacher for your recommendation. They
               will complete your recommendation electronically, but be sure to ask them first.</p>
@@ -214,11 +212,10 @@
         </div>
 
         <div class="col-6">
-          <div class="jumbotron pt-4 pb-4 bot">
+          <div class="jumbotron pt-4 pb-3">
             <h4>Classes</h4>
             <div class="form-group">
-              <label>Which science and/or technology courses have you or are currently taking?</label>
-              <span id="science_classHelpBlock" class="form-text text-muted">Check all that apply.</span>
+              <label>Which science and/or technology courses have you, are currently, or signed up to take next year?</label>
               <div>
                 <%
                 if(typeof data != "undefined") {
@@ -263,7 +260,7 @@
               </div>
             </div>
             <div class="form-group">
-              <label>What Math class have you or are currently taking?</label>
+              <label>What Math classes have you, are currently, or signed up to take next year?</label>
               <div>
                 <%
                 if(typeof data != "undefined") {

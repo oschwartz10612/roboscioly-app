@@ -27,9 +27,11 @@ router.get('/', authCheck, function(req, res) {
         if (err) throw err;
         if (result[0] != null) {
           payload.officers = result;
-          res.render('pages/admin', payload);
         }
+        res.render('pages/admin', payload);
       });
+    } else {
+      res.render('pages/admin', {user: req.user, submissions: true});
     }
   });
 });
