@@ -43,7 +43,7 @@
               <input id="name" name="name" type="text" class="form-control"
                 value="<%= typeof data!='undefined' ? data.name : '' %>">
               <span id="nameHelpBlock" class="form-text text-muted">Use your full name so we can identify you
-                correctly.</span>
+                most effectively.</span>
             </div>
             <div class="form-group">
               <label for="email">Email</label>
@@ -119,9 +119,8 @@
               </div>
             </div>
             <div class="form-group">
-              <label for="events">If you answered yes to the previous questions, what events did you do? Have done in
-                years
-                past?</label>
+              <label for="events">If you answered yes to the previous questions, what events have you done in
+                years past?</label>
               <input id="events" name="events" type="text" class="form-control"
                 value="<%= typeof data!='undefined' ? data.events : '' %>">
             </div>
@@ -307,7 +306,7 @@
               </div>
             </div>
             <div class="form-group">
-              <label for="science_grade">Please provide your projected end of course grade for your Science class this
+              <label for="science_grade">Please provide your projected end-of-course grade for your Science class this
                 year as a percentage:</label>
               <input id="science_grade" name="science_grade" type="text" class="form-control"
                 value="<%= typeof data!='undefined' ? data.science_grade : '' %>">
