@@ -7,11 +7,11 @@
   <title>Admin</title>
   <% include ../partials/head %>
   <style>
-    .table td, 
-    .table th {
-        white-space: nowrap;
-        width: 1%;
-    }
+  .cell {
+    max-width: 300px; /* tweak me please */
+    white-space : nowrap;
+    overflow : hidden;
+  }
   </style>
 </head>
 
@@ -21,6 +21,7 @@
   <div class="container">
 
     <h3>Team Apps:</h3>
+    <p>Scroll right and hover (wait for the tooltip) to see more...</p>
     <div class="table-responsive">
       <table class="table table-bordered table-sm table-striped" id="team">
         <thead>
@@ -43,7 +44,7 @@
             %>
             <tr>
               <% for (var i = 1; i < keys.length; i++) { %>
-              <td>
+              <td class="cell" title="<%= values[i] %>">
                 <%= values[i] %>
               </td>
               <% } %>
@@ -84,7 +85,7 @@
             %>
             <tr>
               <% for (var i = 1; i < keys2.length; i++) { %>
-              <td>
+              <td class="cell" title="<%= values2[i] %>">
                 <%= values2[i] %>
               </td>
               <% } %>
