@@ -15,8 +15,12 @@
           <p><strong>All officer applicants must complete the spring application!</strong> You may take as much time as you need to complete this application, but be aware of the due date. Remember to press save to save your progress. Whatever is entered at the end of the day on <strong>May 10th</strong> up will be evaluated. Good luck!</p>
         </div>
 
+        <div class="alert alert-success collapse" role="alert" id="sucsess">
+          Successfully saved data!
+        </div>
+
         <div class="jumbotron pt-4 pb-4">
-          <form method="post" action="/profile/form">
+          <form method="post" action="/profile/form" id="mainform">
             <input type="hidden" name="table" value="officers">
             <div class="form-group">
               <label for="name">Name</label>
@@ -96,8 +100,25 @@
   </body>
 </html>
 
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.0/jquery.min.js"></script>
 <script>
-    function submit() {
-      document.getElementById('submit').click();
-    }
-  </script>
+  function submit() {
+    document.getElementById('submit').click();
+  }
+
+  $('#mainform').submit(function(e){
+    e.preventDefault();
+    $.ajax({
+        url:'/profile/form',
+        type:'post',
+        data:$('#mainform').serialize(),
+        success:function(){
+           $('#sucsess').show();
+           $('html,body').scrollTop(0);
+           $(".alert").delay(4000).slideUp(200, function() {
+              $(this).hide();
+          });
+        }
+    });
+});
+</script>

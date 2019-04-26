@@ -117,13 +117,12 @@ router.post('/form', express.urlencoded({ extended: true }), function(req, res) 
   if (result[0] != null) {
 
     let sql = 'UPDATE ' + table + ' SET ';
-    for (var i = 0; i < keys.length - 2; i++) {
+    for (var i = 0; i < keys.length - 1; i++) {
       sql = sql + keys[i] + ' = ?, '
     }
-    sql = sql + keys[keys.length-2] + ' = ? WHERE user_id = ?';
+    sql = sql + keys[keys.length-1] + ' = ? WHERE user_id = ?';
 
     var data = values;
-    data.splice(-1,1);
     data.push(req.user.user_id);
 
     let query = mysql.query(sql, data, (err, result) => {
@@ -133,7 +132,6 @@ router.post('/form', express.urlencoded({ extended: true }), function(req, res) 
 
     //new submittion
     let submittion = req.body;
-    delete submittion[keys[keys.length-1]];
     submittion.user_id = req.user.user_id;
 
     let sql = 'INSERT INTO ' + table + ' SET ?';
@@ -142,7 +140,7 @@ router.post('/form', express.urlencoded({ extended: true }), function(req, res) 
     });
   }
   });
-  res.redirect('back');
+  res.json({success : "Updated Successfully", status : 200});
 });
 
 router.post('/rec_form', express.urlencoded({ extended: true }), function(req, res) {
@@ -158,13 +156,12 @@ router.post('/rec_form', express.urlencoded({ extended: true }), function(req, r
   if (result[0] != null) {
 
     let sql = 'UPDATE ' + table + ' SET ';
-    for (var i = 0; i < keys.length - 2; i++) {
+    for (var i = 0; i < keys.length - 1; i++) {
       sql = sql + keys[i] + ' = ?, '
     }
-    sql = sql + keys[keys.length-2] + ' = ? WHERE student_id = ?';
+    sql = sql + keys[keys.length-1] + ' = ? WHERE student_id = ?';
 
     var data = values;
-    data.splice(-1,1);
     data.push(req.body.student_id);
 
     let query = mysql.query(sql, data, (err, result) => {
@@ -174,7 +171,6 @@ router.post('/rec_form', express.urlencoded({ extended: true }), function(req, r
 
     //new submittion
     let submittion = req.body;
-    delete submittion[keys[keys.length-1]];
     submittion.student_id = req.body.student_id;
 
     let sql = 'INSERT INTO ' + table + ' SET ?';

@@ -22,7 +22,7 @@
   <% include ../partials/navbar %>
 
   <div class="container">
-
+    
     <div class="mb-4">
       <h2>Welcome to your application,
         <%= user.name %>!</h1>
@@ -31,7 +31,11 @@
           up will be evaluated. Good luck!</p>
     </div>
 
-    <form method="post" action="/profile/form">
+    <div class="alert alert-success collapse" role="alert" id="sucsess">
+      Successfully saved data!
+    </div>
+
+    <form method="post" action="/profile/form" id="mainform">
 
       <div class="row">
         <div class="col-6">
@@ -40,14 +44,14 @@
             <input type="hidden" name="table" value="team">
             <div class="form-group">
               <label for="name">Name</label>
-              <input id="name" name="name" type="text" class="form-control"
+              <input id="name" name="name" type="text" class="form-control" required="required"
                 value="<%= typeof data!='undefined' ? data.name : '' %>">
               <span id="nameHelpBlock" class="form-text text-muted">Use your full name so we can identify you
                 most effectively.</span>
             </div>
             <div class="form-group">
               <label for="email">Email</label>
-              <input id="email" name="email" type="text" aria-describedby="emailHelpBlock" class="form-control"
+              <input id="email" name="email" type="text" aria-describedby="emailHelpBlock" class="form-control" required="required"
                 value="<%= typeof data!='undefined' ? data.email : '' %>">
               <span id="emailHelpBlock" class="form-text text-muted"><strong>Do not</strong> use your FCPS email. This will be used to contact
                 you after applications have been received. You must check this email!</span>
@@ -375,8 +379,25 @@
 
 </html>
 
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.0/jquery.min.js"></script>
 <script>
   function submit() {
     document.getElementById('submit').click();
   }
+
+  $('#mainform').submit(function(e){
+    e.preventDefault();
+    $.ajax({
+        url:'/profile/form',
+        type:'post',
+        data:$('#mainform').serialize(),
+        success:function(){
+           $('#sucsess').show();
+           $('html,body').scrollTop(0);
+           $(".alert").delay(4000).slideUp(200, function() {
+              $(this).hide();
+          });
+        }
+    });
+});
 </script>
