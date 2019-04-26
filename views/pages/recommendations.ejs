@@ -18,17 +18,17 @@
       Successfully saved data!
     </div>
 
-    <% if(typeof students == 'undefined') { %>
+    <% if(typeof data == 'undefined') { %>
       <div class="jumbotron">
-        <h1 class="display-3">You do not have any pending student recommendations at this time.</h1>
+        <h1 class="display-4">You do not have any pending student recommendations at this time.</h1>
         <p class="lead">Thank you for dedicating your time to Robinson Science Olympiad!</p>
       </div>
     <% } else { %>
       <nav class="mb-4">
         <div class="nav nav-tabs" id="nav-tab" role="tablist">
           <a class="nav-item nav-link active" id="nav-home-tab" data-toggle="tab" href="#nav-home" role="tab" aria-controls="nav-home" aria-selected="true">Instructions</a>
-          <% for(var i = 0; i < students.length; i++) {%>
-            <a class="nav-item nav-link" id="nav-profile-tab<%=i%>" data-toggle="tab" href="#nav-profile<%=i%>" role="tab" aria-controls="nav-profile<%=i%>" aria-selected="false"><%= students[i].name %></a>
+          <% for(var i = 0; i < data.length; i++) {%>
+            <a class="nav-item nav-link" id="nav-profile-tab<%=i%>" data-toggle="tab" href="#nav-profile<%=i%>" role="tab" aria-controls="nav-profile<%=i%>" aria-selected="false"><%= data[i].name %></a>
           <% } %>
         </div>
       </nav>
@@ -43,21 +43,19 @@
           </div>
             
         </div>
-        <% for(var i = 0; i < students.length; i++) { %>
+        <% for(var i = 0; i < data.length; i++) { %>
           <div class="tab-pane fade" id="nav-profile<%=i%>" role="tabpanel" aria-labelledby="nav-profile-tab">
             <div class="jumbotron pt-4 pb-4">
             
 
-                <h2>Recommendation for <%= students[i].name %></h1>
+                <h2>Recommendation for <%= data[i].name %></h1>
                 <p>You may save and come back to this at any time, but please be sure to complete it by May 30th.</p>
 
             
               <hr>
                 <form method="post" action="/profile/rec_form" id="rec<%=i%>">
-                  <input type="hidden" name="table" value="recs">
-                  <input type="hidden" name="student_name" value="<%=students[i].name%>">
-                  <input type="hidden" name="student_id" value="<%=students[i].user_id%>">
-                  <input type="hidden" name="teacher_name" value="<%=user.name%>">
+                  <input type="hidden" name="table" value="team">
+                  <input type="hidden" name="student_id" value="<%=data[i].user_id%>">
                   <div class="form-group">
                     <label>Rate the student based on how successful you believe they would be in Science Olympiad:</label>
                     <div>
@@ -250,8 +248,8 @@
                     </div>
                   </div>
                   <div class="form-group">
-                    <label for="textarea<%=i%>">Is there anything else you want to tell us about the student?</label>
-                    <textarea id="textarea<%=i%>" name="textarea" cols="40" rows="5" class="form-control"><%= typeof data[i]!='undefined' ? data[i].textarea : '' %></textarea>
+                    <label for="textarea_rec<%=i%>">Is there anything else you want to tell us about the student?</label>
+                    <textarea id="textarea_rec<%=i%>" name="textarea_rec" cols="40" rows="5" class="form-control"><%= typeof data[i]!='undefined' ? data[i].textarea_rec : '' %></textarea>
                   </div>
                   <div class="form-group">
                     <button name="submit" type="submit" class="btn btn-primary">Save</button>
@@ -271,8 +269,8 @@
 <script>
 
 <% 
-if (typeof students != 'undefined') {
-for(var i = 0; i < students.length; i++) { %>
+if (typeof data != 'undefined') {
+for(var i = 0; i < data.length; i++) { %>
   $('#rec<%=i%>').submit(function(e){
     e.preventDefault();
     $.ajax({

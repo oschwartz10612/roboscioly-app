@@ -37,22 +37,7 @@ router.get('/recommendations', authCheck, function(req, res) {
     let sql = 'SELECT * FROM team WHERE math_teacher = ? OR science_teacher = ?';
     let query = mysql.query(sql, [req.user.email, req.user.email], (err, result) => {
       if (result[0] != null) {
-
-        var students = result;
-        let sql = 'SELECT * FROM recs WHERE ';
-        for (var i = 0; i < students.length; i++) {
-          if (students.length-1 == i) {
-            sql = sql + ' student_id = "' + students[i].user_id + '"';
-          }
-          else {
-            sql = sql + ' student_id = "' + students[i].user_id + '" OR';
-          }
-        }
-
-        let query = mysql.query(sql, (err, result) => {
-          if (result[0] != null) {
             res.render('pages/recommendations', {
-              students: students,
               data: result,
               user: req.user,
               rec: true
@@ -60,26 +45,14 @@ router.get('/recommendations', authCheck, function(req, res) {
           }
           else {
             res.render('pages/recommendations', {
-              students: students,
-              data: [],
               user: req.user,
               rec: true
             });
           }
         });
       } else {
-        res.render('pages/recommendations', {
-          user: req.user,
-          rec: true
-        });
-      }
-    });
-
-
-  } else {
     res.redirect('/home');
   }
-
 });
 
 router.get('/officer', authCheck, function(req, res) {
@@ -145,13 +118,15 @@ router.post('/form', express.urlencoded({ extended: true }), function(req, res) 
 
 router.post('/rec_form', express.urlencoded({ extended: true }), function(req, res) {
   const table = req.body.table;
+  const student_id = req.body.student_id;
   delete req.body.table;
+  delete req.body.student_id;
   const values = Object.values(req.body);
   const keys = Object.keys(req.body);
 
   //Update table
-  let sql = 'SELECT * FROM ' + table + ' WHERE student_id = ?';
-  let query = mysql.query(sql, req.body.student_id, (err, result) => {
+  let sql = 'SELECT * FROM ' + table + ' WHERE user_id = ?';
+  let query = mysql.query(sql, student_id, (err, result) => {
   if (err) throw err;
   if (result[0] != null) {
 
@@ -159,10 +134,10 @@ router.post('/rec_form', express.urlencoded({ extended: true }), function(req, r
     for (var i = 0; i < keys.length - 1; i++) {
       sql = sql + keys[i] + ' = ?, '
     }
-    sql = sql + keys[keys.length-1] + ' = ? WHERE student_id = ?';
+    sql = sql + keys[keys.length-1] + ' = ? WHERE user_id = ?';
 
     var data = values;
-    data.push(req.body.student_id);
+    data.push(student_id);
 
     let query = mysql.query(sql, data, (err, result) => {
       if (err) throw err;
@@ -171,7 +146,7 @@ router.post('/rec_form', express.urlencoded({ extended: true }), function(req, r
 
     //new submittion
     let submittion = req.body;
-    submittion.student_id = req.body.student_id;
+    submittion.user_id = student_id;
 
     let sql = 'INSERT INTO ' + table + ' SET ?';
     let query = mysql.query(sql, submittion, (err, result) => {
@@ -179,7 +154,7 @@ router.post('/rec_form', express.urlencoded({ extended: true }), function(req, r
     });
   }
   });
-  res.redirect('back');
+  res.json({success : "Updated Successfully", status : 200});
 });
 
 module.exports = router;

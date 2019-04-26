@@ -404,23 +404,15 @@
 $('#math_teacher').change(
     function() {
         var math_teacher = $('#math_teacher option:selected').val();
-        if (math_teacher == 'None') {
-          $( "#science_teacher" ).prop( "disabled", false );
-        } else {
+        if (math_teacher != 'None') {
           $("#science_teacher").val("None");
-          $( "#science_teacher" ).prop( "disabled", true );
-        }
+        } 
   });
 $('#science_teacher').change(
     function() {
-
         var science_teacher = $('#science_teacher option:selected').val();
-        if (science_teacher == 'None') {
-          $( "#math_teacher" ).prop( "disabled", false );
-        } else {
+        if (science_teacher != 'None') {
           $("#math_teacher").val("None");
-          $( "#math_teacher" ).prop( "disabled", true );
         }
   });
-
 </script>
