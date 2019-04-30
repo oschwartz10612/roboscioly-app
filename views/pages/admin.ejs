@@ -96,49 +96,6 @@
       </table>
     </div>
     <% } %>
-
-    <hr>
-
-    <h3>Teacher Recommendations</h3>
-    <% if(typeof recs == 'undefined') { %>
-      <div class="jumbotron">
-        There are no recs at this time...
-      </div>
-    <% } else { %>
-    <div class="table-responsive">
-      <table class="table table-bordered table-sm" id="officers">
-        <thead>
-          <tr>
-            <%
-            const keys3 = Object.keys(recs[0]);
-            for(var i = 1; i < keys3.length; i++) {
-            %>
-            <th scope="col">
-              <%=keys3[i]%>
-            </th>
-            <% } %>
-          </tr>
-        </thead>
-        <tbody>
-          <%
-          for (var u = 0; u < recs.length; u++) {
-            var values3 = Object.values(recs[u]);
-            for (var i = 1; i < values3.length; i++) {
-            %>
-            <tr>
-              <% for (var i = 1; i < keys3.length; i++) { %>
-              <td class="cell" title="<%= values3[i] %>">
-                <%= values3[i] %>
-              </td>
-              <% } %>
-            </tr>
-            <% }
-          }%>
-        </tbody>
-      </table>
-    </div>
-    <% } %>
-  </div>
   </div>
 </body>
 </html>

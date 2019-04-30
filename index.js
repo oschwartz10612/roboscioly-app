@@ -6,6 +6,7 @@ const passportSetup = require('./config/passport-setup');
 const cookieSession = require('cookie-session');
 const keys = require('./config/keys')
 const passport = require('passport');
+const mysql = require('./config/mysql');
 
 const app = express();
 
@@ -37,10 +38,17 @@ app.get('/', function(req, res) {
   res.redirect('/home');
 });
 
-app.post('/login', function(req, res) {
-    res.render('pages/index', {user: req.user});
-    console.log(req.body.email);
-    console.log(req.body.pass);
+app.post('/emails', express.urlencoded({ extended: true }), function(req, res) { 
+  const table = req.body.table;
+  var submittion = {
+    name: req.body.name,
+    email: req.body.email
+  }
+  let sql = 'INSERT INTO ' + table + ' SET ?';
+  let query = mysql.query(sql, submittion, (err, result) => {
+    if (err) throw err;
+  });
+  res.json({success : "Updated Successfully", status : 200});
 });
 
 app.listen(keys.env.port);
