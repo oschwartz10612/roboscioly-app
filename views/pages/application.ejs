@@ -9,11 +9,14 @@
   <style>
     .left_side_1 {
       padding-top: 25px;
-      padding-bottom: 66px;
+      padding-bottom: 25px;
     }
     .left_side_2 {
       padding-top: 25px;
-      padding-bottom: 66px;
+      padding-bottom: 33px;
+    }
+    .left .form-group {
+      margin-top: 26px;
     }
   </style>
 </head>
@@ -38,7 +41,7 @@
     <form method="post" action="/profile/form" id="mainform">
 
       <div class="row">
-        <div class="col-6">
+        <div class="col-6 left">
           <div class="jumbotron left_side_1">
             <h4>Personal Information</h4>
             <input type="hidden" name="table" value="team">
@@ -57,7 +60,7 @@
                 you after applications have been received. You must check this email!</span>
             </div>
             <div class="form-group">
-              <label for="grade">Grade</label>
+              <label for="grade">Rising grade level:</label>
               <div>
                 <select id="grade" name="grade" class="custom-select">
                   <%
@@ -263,11 +266,11 @@
               </div>
             </div>
             <div class="form-group">
-              <label>What Math classes have you, are currently, or signed up to take next year?</label>
+              <label>What Math classes have you, are currently, or signed up to take?</label>
               <div>
                 <%
                 if(typeof data != "undefined") {
-                var boxes = ["Algebra 1", "Geometry", "Geometry HN", "Algebra 2", "Algebra 2 HN", "Algebra 2 with Trig HN", "Discrete Math", "Trigonometry", "Pre-Calculus With Trig", "AP Statistics", "AP Calculus AB", "AP Calculus BC", "Probability & Statistics", "IB Math Studies SL", "IB Math I SL", "IB Math II SL", "IB Math I HL", "IB Math II HL", "IB Computer Science SL", "Multivariable Calculus", "Matrix Algebra"];
+                var boxes = ["Algebra 1", "Geometry", "Geometry HN", "Algebra 2", "Algebra 2 HN", "Algebra 2 with Trig HN", "Discrete Math", "Trigonometry", "Pre-Calculus With Trig", "AP Statistics", "AP Calculus AB", "AP Calculus BC", "Probability & Statistics", "IB Math Studies SL", "IB Math I SL", "IB Math II SL", "IB Math I HL", "IB Math II HL", "IB Computer Science SL", "Multivariable Calculus", "Matrix Algebra", "IB Math Analysis I", "IB Math Application I"];
                   for ( var i = 0; i < boxes.length; i++ ) {
                     if(typeof data != "undefined") {
                       var checked = ( data['math_' + i] == boxes[i] ) ? "checked" : "";
@@ -291,7 +294,7 @@
                 <%
                     }
                   } else {
-                    var boxes = ["Algebra 1", "Geometry", "Geometry HN", "Algebra 2", "Algebra 2 HN", "Algebra 2 with Trig HN", "Discrete Math", "Trigonometry", "Pre-Calculus With Trig", "AP Statistics", "AP Calculus AB", "AP Calculus BC", "Probability & Statistics", "IB Math Studies SL", "IB Math I SL", "IB Math II SL", "IB Math I HL", "IB Math II HL", "IB Computer Science SL", "Multivariable Calculus", "Matrix Algebra"];
+                    var boxes = ["Algebra 1", "Geometry", "Geometry HN", "Algebra 2", "Algebra 2 HN", "Algebra 2 with Trig HN", "Discrete Math", "Trigonometry", "Pre-Calculus With Trig", "AP Statistics", "AP Calculus AB", "AP Calculus BC", "Probability & Statistics", "IB Math Studies SL", "IB Math I SL", "IB Math II SL", "IB Math I HL", "IB Math II HL", "IB Computer Science SL", "Multivariable Calculus", "Matrix Algebra", "IB Math Analysis I", "IB Math Application I"];
                       for ( var i = 0; i < boxes.length; i++ ) {
                           %>
                 <div class="custom-controls-stacked">

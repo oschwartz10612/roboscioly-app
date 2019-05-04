@@ -8,6 +8,11 @@
     <%= typeof user!='undefined' ? 'Instructions' : 'Apply to SciOly' %>
   </title>
   <link rel="stylesheet" href="/css/home.css">
+  <style>
+    .emails {
+      margin-bottom: -45px;
+    }
+  </style>
   <% include ../partials/head %>
 </head>
 
@@ -59,6 +64,33 @@
 
     <% if(typeof user != 'undefined' && user.role == 'teacher') {} else {%>
     <div class="container">
+
+    <!--
+      <div class="alert alert-success collapse" role="alert" id="sucsess">
+        Thank you for your interest!
+      </div>
+      <div class="jumbotron">
+        <div class="justify-content-center form-inline">
+          <h3 class="mr-5">Sign up to get email updates!</h1>
+          <div class="emails">
+            <form class="form-inline" id="emailSubmit">
+              <input type="hidden" name="table" value="emails">
+              <label class="sr-only" for="inlineFormInputName2">Name</label>
+              <input type="text" class="form-control mb-2 mr-sm-2" id="inlineFormInputName2" placeholder="Jane Doe" required name="name">
+
+              <label class="sr-only" for="inlineFormInputGroupUsername2">Email</label>
+              <div class="input-group mb-2 mr-sm-2">
+                <input type="text" class="form-control" id="inlineFormInputGroupUsername2" placeholder="Email" required name="email">
+              </div>
+
+              <button type="submit" class="btn btn-primary mb-2">Submit</button>
+            </form>
+            <p class="text-muted">Please use a non-FCPS email.</p>
+          </div>
+        </div>
+      </div>
+      -->
+
       <!-- Example row of columns -->
       <div class="row">
         <div class="col">
@@ -83,32 +115,10 @@
             applying in the spring you communicate to us that you are serious about joining Science Olympiad. To ensure we are considering you as a candidate holistically, we request a teacher recommendation. Make sure to mark at least one math OR science teacher on your application. Let your teacher know you have asked for a recommendation. They will complete this online here.</p>
         </div>
         <div class="col">
-          <h2>Step 4</h2>
+          <h2>Step 3</h2>
           <h5 class="text-muted">Take the test</h5>
           <p>All applicants must take the entrance exam. This will be administered during RAISE and after school in the fall. The You will receive more information through your email address next year, so stay alert! The test consists of a Math, Chemistry, Biology, Physics, and SciOly section. The exam is used to evaluate your scientific knowledge, but it is not the only factor in the acceptance process. Scores will be compared between grades, so freshman will not be hurt for not having taken Physics.</p>
         </div>
-      </div>
-
-      <div class="jumbotron">
-        <div class="justify-content-center form-inline">
-          <h3 class="mr-5">Sign up to get email updates!</h1>
-          <form class="form-inline" id="emailSubmit">
-            <input type="hidden" name="table" value="emails">
-            <label class="sr-only" for="inlineFormInputName2">Name</label>
-            <input type="text" class="form-control mb-2 mr-sm-2" id="inlineFormInputName2" placeholder="Jane Doe" required name="name">
-
-            <label class="sr-only" for="inlineFormInputGroupUsername2">Email</label>
-            <div class="input-group mb-2 mr-sm-2">
-              <input type="text" class="form-control" id="inlineFormInputGroupUsername2" placeholder="Email" required name="email">
-            </div>
-
-            <button type="submit" class="btn btn-primary mb-2">Submit</button>
-          </form>
-        </div>
-      </div>
-
-      <div class="alert alert-success collapse" role="alert" id="sucsess">
-        Thank you for your interest!
       </div>
 
       <hr>
@@ -125,14 +135,7 @@
 </body>
 </html>
 
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.0/jquery.min.js"></script>
 <script type="text/javascript">
-<% if(modal) { %>
-  $(window).on('load', function() {
-    $('#exampleModal').modal('show');
-  });
-  <% } %>
-
 $('#emailSubmit').submit(function(e) {
     e.preventDefault();
     $.ajax({
@@ -150,5 +153,12 @@ $('#emailSubmit').submit(function(e) {
     });
 });
 
+$(window).on('load', function() {
+  const urlParams = new URLSearchParams(window.location.search);
+  const login = urlParams.get('login');
+  if (login == "y") {
+    $('#exampleModal').modal('show'); 
+  }
+});
 </script>
 

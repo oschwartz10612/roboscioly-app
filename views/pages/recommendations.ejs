@@ -6,7 +6,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
   <title>Teacher Recommendations</title>
   <% include ../partials/head %>
-  <link rel="stylesheet" href="/css/recs.css">
+  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.1/css/all.css" integrity="sha384-50oBUHEmvpQ+1lW4y57PTFmhCaXp0ML5d60M1M7uH2+nqUivzIebhndOJK28anvf" crossorigin="anonymous">
 </head>
 
 <body>
@@ -27,9 +27,14 @@
       <nav class="mb-4">
         <div class="nav nav-tabs" id="nav-tab" role="tablist">
           <a class="nav-item nav-link active" id="nav-home-tab" data-toggle="tab" href="#nav-home" role="tab" aria-controls="nav-home" aria-selected="true">Instructions</a>
-          <% for(var i = 0; i < data.length; i++) {%>
-            <a class="nav-item nav-link" id="nav-profile-tab<%=i%>" data-toggle="tab" href="#nav-profile<%=i%>" role="tab" aria-controls="nav-profile<%=i%>" aria-selected="false"><%= data[i].name %></a>
-          <% } %>
+          <% for(var i = 0; i < data.length; i++) {
+            var done = '';
+            if (data[i].success && data[i].radio && data[i].radio1 && data[i].radio2 && data[i].radio3 && data[i].radio4 && data[i].radio5 && data[i].textarea_rec) { %>
+            <a class="nav-item nav-link" id="nav-profile-tab<%=i%>" data-toggle="tab" href="#nav-profile<%=i%>" role="tab" aria-controls="nav-profile<%=i%>" aria-selected="false"><%= data[i].name %> <i class="fas fa-check"></i></a>
+            <% } else { %>
+           <a class="nav-item nav-link" id="nav-profile-tab<%=i%>" data-toggle="tab" href="#nav-profile<%=i%>" role="tab" aria-controls="nav-profile<%=i%>" aria-selected="false"><%= data[i].name %></a>
+        <% }
+           } %>
         </div>
       </nav>
       <div class="tab-content" id="nav-tabContent">
@@ -273,6 +278,12 @@ if (typeof data != 'undefined') {
 for(var i = 0; i < data.length; i++) { %>
   $('#rec<%=i%>').submit(function(e){
     e.preventDefault();
+
+    var form = $('#rec<%=i%>').serializeArray();
+    if (form.length == 10) {
+      $('#nav-profile-tab<%=i%>').html('<%= data[i].name %> <i class="fas fa-check"></i>');
+    }
+
     $.ajax({
         url:'/profile/rec_form',
         type:'post',
