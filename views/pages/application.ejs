@@ -13,10 +13,10 @@
     }
     .left_side_2 {
       padding-top: 25px;
-      padding-bottom: 33px;
+      padding-bottom: 30px;
     }
     .left .form-group {
-      margin-top: 26px;
+      margin-top: 21px;
     }
   </style>
 </head>
@@ -154,8 +154,8 @@
 
           <div class="jumbotron left_side_2">
             <h4>Teacher Recommendation</h4>
-            <p>Select <strong>EITHER</strong> a Math <strong>OR</strong> Science teacher for your recommendation. They
-              will complete your recommendation electronically, but be sure to ask them first.</p>
+            <p>Select <strong>EITHER</strong> a Math <strong>OR</strong> Science teacher for your recommendation. We will automagically contact them after May 10th and they
+              will complete your recommendation electronically here, on this site. Be sure to inform your teachers that you have used them.</p>
             <div class="form-group">
               <label for="math_teacher">Math teacher for recommendation</label>
               <div>
@@ -190,8 +190,8 @@
               <div>
                 <select id="science_teacher" name="science_teacher" class="custom-select" required="required">
                   <%
-                var options = [ "None","Ana Tuszka","Abbie Achatz","Faith Angove","Christopher Bird","Holly Cho","Julie Corbett","Neena Dosaj","Megan Dygve","Evan Fisher","Meaghan Fry","Douglas Gross","Travis Hess","Jennifer Holder","Tory Karg","Kathryn Krouse","Kristen Marker","Eric Misencik","James Nickle","Steven Rothman","Jeff Stevens","Austin Walter","Bradley Webster","Alison Wolfe","Kristin Webster","Juliana Stroup" ];
-                var emails = [ "None","artuszka@fcpsschools.net","abachatz@fcpsschools.net","FLAngove@fcpsschools.net","CWBird@fcpsschools.net","htcho@fcpsschools.net","jlcorbett@fcpsschools.net","NDosaj@fcpsschools.net","MPDygve@fcpsschools.net","edfisher@fcpsschools.net","mmfry@fcpsschools.net","DAGross@fcpsschools.net","TSHess@fcpsschools.net","jholder1@fcpsschools.net","VGKarg@fcpsschools.net","kokrouse@fcpsschools.net","kmmarker@fcpsschools.net","esmisencik@fcpsschools.net","JENickle@fcpsschools.net","smrothman@fcpsschools.net","jwstevens@fcpsschools.net","awwalter@fcpsschools.net","BSWebster@fcpsschools.net","amwolfe@fcpsschools.net","kswebster@fcpsschools.net","jstroup@fcpsschools.net"];
+                var options = [ "None","Ana Tuszka","Abbie Achatz","Faith Angove","Christopher Bird","Holly Cho","Julie Corbett","Neena Dosaj","Megan Dygve","Evan Fisher","Meaghan Fry","Douglas Gross","Travis Hess","Jennifer Holder","Tory Karg","Kathryn Krouse","Kristen Marker","Eric Misencik","James Nickle","Steven Rothman","Jeff Stevens","Austin Walter","Bradley Webster","Alison Wolfe","Kristin Webster","Juliana Stroup","Karen McLean" ];
+                var emails = [ "None","artuszka@fcpsschools.net","abachatz@fcpsschools.net","FLAngove@fcpsschools.net","CWBird@fcpsschools.net","htcho@fcpsschools.net","jlcorbett@fcpsschools.net","NDosaj@fcpsschools.net","MPDygve@fcpsschools.net","edfisher@fcpsschools.net","mmfry@fcpsschools.net","DAGross@fcpsschools.net","TSHess@fcpsschools.net","jholder1@fcpsschools.net","VGKarg@fcpsschools.net","kokrouse@fcpsschools.net","kmmarker@fcpsschools.net","esmisencik@fcpsschools.net","JENickle@fcpsschools.net","smrothman@fcpsschools.net","jwstevens@fcpsschools.net","awwalter@fcpsschools.net","BSWebster@fcpsschools.net","amwolfe@fcpsschools.net","kswebster@fcpsschools.net","jstroup@fcpsschools.net","khmclean@fcpsschools.net"];
                 if(typeof data === "undefined") {
                   for ( var i = 0; i < options.length; i++ ) { %>
                   <option value="<%=emails[ i ] %>" <%=selected %>>
