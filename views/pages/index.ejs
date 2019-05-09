@@ -45,8 +45,8 @@
     <div class="jumbotron">
       <div class="container">
         <% if (!user) { %>
-        <h1 class="display-3">Welcome Science Olympians!</h1>
-        <p>This is the Robinson Science Olympiad 2019-2020 Spring Application Portal. Apply to become a Science Olympiad team member or officer.</p>
+        <h1 class="display-3">Welcome!</h1>
+        <p>This is the Robinson Science Olympiad 2019-2020 Spring Application Portal. Apply to become a Science Olympiad team member or officer and complete teacher recommendations.</p>
         <p><a class="btn btn-primary btn-lg" href="/profile/apply" role="button">Login &raquo;</a></p>
         <% } else if(user.role == 'teacher') { %>
           <h1 class="display-3">Welcome,
@@ -62,8 +62,15 @@
       </div>
     </div>
 
-    <% if(typeof user != 'undefined' && user.role == 'teacher') {} else {%>
+    <% if(typeof user != 'undefined' && user.role == 'teacher') {} else { %>
+      
     <div class="container">
+
+    <% if (end == "true") { %>
+      <div class="alert alert-info" role="alert">
+        Applications have closed for the spring!
+      </div>
+    <% } %>
 
     <!--
       <div class="alert alert-success collapse" role="alert" id="sucsess">
@@ -121,13 +128,15 @@
         </div>
       </div>
 
-    </div> <!-- /container -->
     <% } %>
+    </div> <!-- /container -->
 
   </main>
-  <footer class="container">
-  <hr>
-    <p>&copy; Robinson Science Olympiad 2019-2020</p>
+  <footer class="footer">
+    <div class="container">
+      <hr>
+      <p>&copy; Robinson Science Olympiad 2019-2020</p>
+    </div>
   </footer>
 
 </body>

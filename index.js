@@ -27,11 +27,15 @@ app.use('/profile', profileRoutes);
 app.use('/admin', adminRoutes);
 
 app.get('/home', function(req, res) {
-  res.render('pages/index', {user: req.user, index: true, instructions: true});
+  res.render('pages/index', {user: req.user, index: true, instructions: true, end: process.env.END});
 });
 
 app.get('/', function(req, res) {
   res.redirect('/home');
+});
+
+app.get('/timesup', function(req, res) {
+  res.render('pages/timesup', {user: req.user});
 });
 
 app.post('/emails', express.urlencoded({ extended: true }), function(req, res) { 

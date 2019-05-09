@@ -10,7 +10,16 @@ const authCheck = function(req, res, next) {
   }
 };
 
-router.get('/apply', authCheck, function(req, res) {
+const endCheck = function(req, res, next) {
+  if (process.env.END == "true") {
+    res.redirect('/timesup');
+  }
+  else {
+    next();
+  }
+};
+
+router.get('/apply', authCheck, endCheck, function(req, res) {
   let sql = 'SELECT * FROM team WHERE user_id = ?';
   let query = mysql.query(sql, req.user.user_id, (err, result) => {
       if (err) throw err;
@@ -55,7 +64,7 @@ router.get('/recommendations', authCheck, function(req, res) {
   }
 });
 
-router.get('/officer', authCheck, function(req, res) {
+router.get('/officer', authCheck, endCheck, function(req, res) {
   let sql = 'SELECT * FROM officers WHERE user_id = ?';
   let query = mysql.query(sql, req.user.user_id, (err, result) => {
       if (err) throw err;
