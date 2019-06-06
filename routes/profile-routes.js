@@ -122,7 +122,7 @@ router.post('/form', express.urlencoded({ extended: true }), function(req, res) 
     });
   }
   });
-  res.json({success : "Updated Successfully", status : 200});
+    res.json({success : "Updated Successfully", status : 200});
 });
 
 router.post('/rec_form', express.urlencoded({ extended: true }), function(req, res) {
@@ -163,7 +163,7 @@ router.post('/rec_form', express.urlencoded({ extended: true }), function(req, r
     });
   }
   });
-  res.json({success : "Updated Successfully", status : 200});
+    res.json({success : "Updated Successfully", status : 200});
 });
 
 module.exports = router;
