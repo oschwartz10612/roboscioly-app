@@ -27,11 +27,18 @@ router.get('/apply', authCheck, endCheck, function(req, res) {
         var data = result[0];
         delete data.user_id;
 
-        res.render('pages/application', {
-          user: req.user,
-          data: data,
-          app: true
-        });
+        if (data.final == "final") {
+          res.render('pages/submitted', {
+            user: req.user,
+            app: true
+          });
+        } else { 
+          res.render('pages/application', {
+            user: req.user,
+            data: data,
+            app: true
+          });
+        }
       } else {
         res.render('pages/application', {
           user: req.user,

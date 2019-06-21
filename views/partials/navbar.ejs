@@ -28,9 +28,9 @@
           <li class="nav-item <%= typeof app!='undefined' ? 'active' : '' %>">
             <a class="nav-link" href="/profile/apply">My Application</a>
           </li>
-          <li class="nav-item <%= typeof officer!='undefined' ? 'active' : '' %>">
+          <!-- <li class="nav-item <%= typeof officer!='undefined' ? 'active' : '' %>">
             <a class="nav-link" href="/profile/officer">My Officer Application</a>
-          </li>
+          </li> --> 
           </ul>
           <% if(typeof app != 'undefined' || typeof officer != 'undefined') { %>
             <button class="btn btn-outline-success mr-2" onclick="submit()">Save</button>
