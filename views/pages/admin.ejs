@@ -53,9 +53,11 @@
     </form>
 
     <div id="team-table"></div>
+    <div id="team-table-textarea"></div>
 
     <button id="download-csv" class="btn btn-primary mt-4">Download CSV</button>
     <button id="download-xlsx" class="btn btn-primary mt-4">Download XSLX</button>
+    <button id="show-text" class="btn btn-danger mt-4">Show text</button>
 
     <footer class="container">
     <hr>
@@ -65,23 +67,75 @@
 </html>
 
 <script>
+  let rawColumns = ["user_id","name","email","grade","math_teacher","science_teacher","science_class_0","science_class_1","science_class_2","science_class_3","science_class_4","science_class_5","science_class_6","science_class_7","science_class_8","science_class_9","science_class_10","science_class_11","science_class_12","science_class_13","science_class_14","science_class_15","science_class_16","science_class_17","science_class_18","science_class_19","science_grade","math_0","math_1","math_2","math_3","math_4","math_5","math_6","math_7","math_8","math_9","math_10","math_11","math_12","math_13","math_14","math_15","math_16","math_17","math_18","math_19","math_20","math_21","math_22","team","statesteam","events","textarea","textarea1","textarea2","textarea3","textarea4","textarea5","textarea6","textarea7","confirm","success","radio","radio1","radio2","radio3","radio4","radio5","textarea_rec","final"];
+ 
   window.onload = function() {
-    let columns = ["user_id","name","email","grade","math_teacher","science_teacher","science_class_0","science_class_1","science_class_2","science_class_3","science_class_4","science_class_5","science_class_6","science_class_7","science_class_8","science_class_9","science_class_10","science_class_11","science_class_12","science_class_13","science_class_14","science_class_15","science_class_16","science_class_17","science_class_18","science_class_19","science_grade","math_0","math_1","math_2","math_3","math_4","math_5","math_6","math_7","math_8","math_9","math_10","math_11","math_12","math_13","math_14","math_15","math_16","math_17","math_18","math_19","math_20","math_21","math_22","team","statesteam","events","textarea","textarea1","textarea2","textarea3","textarea4","textarea5","textarea6","textarea7","confirm","success","radio","radio1","radio2","radio3","radio4","radio5","textarea_rec","final"];
     let dropdown = $('#filter-field');
-    for (let i = 0; i < columns.length; i++) {
-      const element = columns[i];
+    for (let i = 0; i < rawColumns.length; i++) {
+      const element = rawColumns[i];
       dropdown.append($('<option></option>').val(element).html(element));
+    }
+  }
+
+  let columns = [];
+  let textareas = ["textarea","textarea1","textarea2","textarea3","textarea4","textarea5","textarea6","textarea7","textarea_rec"];
+  for (let i = 0; i < rawColumns.length; i++) {
+    const element = rawColumns[i];
+    if (element.includes("textarea")) {
+      columns.push({
+        title: element,
+        field: element,
+        width: 200
+      });
+    } else {
+      columns.push({
+        title: element,
+        field: element
+      }); 
     }
   }
 
   var table = new Tabulator("#team-table", {
       ajaxURL:"/admin/api/alldata", 
-      autoColumns:true,
       height:"600px",
       pagination:"local",
       layout:"fitDataFill",
       paginationSize:20,
-      paginationSizeSelector:[20, 30, 40, 50]
+      paginationSizeSelector:[20, 30, 40, 50],
+      tooltips:true,
+      columns: columns
+  });
+
+  $("#show-text").click(function(){
+    let columns = [];
+    let textareas = ["textarea","textarea1","textarea2","textarea3","textarea4","textarea5","textarea6","textarea7","textarea_rec"];
+    for (let i = 0; i < rawColumns.length; i++) {
+      const element = rawColumns[i];
+      if (element.includes("textarea")) {
+        columns.push({
+          title: element,
+          field: element,
+          width: 500,
+          formatter: "textarea"
+        });
+      } else {
+        columns.push({
+          title: element,
+          field: element
+        }); 
+      }
+    }
+    $("#team-table").remove();
+    var newTable = new Tabulator("#team-table-textarea", {
+      ajaxURL:"/admin/api/alldata", 
+      height:"600px",
+      pagination:"local",
+      layout:"fitDataFill",
+      paginationSize:20,
+      paginationSizeSelector:[20, 30, 40, 50],
+      columns: columns
+    });
+    $("#show-text").remove();
   });
 
   $("#download-csv").click(function(){
