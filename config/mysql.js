@@ -1,5 +1,5 @@
 const mysql = require('mysql');
-const keys = require('./keys');
+const keys = require('../keys');
 
 const config = {
     user: keys.mysql.user,

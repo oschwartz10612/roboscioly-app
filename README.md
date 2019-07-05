@@ -1,4 +1,4 @@
-#Robinson Science Olympiad Application Portal
+# Robinson Science Olympiad Application Portal
 Streamlines the application process for Science Olympiad
 
 ## Contributing

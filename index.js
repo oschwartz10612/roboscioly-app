@@ -4,7 +4,7 @@ const profileRoutes = require('./routes/profile-routes');
 const adminRoutes = require('./routes/admin-routes');
 const passportSetup = require('./config/passport-setup');
 const cookieSession = require('cookie-session');
-const keys = require('./config/keys')
+const keys = require('./keys')
 const passport = require('passport');
 const mysql = require('./config/mysql');
 
