@@ -1,5 +1,5 @@
 # Robinson Science Olympiad Application Portal
-Streamlines the application process for Science Olympiad.
+Streamlining the application process for Science Olympiad.
 
 ## Build
 [![Build Status](https://travis-ci.com/oschwartz10612/roboscioly-app.svg?branch=master)](https://travis-ci.com/oschwartz10612/roboscioly-app)
