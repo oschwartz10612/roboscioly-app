@@ -10,7 +10,7 @@ passport.serializeUser(function(user, done) {
 
 passport.deserializeUser(function(id, done) {
   let sql = `SELECT * FROM google WHERE user_id = ?`;
-  let query = mysql.query(sql, id, (err, result) => {
+  mysql.query(sql, id, (err, result) => {
     if (err) throw err;
     done(null, result[0]);
   });
@@ -23,7 +23,7 @@ passport.use(
     clientSecret: keys.google.clientSecret
   }, function(accsessToken, refreshToken, profile, done) {
     let sql = `SELECT * FROM google WHERE google_id = ${profile.id}`;
-    let query = mysql.query(sql, (err, result) => {
+    mysql.query(sql, (err, result) => {
       if (err) throw err;
       if (result[0] != null) {
         done(null, result[0]);
@@ -38,7 +38,7 @@ passport.use(
 
         //****teacher?****//
         let sql = 'SELECT * FROM teachers WHERE email = ?';
-        let query = mysql.query(sql, profile.emails[0].value, (err, result) => {
+        mysql.query(sql, profile.emails[0].value, (err, result) => {
           if (err) throw err;
           if (result[0] != null) {
             user.role = 'teacher';
@@ -47,10 +47,10 @@ passport.use(
           }
           //****create user****//
           let sql = 'INSERT INTO google SET ?';
-          let query = mysql.query(sql, user, (err, result) => {
+          mysql.query(sql, user, (err) => {
             if (err) throw err;
             let sql = `SELECT * FROM google WHERE google_id = ${profile.id}`;
-            let query = mysql.query(sql, (err, result) => {
+            mysql.query(sql, (err, result) => {
               if (err) throw err;
               if (result[0] != null) {
                 done(null, result[0]);

@@ -1,5 +1,4 @@
 const router = require('express').Router();
-const express = require('express');
 const mysql = require('../config/mysql');
 
 const authCheck = function(req, res, next) {
@@ -14,7 +13,7 @@ const authCheck = function(req, res, next) {
 
 router.get('/', authCheck, function(req, res) {
   let sql = `SELECT * FROM team`;
-  let query = mysql.query(sql, req.user.user_id, (err, result) => {
+  mysql.query(sql, req.user.user_id, (err, result) => {
     if (err) throw err;
     if (result[0] != null) {
       var payload = {
@@ -23,7 +22,7 @@ router.get('/', authCheck, function(req, res) {
         submissions: true
       }
       let sql = `SELECT * FROM officers`;
-      let query = mysql.query(sql, req.user.user_id, (err, result) => {
+      mysql.query(sql, req.user.user_id, (err, result) => {
         if (err) throw err;
         if (result[0] != null) {
           payload.officers = result;
@@ -38,14 +37,9 @@ router.get('/', authCheck, function(req, res) {
 
 router.get('/api/alldata', authCheck, function(req, res) {
   let sql = `SELECT * FROM team`;
-  let query = mysql.query(sql, req.user.user_id, (err, result) => {
+  mysql.query(sql, req.user.user_id, (err, result) => {
     if (err) throw err;
     if (result[0] != null) {
-      // var payload;
-      // for (let i = 0; i < result.length; i++) {
-      //   payload = payload + JSON.stringify(result[i]);
-      // }
-
       var resultJson = JSON.stringify(result);
       resultJson = JSON.parse(resultJson);
 

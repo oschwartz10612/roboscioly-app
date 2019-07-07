@@ -2,7 +2,6 @@ const express = require('express');
 const authRoutes = require('./routes/auth-routes');
 const profileRoutes = require('./routes/profile-routes');
 const adminRoutes = require('./routes/admin-routes');
-const passportSetup = require('./config/passport-setup');
 const cookieSession = require('cookie-session');
 const keys = require('./keys')
 const passport = require('passport');
@@ -45,7 +44,7 @@ app.post('/emails', express.urlencoded({ extended: true }), function(req, res) {
     email: req.body.email
   }
   let sql = 'INSERT INTO ' + table + ' SET ?';
-  let query = mysql.query(sql, submittion, (err, result) => {
+  mysql.query(sql, submittion, (err) => {
     if (err) throw err;
   });
   res.json({success : "Updated Successfully", status : 200});
