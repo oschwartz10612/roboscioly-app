@@ -29,8 +29,7 @@ router.get('/apply', authCheck, endCheck, function(req, res) {
 
         if (data.final == "final") {
           res.render('pages/submitted', {
-            user: req.user,
-            app: true
+            user: req.user
           });
         } else { 
           res.render('pages/application', {
