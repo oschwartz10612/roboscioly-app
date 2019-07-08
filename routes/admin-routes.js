@@ -37,7 +37,20 @@ router.get('/', authCheck, function(req, res) {
 
 router.get('/api/alldata', authCheck, function(req, res) {
   let sql = `SELECT * FROM team`;
-  mysql.query(sql, req.user.user_id, (err, result) => {
+  mysql.query(sql, (err, result) => {
+    if (err) throw err;
+    if (result[0] != null) {
+      var resultJson = JSON.stringify(result);
+      resultJson = JSON.parse(resultJson);
+
+      res.send(resultJson);
+    }
+  });
+});
+
+router.get('/api/getcolumns', authCheck, function(req, res) {
+  let sql = `SELECT column_name FROM information_schema.columns WHERE table_schema = 'apps' AND table_name = 'team'`;
+  mysql.query(sql, (err, result) => {
     if (err) throw err;
     if (result[0] != null) {
       var resultJson = JSON.stringify(result);

@@ -4,7 +4,8 @@ const keys = require('../keys');
 const config = {
     user: keys.mysql.user,
     password: keys.mysql.password,
-    database: keys.mysql.database
+    database: keys.mysql.database,
+    multipleStatements: true
   };
 
   if (process.env.INSTANCE_CONNECTION_NAME && process.env.NODE_ENV === 'production') {

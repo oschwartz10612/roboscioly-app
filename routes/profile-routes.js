@@ -27,24 +27,33 @@ router.get('/apply', authCheck, endCheck, function(req, res) {
         var data = result[0];
         delete data.user_id;
 
-        if (data.final == "final") {
-          res.render('pages/submitted', {
-            user: req.user
-          });
-        } else { 
-          res.render('pages/application', {
-            user: req.user,
-            data: data,
-            app: true
-          });
-        }
+        let sql = 'SELECT * FROM teachers WHERE department = ?; SELECT * FROM teachers WHERE department = ?';
+        mysql.query(sql, ["math","science"], (err, result) => {  
+          if (err) throw err;
+          var mathTeachers = result[0];
+          var scienceTeachers = result[1];
+
+          if (data.final == "final") {
+            res.render('pages/submitted', {
+              user: req.user
+            });
+          } else { 
+            res.render('pages/application', {
+              user: req.user,
+              data: data,
+              mathTeachers: mathTeachers,
+              scienceTeachers: scienceTeachers,
+              app: true
+            });
+          }
+        });
       } else {
         res.render('pages/application', {
           user: req.user,
           app: true
         });
-    }
-  });
+      }
+    });
 });
 
 router.get('/recommendations', authCheck, function(req, res) {

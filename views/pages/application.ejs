@@ -155,12 +155,52 @@
             <p>Select your previous year's Science teacher for your recommendation. We will automagically contact them and they
               will complete your recommendation electronically here. Be sure to inform your teachers that you have used them. <strong>Only use a Math teacher if your Science teacher is not listed.</strong></p>
             <div class="form-group">
+              <label for="science_teacher">Science teacher for recommendation</label>
+              <div>
+                <select id="science_teacher" name="science_teacher" class="custom-select" required="required">
+                  <%
+                var options = ["None"];
+                var emails = ["None"];
+                for (let i = 0; i < scienceTeachers.length; i++) {
+                  const element = scienceTeachers[i];
+                  options.push(element.name);
+                  emails.push(element.email);
+                }
+                
+                if(typeof data === "undefined") {
+                  for ( var i = 0; i < options.length; i++ ) { %>
+                  <option value="<%=emails[ i ] %>" <%=selected %>>
+                    <%= options[i] %>
+                  </option>
+                  <%
+                  }
+                }
+                else {
+                  for ( var i = 0; i < options.length; i++ ) {
+                      var selected = ( data.science_teacher == emails[i] ) ? "selected" : "";
+                      %>
+                  <option value="<%=emails[ i ] %>" <%=selected %>>
+                    <%= options[i] %>
+                  </option>
+                  <%
+                  }
+                }
+                %>
+                </select>
+              </div>
+              <div class="form-group">
               <label for="math_teacher">Math teacher for recommendation</label>
               <div>
                 <select id="math_teacher" name="math_teacher" class="custom-select" required="required">
                   <%
-                var options = [ "None","Karndt David","Nancy Bandman","Nahid Behrooz","Sandra Bergesen","Amanda Bolden","Mary Bowersox","Barbara Brand","Roisin Burford","Carol Buschman","Pam Carpenter","Angie Chang","Leah Chang","Bob Collidge","Colleen Conwell","Kevin Crenshaw","Ada Cuadrado","Chris DelGrosso","Christopher Devine","Kathryn Dirga","Jim Evans","Gail Gardiner","Ben Gildea","Mark Gomperts","Varinder Grewal","Julia Hiles","Geeta Khemani","Mark Koeppen","Douglas Kraemer","Kaitlynn Kraemer","Paul Laguna","Emma Lawson","Kim Longworth","Teresa Lusby","Maria McCoy","Jane McKee","Karen Miller","Collin Schumpp","Sue Shepard","Marvin Sim","Alexia Small","Debbie Supernor","Christine Thomas","Stefanie Waigand","Ann Wong","Soosan Zarek" ];
-                var emails = ["None", "dkarndt@fcpsschools.net","NMBandman@fcpsschools.net","NBehrooz@fcpsschools.net","SCBergesen@fcpsschools.net","aebolden@fcpsschools.net","MTBowersox@fcpsschools.net","BABrand@fcpsschools.net","RMBurford@fcpsschools.net","cjbuschman@fcpsschools.net","PCarpenter@fcpsschools.net","achang1@fcpsschools.net","achang@fcpsschools.net","rbcollidge1@fcpsschools.net","CHConwell@fcpsschools.net","kmcrenshaw@fcpsschools.net","ANCuadrado@fcpsschools.net","CJDelGrosso@fcpsschools.net","crdevine@fcpsschools.net","kedirga@fcpsschools.net","JEEvans@fcpsschools.net","GDGardiner@fcpsschools.net","bjgildea@fcpsschools.net","mgomperts@fcpsschools.net","VSGrewal@fcpsschools.net","JBHiles@fcpsschools.net","GKhemani@fcpsschools.net","mfkoeppen@fcpsschools.net","dkraemer@fcpsschools.net","kvkraemer@fcpsschools.net","PCLaguna@fcpsschools.net","ellawson@fcpsschools.net","KALongworth@fcpsschools.net","tglusby@fcpsschools.net","mkmccoy@fcpsschools.net","AJMcKee@fcpsschools.net","KAMiller5@fcpsschools.net","cschumpp@fcpsschools.net","srshepard@fcpsschools.net","MSim@fcpsschools.net","aksmall@fcpsschools.net","DBSupernor@fcpsschools.net","CVThomas@fcpsschools.net","SLWaigand@fcpsschools.net","ANWong@fcpsschools.net","SZarek@fcpsschools.net"];
+                var options = ["None"];
+                var emails = ["None"];
+                for (let i = 0; i < mathTeachers.length; i++) {
+                  const element = mathTeachers[i];
+                  options.push(element.name);
+                  emails.push(element.email);
+                }
+                
                 if(typeof data === "undefined") {
                   for ( var i = 0; i < options.length; i++ ) { %>
                   <option value="<%=emails[ i ] %>">
@@ -183,34 +223,6 @@
                 </select>
               </div>
             </div>
-            <div class="form-group">
-              <label for="science_teacher">Science teacher for recommendation</label>
-              <div>
-                <select id="science_teacher" name="science_teacher" class="custom-select" required="required">
-                  <%
-                var options = [ "None","Ana Tuszka","Abbie Achatz","Faith Angove","Christopher Bird","Holly Cho","Julie Corbett","Neena Dosaj","Megan Dygve","Meaghan Fry","Douglas Gross","Travis Hess","Jennifer Holder","Tory Karg","Kathryn Krouse","Kristen Marker","Eric Misencik","James Nickle","Steven Rothman","Jeff Stevens","Austin Walter","Bradley Webster","Alison Wolfe","Kristin Webster","Juliana Stroup","Karen McLean" ];
-                var emails = [ "None","artuszka@fcpsschools.net","abachatz@fcpsschools.net","FLAngove@fcpsschools.net","CWBird@fcpsschools.net","htcho@fcpsschools.net","jlcorbett@fcpsschools.net","NDosaj@fcpsschools.net","MPDygve@fcpsschools.net","mmfry@fcpsschools.net","DAGross@fcpsschools.net","TSHess@fcpsschools.net","jholder1@fcpsschools.net","VGKarg@fcpsschools.net","kokrouse@fcpsschools.net","kmmarker@fcpsschools.net","esmisencik@fcpsschools.net","JENickle@fcpsschools.net","smrothman@fcpsschools.net","jwstevens@fcpsschools.net","awwalter@fcpsschools.net","BSWebster@fcpsschools.net","amwolfe@fcpsschools.net","kswebster@fcpsschools.net","jstroup@fcpsschools.net","khmclean@fcpsschools.net"];
-                if(typeof data === "undefined") {
-                  for ( var i = 0; i < options.length; i++ ) { %>
-                  <option value="<%=emails[ i ] %>" <%=selected %>>
-                    <%= options[i] %>
-                  </option>
-                  <%
-                  }
-                }
-                else {
-                  for ( var i = 0; i < options.length; i++ ) {
-                      var selected = ( data.science_teacher == emails[i] ) ? "selected" : "";
-                      %>
-                  <option value="<%=emails[ i ] %>" <%=selected %>>
-                    <%= options[i] %>
-                  </option>
-                  <%
-                  }
-                }
-                %>
-                </select>
-              </div>
             </div>
           </div>
         </div>

@@ -67,46 +67,54 @@
 </html>
 
 <script>
-  let rawColumns = ["user_id","name","email","grade","math_teacher","science_teacher","science_class_0","science_class_1","science_class_2","science_class_3","science_class_4","science_class_5","science_class_6","science_class_7","science_class_8","science_class_9","science_class_10","science_class_11","science_class_12","science_class_13","science_class_14","science_class_15","science_class_16","science_class_17","science_class_18","science_class_19","science_grade","math_0","math_1","math_2","math_3","math_4","math_5","math_6","math_7","math_8","math_9","math_10","math_11","math_12","math_13","math_14","math_15","math_16","math_17","math_18","math_19","math_20","math_21","math_22","team","statesteam","events","textarea","textarea1","textarea2","textarea3","textarea4","textarea5","textarea6","textarea7","confirm","success","radio","radio1","radio2","radio3","radio4","radio5","textarea_rec","final"];
- 
-  window.onload = function() {
+  let textareas = ["textarea","textarea1","textarea2","textarea3","textarea4","textarea5","textarea6","textarea7","textarea_rec"];
+  $.ajax({
+    url: "/admin/api/getcolumns",
+    cache: false,
+    success: function(result) {
+      let rawColumns = [];
+      let columns = [];
+      for (let i = 0; i < result.length; i++) {
+        const element = result[i];
+        rawColumns.push(element.column_name);
+      }
+      for (let i = 0; i < rawColumns.length; i++) {
+        const element = rawColumns[i];
+        if (element.includes("textarea")) {
+          columns.push({
+            title: element,
+            field: element,
+            width: 200
+          });
+        } else {
+          columns.push({
+            title: element,
+            field: element
+          }); 
+        }
+      }
+      buildTable(columns, rawColumns);
+    }
+  });
+
+  function buildTable(columns, rawColumns) {
     let dropdown = $('#filter-field');
     for (let i = 0; i < rawColumns.length; i++) {
       const element = rawColumns[i];
       dropdown.append($('<option></option>').val(element).html(element));
     }
-  }
-
-  let columns = [];
-  let textareas = ["textarea","textarea1","textarea2","textarea3","textarea4","textarea5","textarea6","textarea7","textarea_rec"];
-  for (let i = 0; i < rawColumns.length; i++) {
-    const element = rawColumns[i];
-    if (element.includes("textarea")) {
-      columns.push({
-        title: element,
-        field: element,
-        width: 200
-      });
-    } else {
-      columns.push({
-        title: element,
-        field: element
-      }); 
-    }
-  }
-
-  var table = new Tabulator("#team-table", {
-      ajaxURL:"/admin/api/alldata", 
-      height:"800px",
-      pagination:"local",
-      layout:"fitDataFill",
-      paginationSize:20,
-      paginationSizeSelector:[20, 30, 40, 50],
-      tooltips:true,
-      columns: columns
-  });
-
-  $("#show-text").click(function(){
+    
+    var table = new Tabulator("#team-table", {
+        ajaxURL:"/admin/api/alldata", 
+        height:"800px",
+        pagination:"local",
+        layout:"fitDataFill",
+        paginationSize:20,
+        paginationSizeSelector:[20, 30, 40, 50],
+        tooltips:true,
+        columns: columns
+    });
+    $("#show-text").click(function(){
     let columns = [];
     let textareas = ["textarea","textarea1","textarea2","textarea3","textarea4","textarea5","textarea6","textarea7","textarea_rec"];
     for (let i = 0; i < rawColumns.length; i++) {
@@ -145,34 +153,32 @@
   $("#download-xlsx").click(function(){
       table.download("xlsx", "data.xlsx", {sheetName:"My Data"});
   });
+  //Update filters on value change
+  $("#filter-field, #filter-type").change(updateFilter);
+  $("#filter-value").keyup(updateFilter);
 
-//Trigger setFilter function with correct parameters
-function updateFilter() {
+  //Clear filters on "Clear Filters" button click
+  $("#filter-clear").click(function(){
+      $("#filter-field").val("");
+      $("#filter-type").val("=");
+      $("#filter-value").val("");
 
-    var filter = $("#filter-field").val() == "function" ? customFilter : $("#filter-field").val();
+      table.clearFilter();
+  });
+    //Trigger setFilter function with correct parameters
+  function updateFilter() {
 
-    if($("#filter-field").val() == "function" ){
-        $("#filter-type").prop("disabled", true);
-        $("#filter-value").prop("disabled", true);
-    }else{
-        $("#filter-type").prop("disabled", false);
-        $("#filter-value").prop("disabled", false);
-    }
+      var filter = $("#filter-field").val() == "function" ? customFilter : $("#filter-field").val();
 
-    table.setFilter(filter, $("#filter-type").val(), $("#filter-value").val());
-}
+      if($("#filter-field").val() == "function" ){
+          $("#filter-type").prop("disabled", true);
+          $("#filter-value").prop("disabled", true);
+      }else{
+          $("#filter-type").prop("disabled", false);
+          $("#filter-value").prop("disabled", false);
+      }
 
-//Update filters on value change
-$("#filter-field, #filter-type").change(updateFilter);
-$("#filter-value").keyup(updateFilter);
-
-//Clear filters on "Clear Filters" button click
-$("#filter-clear").click(function(){
-    $("#filter-field").val("");
-    $("#filter-type").val("=");
-    $("#filter-value").val("");
-
-    table.clearFilter();
-});
-
+      table.setFilter(filter, $("#filter-type").val(), $("#filter-value").val());
+  }
+  }
 </script>
