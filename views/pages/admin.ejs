@@ -70,37 +70,33 @@
   let textareas = ["textarea","textarea1","textarea2","textarea3","textarea4","textarea5","textarea6","textarea7","textarea_rec"];
  
   $.ajax({
-  url: "/admin/api/getcolumns",
-  cache: false,
-  success: function(result) {
-    let rawColumns = [];
-    let columns = [];
-    for (let i = 0; i < result.length; i++) {
-      const element = result[i];
-      rawColumns.push(element.column_name);
-    }
-    for (let i = 0; i < rawColumns.length; i++) {
-      const element = rawColumns[i];
-      if (element.includes("textarea")) {
-        columns.push({
-          title: element,
-          field: element,
-          width: 200
-        });
-      } else {
-        columns.push({
-          title: element,
-          field: element
-        }); 
+    url: "/admin/api/getcolumns",
+    cache: false,
+    success: function(result) {
+      let rawColumns = [];
+      let columns = [];
+      for (let i = 0; i < result.length; i++) {
+        const element = result[i];
+        rawColumns.push(element.column_name);
       }
+      for (let i = 0; i < rawColumns.length; i++) {
+        const element = rawColumns[i];
+        if (element.includes("textarea")) {
+          columns.push({
+            title: element,
+            field: element,
+            width: 200
+          });
+        } else {
+          columns.push({
+            title: element,
+            field: element
+          }); 
+        }
+      }
+      buildTable(columns, rawColumns);
     }
-    buildTable(columns, rawColumns);
-  }
-});
-  
-  window.onload = function() {
-
-  }
+  });
 
   function buildTable(columns, rawColumns) {
     let dropdown = $('#filter-field');
@@ -119,9 +115,7 @@
         tooltips:true,
         columns: columns
     });
-  }
-
-  $("#show-text").click(function(){
+    $("#show-text").click(function(){
     let columns = [];
     let textareas = ["textarea","textarea1","textarea2","textarea3","textarea4","textarea5","textarea6","textarea7","textarea_rec"];
     for (let i = 0; i < rawColumns.length; i++) {
@@ -160,34 +154,37 @@
   $("#download-xlsx").click(function(){
       table.download("xlsx", "data.xlsx", {sheetName:"My Data"});
   });
+  //Update filters on value change
+  $("#filter-field, #filter-type").change(updateFilter);
+  $("#filter-value").keyup(updateFilter);
 
-//Trigger setFilter function with correct parameters
-function updateFilter() {
+  //Clear filters on "Clear Filters" button click
+  $("#filter-clear").click(function(){
+      $("#filter-field").val("");
+      $("#filter-type").val("=");
+      $("#filter-value").val("");
 
-    var filter = $("#filter-field").val() == "function" ? customFilter : $("#filter-field").val();
+      table.clearFilter();
+  });
+    //Trigger setFilter function with correct parameters
+  function updateFilter() {
 
-    if($("#filter-field").val() == "function" ){
-        $("#filter-type").prop("disabled", true);
-        $("#filter-value").prop("disabled", true);
-    }else{
-        $("#filter-type").prop("disabled", false);
-        $("#filter-value").prop("disabled", false);
-    }
+      var filter = $("#filter-field").val() == "function" ? customFilter : $("#filter-field").val();
 
-    table.setFilter(filter, $("#filter-type").val(), $("#filter-value").val());
-}
+      if($("#filter-field").val() == "function" ){
+          $("#filter-type").prop("disabled", true);
+          $("#filter-value").prop("disabled", true);
+      }else{
+          $("#filter-type").prop("disabled", false);
+          $("#filter-value").prop("disabled", false);
+      }
 
-//Update filters on value change
-$("#filter-field, #filter-type").change(updateFilter);
-$("#filter-value").keyup(updateFilter);
+      table.setFilter(filter, $("#filter-type").val(), $("#filter-value").val());
+  }
+  }
 
-//Clear filters on "Clear Filters" button click
-$("#filter-clear").click(function(){
-    $("#filter-field").val("");
-    $("#filter-type").val("=");
-    $("#filter-value").val("");
+  
 
-    table.clearFilter();
-});
+
 
 </script>
