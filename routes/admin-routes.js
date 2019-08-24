@@ -61,4 +61,29 @@ router.get('/api/getcolumns', authCheck, function(req, res) {
   });
 });
 
+router.get('/api/closeApp', authCheck, function(req, res) {
+  global.END = 'true';
+  res.send('done');
+});
+
+router.get('/api/openApp', authCheck, function(req, res) {
+  global.END = 'false';
+  res.send('done');
+});
+
+router.get('/api/closeCollectEmail', authCheck, function(req, res) {
+  global.collectEmail = 'false';
+  console.log(global.collectEmail);
+  
+  res.send('done');
+});
+
+router.get('/api/openCollectEmail', authCheck, function(req, res) {
+  global.collectEmail = 'true';
+  console.log(global.collectEmail);
+  res.send('done');
+});
+
+
+
 module.exports = router;

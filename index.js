@@ -15,6 +15,9 @@ app.use(cookieSession({
   keys: [keys.session.cookieKey]
 }));
 
+global.END = 'true';
+global.collectEmail = 'true';
+
 app.use(passport.initialize());
 app.use(passport.session());
 
@@ -30,7 +33,9 @@ app.use('/profile', profileRoutes);
 app.use('/admin', adminRoutes);
 
 app.get('/home', function(req, res) {
-  res.render('pages/index', {user: req.user, index: true, instructions: true, end: process.env.END});
+  console.log(global.collectEmail);
+  
+  res.render('pages/index', {user: req.user, index: true, instructions: true, end: global.END, collectEmail: global.collectEmail});
 });
 
 app.get('/', function(req, res) {

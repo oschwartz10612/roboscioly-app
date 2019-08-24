@@ -15,7 +15,7 @@
       <%} else { %>
         <% if (typeof user != 'undefined' && user.role == 'admin') { %>
           <li class="nav-item <%= typeof submissions!='undefined' ? 'active' : '' %>">
-            <a class="nav-link" href="/admin/">Submissions</a>
+            <a class="nav-link" href="/admin/">Admin</a>
           </li>
         <% } %>
         <% if (!user) { %>

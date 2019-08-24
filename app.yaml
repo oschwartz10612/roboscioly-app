@@ -3,7 +3,6 @@ beta_settings:
   cloud_sql_instances: scioly-apps:us-central1:apps
 env_variables:
   INSTANCE_CONNECTION_NAME: scioly-apps:us-central1:apps
-  END: 'true'
 handlers:
 - url: /.*
   script: auto

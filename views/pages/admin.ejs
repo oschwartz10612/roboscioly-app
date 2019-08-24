@@ -25,7 +25,7 @@
 
   <div class="container">
 
-    <h3>Team Apps:</h3>
+    <h3>Team Apps Submmissions:</h3>
     <hr>
 
     <form class="form-inline mb-4">
@@ -59,6 +59,23 @@
     <button id="download-xlsx" class="btn btn-primary mt-4">Download XSLX</button>
     <button id="show-text" class="btn btn-danger mt-4">Show text</button>
 
+    <br><hr><br>
+
+    <div class="alert alert-success collapse" role="alert" id="sucsess">
+      Successfully saved data!
+    </div>
+    <h3>Settings:</h3>
+
+    <p>Application State:</p>
+    <input type="button" value="Close Application" class="btn btn-danger" onClick="closeApp()">
+    <input type="button" value="Open Application" class="btn btn-success" onClick="openApp()">
+
+    <hr>
+
+    <p>Collect email on index page:</p>
+    <input type="button" value="Close Collect Email Dialog" class="btn btn-danger" onClick="closeCollectEmail()">
+    <input type="button" value="Open Collect Email Dialog" class="btn btn-success" onClick="openCollectEmail()">
+
     <footer class="container">
     <hr>
     <p>&copy; Robinson Science Olympiad 2019-2020</p>
@@ -67,6 +84,51 @@
 </html>
 
 <script>
+
+  function closeApp() {
+    $.get( "/admin/api/closeApp", function( data ) {
+      if (data == 'done') {
+        $('#sucsess').show();
+           $(".alert").delay(4000).slideUp(200, function() {
+              $(this).hide();
+        });
+      }
+    });
+  }
+
+  function openApp() {
+    $.get( "/admin/api/openApp", function( data ) {
+      if (data == 'done') {
+        $('#sucsess').show();
+           $(".alert").delay(4000).slideUp(200, function() {
+              $(this).hide();
+        });
+      }
+    });
+  }
+
+    function closeCollectEmail() {
+    $.get( "/admin/api/closeCollectEmail", function( data ) {
+      if (data == 'done') {
+        $('#sucsess').show();
+           $(".alert").delay(4000).slideUp(200, function() {
+              $(this).hide();
+        });
+      }
+    });
+  }
+
+  function openCollectEmail() {
+    $.get( "/admin/api/openCollectEmail", function( data ) {
+      if (data == 'done') {
+        $('#sucsess').show();
+           $(".alert").delay(4000).slideUp(200, function() {
+              $(this).hide();
+        });
+      }
+    });
+  }
+
   let textareas = ["textarea","textarea1","textarea2","textarea3","textarea4","textarea5","textarea6","textarea7","textarea_rec"];
   $.ajax({
     url: "/admin/api/getcolumns",
