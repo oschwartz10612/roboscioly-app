@@ -62,25 +62,30 @@ router.get('/api/getcolumns', authCheck, function(req, res) {
 });
 
 router.get('/api/closeApp', authCheck, function(req, res) {
-  global.END = 'true';
+  let sql = `UPDATE variables SET state = 'true' WHERE name = 'application'`;
+  mysql.query(sql, (err, result) => { if (err) throw err; });
+  global.END = true;
   res.send('done');
 });
 
 router.get('/api/openApp', authCheck, function(req, res) {
-  global.END = 'false';
+  let sql = `UPDATE variables SET state = 'false' WHERE name = 'application'`;
+  mysql.query(sql, (err, result) => { if (err) throw err; });
+  global.END = false;
   res.send('done');
 });
 
 router.get('/api/closeCollectEmail', authCheck, function(req, res) {
-  global.collectEmail = 'false';
-  console.log(global.collectEmail);
-  
+  let sql = `UPDATE variables SET state = 'false' WHERE name = 'collectEmail'`;
+  mysql.query(sql, (err, result) => { if (err) throw err; });
+  global.collectEmail = false;
   res.send('done');
 });
 
 router.get('/api/openCollectEmail', authCheck, function(req, res) {
-  global.collectEmail = 'true';
-  console.log(global.collectEmail);
+  let sql = `UPDATE variables SET state = 'true' WHERE name = 'collectEmail'`;
+  mysql.query(sql, (err, result) => { if (err) throw err; });
+  global.collectEmail = true;
   res.send('done');
 });
 
