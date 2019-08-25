@@ -22,8 +22,7 @@ mysql.query(sql, (err, result) => {
     global.END = result[0].state;
   }
 });
-
-var sql = `SELECT * FROM variables WHERE name = 'collectEmail'`;
+sql = `SELECT * FROM variables WHERE name = 'collectEmail'`;
 mysql.query(sql, (err, result) => {
   if (err) throw err;
   if (result[0] != null) {
