@@ -15,21 +15,6 @@ app.use(cookieSession({
   keys: [keys.session.cookieKey]
 }));
 
-var sql = `SELECT * FROM variables WHERE name = 'application'`;
-mysql.query(sql, (err, result) => {
-  if (err) throw err;
-  if (result[0] != null) {
-    global.END = result[0].state;
-  }
-});
-sql = `SELECT * FROM variables WHERE name = 'collectEmail'`;
-mysql.query(sql, (err, result) => {
-  if (err) throw err;
-  if (result[0] != null) {
-    global.collectEmail = result[0].state;
-  }
-});
-
 app.use(passport.initialize());
 app.use(passport.session());
 
@@ -70,3 +55,18 @@ app.post('/emails', express.urlencoded({ extended: true }), function(req, res) {
 });
 
 app.listen(keys.env.port);
+
+  var sql = `SELECT * FROM variables WHERE name = 'application'`;
+  mysql.query(sql, (err, result) => {
+    if (err) throw err;
+    if (result[0] != null) {
+      global.END = result[0].state;
+    }
+  });
+  sql = `SELECT * FROM variables WHERE name = 'collectEmail'`;
+  mysql.query(sql, (err, result) => {
+    if (err) throw err;
+    if (result[0] != null) {
+      global.collectEmail = result[0].state;
+    }
+  });

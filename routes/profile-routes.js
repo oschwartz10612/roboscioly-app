@@ -11,7 +11,7 @@ const authCheck = function(req, res, next) {
 };
 
 const endCheck = function(req, res, next) {
-  if (global.END) {
+  if (global.END == 'yes') {
     res.redirect('/timesup');
   }
   else {

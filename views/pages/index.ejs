@@ -66,13 +66,13 @@
       
     <div class="container">
 
-    <% if (end) { %>
+    <% if (end == 'yes') { %>
       <div class="alert alert-info" role="alert">
         Applications have closed!
       </div>
     <% } %>
 
-      <% if (collectEmail) { %>
+      <% if (collectEmail == 'yes') { %>
       <div class="alert alert-success collapse" role="alert" id="sucsess">
         Thank you for your interest!
       </div>

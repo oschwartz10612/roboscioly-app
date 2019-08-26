@@ -62,33 +62,31 @@ router.get('/api/getcolumns', authCheck, function(req, res) {
 });
 
 router.get('/api/closeApp', authCheck, function(req, res) {
-  let sql = `UPDATE variables SET state = 'true' WHERE name = 'application'`;
+  let sql = `UPDATE variables SET state = 'yes' WHERE name = 'application'`;
   mysql.query(sql, (err) => { if (err) throw err; });
-  global.END = true;
+  global.END = 'yes';
   res.send('done');
 });
 
 router.get('/api/openApp', authCheck, function(req, res) {
-  let sql = `UPDATE variables SET state = 'false' WHERE name = 'application'`;
+  let sql = `UPDATE variables SET state = 'no' WHERE name = 'application'`;
   mysql.query(sql, (err) => { if (err) throw err; });
-  global.END = false;
+  global.END = 'no';
   res.send('done');
 });
 
 router.get('/api/closeCollectEmail', authCheck, function(req, res) {
-  let sql = `UPDATE variables SET state = 'false' WHERE name = 'collectEmail'`;
+  let sql = `UPDATE variables SET state = 'no' WHERE name = 'collectEmail'`;
   mysql.query(sql, (err) => { if (err) throw err; });
-  global.collectEmail = false;
+  global.collectEmail = 'no';
   res.send('done');
 });
 
 router.get('/api/openCollectEmail', authCheck, function(req, res) {
-  let sql = `UPDATE variables SET state = 'true' WHERE name = 'collectEmail'`;
+  let sql = `UPDATE variables SET state = 'yes' WHERE name = 'collectEmail'`;
   mysql.query(sql, (err) => { if (err) throw err; });
-  global.collectEmail = true;
+  global.collectEmail = 'yes';
   res.send('done');
 });
-
-
 
 module.exports = router;
