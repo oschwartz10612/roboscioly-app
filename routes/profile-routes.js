@@ -20,40 +20,44 @@ const endCheck = function(req, res, next) {
 };
 
 router.get('/apply', authCheck, endCheck, function(req, res) {
-  let sql = 'SELECT * FROM team WHERE user_id = ?';
-  mysql.query(sql, req.user.user_id, (err, result) => {
-      if (err) throw err;
-      if (result[0] != null) {
-        var data = result[0];
-        delete data.user_id;
 
-        let sql = 'SELECT * FROM teachers WHERE department = ?; SELECT * FROM teachers WHERE department = ?';
-        mysql.query(sql, ["math","science"], (err, result) => {  
-          if (err) throw err;
-          var mathTeachers = result[0];
-          var scienceTeachers = result[1];
+  let sql = 'SELECT * FROM teachers WHERE department = ?; SELECT * FROM teachers WHERE department = ?';
+  mysql.query(sql, ["math","science"], (err, result) => {  
+    if (err) throw err;
+    var mathTeachers = result[0];
+    var scienceTeachers = result[1];
 
-          if (data.final == "final") {
-            res.render('pages/submitted', {
-              user: req.user
-            });
-          } else { 
-            res.render('pages/application', {
-              user: req.user,
-              data: data,
-              mathTeachers: mathTeachers,
-              scienceTeachers: scienceTeachers,
-              app: true
-            });
-          }
-        });
-      } else {
-        res.render('pages/application', {
-          user: req.user,
-          app: true
-        });
-      }
-    });
+    let sql = 'SELECT * FROM team WHERE user_id = ?';
+    mysql.query(sql, req.user.user_id, (err, result) => {
+        if (err) throw err;
+        if (result[0] != null) {
+          var data = result[0];
+          delete data.user_id;
+
+            if (data.final == "final") {
+              res.render('pages/submitted', {
+                user: req.user
+              });
+            } else { 
+              res.render('pages/application', {
+                user: req.user,
+                data: data,
+                mathTeachers: mathTeachers,
+                scienceTeachers: scienceTeachers,
+                app: true
+              });
+            }
+
+        } else {
+          res.render('pages/application', {
+            user: req.user,
+            app: true,
+            mathTeachers: mathTeachers,
+            scienceTeachers: scienceTeachers
+          });
+        }
+      });
+  });
 });
 
 router.get('/recommendations', authCheck, function(req, res) {
