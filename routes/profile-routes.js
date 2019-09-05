@@ -1,6 +1,8 @@
 const router = require('express').Router();
 const express = require('express');
 const mysql = require('../config/mysql');
+const nodemailer = require('nodemailer');
+const keys = require('../keys.js');
 
 const authCheck = function(req, res, next) {
   if (!req.user) {
@@ -141,7 +143,46 @@ router.post('/form', express.urlencoded({ extended: true }), function(req, res) 
     });
   }
   });
-    res.json({success : "Updated Successfully", status : 200});
+
+  if (req.body.final == 'final') {
+    var transporter = nodemailer.createTransport({
+      service: 'gmail',
+      auth: {
+             user: keys.email.user,
+             pass: keys.email.pass
+         }
+    });
+
+    var recipient;
+    if (req.body.math_teacher != 'None') {
+      recipient = req.body.math_teacher.split('@')[0] + '@fcps.edu';
+    } else if(req.body.science_teacher != 'None') {
+      recipient = req.body.science_teacher.split('@')[0] + '@fcps.edu';
+    } else {
+      recipient = 'apply@roboscienceolympiad.org';
+    }
+    
+    const mailOptions = {
+      from: {
+        name: 'Science Olympiad Recommendations',
+        address: 'apply@roboscienceolympiad.org'
+      },
+      to: recipient,
+      subject: req.body.name + ' Has Requested a Recommendation',
+      html: 
+      `<p>Hello,</p>
+      <p>This is a notification that ${req.body.name} has requested a Science Olympiad recommendation from you.</p>
+      <p>When it is a convenient time, please complete this brief form at <a href="apply.roboscienceolympiad.org">apply.roboscienceolympiad.org</a>.&nbsp;<strong> Log in with your fcpsschools.net email address.</strong>&nbsp;</p>
+      <p>Regards,</p>
+      <p>The Science Olympiad Team</p>`
+    };
+  
+    transporter.sendMail(mailOptions, function (err, info) {
+      if(err) console.log(err)
+    });
+  }
+
+  res.json({success : "Updated Successfully", status : 200});
 });
 
 router.post('/rec_form', express.urlencoded({ extended: true }), function(req, res) {
