@@ -2,7 +2,6 @@ const router = require('express').Router();
 const express = require('express');
 const mysql = require('../config/mysql');
 const nodemailer = require('nodemailer');
-const keys = require('../keys.js');
 
 const authCheck = function(req, res, next) {
   if (!req.user) {
@@ -145,6 +144,8 @@ router.post('/form', express.urlencoded({ extended: true }), function(req, res) 
   });
 
   if (req.body.final == 'final') {
+    const keys = require('../keys.js');
+    
     var transporter = nodemailer.createTransport({
       service: 'gmail',
       auth: {
@@ -178,7 +179,8 @@ router.post('/form', express.urlencoded({ extended: true }), function(req, res) 
     };
   
     transporter.sendMail(mailOptions, function (err, info) {
-      if(err) console.log(err)
+      if(err) console.log(err);
+      if (info) console.log(info);
     });
   }
 
