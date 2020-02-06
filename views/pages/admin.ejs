@@ -24,6 +24,13 @@
   <% include ../partials/navbar %>
 
   <div class="container">
+    <div class="alert alert-success collapse" role="alert" id="sucsess">
+        Successfully saved data!
+</div>
+
+    <div class="alert alert-danger collapse" role="alert" id="error">
+        There was an error!
+    </div>
 
     <h3>Team Apps Submmissions:</h3>
     <hr>
@@ -56,16 +63,19 @@
     <div id="team-table-textarea"></div>
 
     <button id="download-csv" class="btn btn-primary mt-4">Download CSV</button>
-    <button id="download-xlsx" class="btn btn-primary mt-4">Download XSLX</button>
     <button id="show-text" class="btn btn-danger mt-4">Show text</button>
 
     <br><hr><br>
 
-    <div class="alert alert-success collapse" role="alert" id="sucsess">
-      Successfully saved data!
-    </div>
-    <h3>Settings:</h3>
+    <h3>Teachers:</h3>
+    <hr>
+    <button class="btn btn-success mb-4" id="add-row">Add Teacher</button>
+    <div id="teacher-table"></div>
 
+    <br><br>
+
+    <h3>Settings:</h3>
+    <hr>
     <p>Application State:</p>
     <input type="button" value="Close Application" class="btn btn-danger" onClick="closeApp()">
     <input type="button" value="Open Application" class="btn btn-success" onClick="openApp()">
@@ -146,13 +156,22 @@
           columns.push({
             title: element,
             field: element,
-            width: 200
+            width: 200,
+            editor:"textarea"
           });
         } else {
-          columns.push({
-            title: element,
-            field: element
-          }); 
+          if(element == 'user_id') {
+            columns.push({
+              title: element,
+              field: element
+            }); 
+          } else {
+            columns.push({
+              title: element,
+              field: element,
+              editor:"input"
+            }); 
+          }
         }
       }
       buildTable(columns, rawColumns);
@@ -174,7 +193,29 @@
         paginationSize:20,
         paginationSizeSelector:[20, 30, 40, 50],
         tooltips:true,
-        columns: columns
+        columns: columns,
+        cellEdited:function(cell){
+         // This callback is called any time a cell is edited.
+
+         $.ajax({
+           url: "/admin/api/update_sql",
+           data: cell.getRow().getData(),
+           type: "post",
+           success: function(response, textStatus, xhr){
+            $('#sucsess').show();
+              $(".alert").delay(4000).slideUp(200, function() {
+                  $(this).hide();
+            });
+           },
+           error: function(XMLHttpRequest, textStatus, error){
+            $('#error').show();
+              $(".alert").delay(4000).slideUp(200, function() {
+                  $(this).hide();
+            });
+           }
+         })
+
+       }
     });
     $("#show-text").click(function(){
     let columns = [];
@@ -212,9 +253,6 @@
     table.download("csv", "data.csv");
   });
 
-  $("#download-xlsx").click(function(){
-      table.download("xlsx", "data.xlsx", {sheetName:"My Data"});
-  });
   //Update filters on value change
   $("#filter-field, #filter-type").change(updateFilter);
   $("#filter-value").keyup(updateFilter);
@@ -241,6 +279,45 @@
       }
 
       table.setFilter(filter, $("#filter-type").val(), $("#filter-value").val());
+      
   }
   }
+
+  var teacher_columns = [{title: "ID", field: "id"}, {title: "Email", field: "email", editor:"input"}, {title: "Name", field: "name", editor:"input"}, {title: "Department", field: "department", editor:"select", editorParams:{"science":"science", "math":"math"}}];
+
+  var teachers = new Tabulator("#teacher-table", {
+        ajaxURL:"/admin/api/teacher_data", 
+        height:"800px",
+        pagination:"local",
+        layout:"fitDataFill",
+        paginationSize:20,
+        paginationSizeSelector:[20, 30, 40, 50],
+        tooltips:true,
+        columns: teacher_columns,
+        cellEdited:function(cell){
+         // This callback is called any time a cell is edited.
+
+         $.ajax({
+           url: "/admin/api/update_sql_teachers",
+           data: cell.getRow().getData(),
+           type: "post",
+           success: function(response, textStatus, xhr){
+            $('#sucsess').show();
+              $(".alert").delay(4000).slideUp(200, function() {
+                  $(this).hide();
+            });
+           },
+           error: function(XMLHttpRequest, textStatus, error){
+            $('#error').show();
+              $(".alert").delay(4000).slideUp(200, function() {
+                  $(this).hide();
+            });
+           }
+         })
+
+       }
+    });
+    $("#add-row").click(function(){
+    teachers.addRow({id: "new"});
+    });
 </script>
