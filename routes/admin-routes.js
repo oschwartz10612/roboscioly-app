@@ -89,6 +89,37 @@ router.get('/api/openApp', authCheck, function(req, res) {
   res.send('done');
 });
 
+router.get('/api/closeMain', authCheck, function(req, res) {
+  let sql = `UPDATE variables SET state = 'yes' WHERE name = 'mainAppView'`;
+  mysql.query(sql, (err) => { if (err) throw err; });
+  global.mainAppView = 'yes';
+  res.send('done');
+});
+
+router.get('/api/openMain', authCheck, function(req, res) {
+  let sql = `UPDATE variables SET state = 'no' WHERE name = 'mainAppView'`;
+  mysql.query(sql, (err) => { if (err) throw err; });
+  global.mainAppView = 'no';
+  res.send('done');
+});
+
+router.get('/api/closeOfficer', authCheck, function(req, res) {
+  let sql = `UPDATE variables SET state = 'yes' WHERE name = 'officerAppView'`;
+  mysql.query(sql, (err) => { if (err) throw err; });
+  global.officerAppView = 'yes';
+  res.send('done');
+});
+
+router.get('/api/openOfficer', authCheck, function(req, res) {
+  let sql = `UPDATE variables SET state = 'no' WHERE name = 'officerAppView'`;
+  mysql.query(sql, (err) => { if (err) throw err; });
+  global.officerAppView = 'no';
+  res.send('done');
+});
+
+
+
+
 router.get('/api/closeCollectEmail', authCheck, function(req, res) {
   let sql = `UPDATE variables SET state = 'no' WHERE name = 'collectEmail'`;
   mysql.query(sql, (err) => { if (err) throw err; });
@@ -183,6 +214,38 @@ router.post('/api/update_sql_teachers', authCheck, express.urlencoded({ extended
     });
   }
 
+
+  res.json({success : "Updated Successfully", status : 200});
+});
+
+router.post('/api/deleteTeachers', authCheck, express.urlencoded({ extended: true }), function(req, res) {
+  const table = "teachers";
+
+  console.log(req.body.ids);
+  
+  req.body.ids.forEach(id => {
+    let sql = 'DELETE FROM ' + table + ' WHERE ID = ?';
+    mysql.query(sql, id, (err, result) => {
+    if (err) throw err;
+    if (result[0] != null) { }
+    });
+  });
+
+  res.json({success : "Updated Successfully", status : 200});
+});
+
+router.post('/api/deleteTeam', authCheck, express.urlencoded({ extended: true }), function(req, res) {
+  const table = "team";
+
+  console.log(req.body.ids);
+  
+  req.body.ids.forEach(id => {
+    let sql = 'DELETE FROM ' + table + ' WHERE user_id = ?';
+    mysql.query(sql, id, (err, result) => {
+    if (err) throw err;
+    if (result[0] != null) { }
+    });
+  });
 
   res.json({success : "Updated Successfully", status : 200});
 });
