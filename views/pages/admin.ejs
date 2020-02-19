@@ -71,12 +71,21 @@
 
     <h3>Teachers:</h3>
     <hr>
+    <div id="officer-table"></div>
+    <button id="download-csv-officers" class="btn btn-primary mt-4">Download CSV</button>
+    <button class="btn btn-danger mt-4" id="selectAllOfficers">Select all rows</button>
+    <button class="btn btn-danger mt-4" onclick="deleteOfficerRows()">Delete Selected Rows</button>
+
+    <br><hr><br>
+
+    <h3>Teachers:</h3>
+    <hr>
     <button class="btn btn-success mb-4" id="add-row">Add Teacher</button>
     <div id="teacher-table"></div>
     <button class="btn btn-danger mt-4" id="selectAllTeachers">Select all rows</button>
     <button class="btn btn-danger mt-4" onclick="deleteTeacherRows()">Delete Selected Rows</button>
 
-    <br><br>
+    <br><hr><br>
 
     <h3>Settings:</h3>
     <hr>
@@ -358,6 +367,7 @@
           appDeleteRows.forEach(row => {
             row.delete()
           })
+          appDeleteData = [];
         },
         error: function(XMLHttpRequest, textStatus, error){
           $('#error').show();
@@ -441,6 +451,7 @@
             teacherDeleteRows.forEach(row => {
               row.delete()
             })
+            teacherDeleteData = [];
            },
            error: function(XMLHttpRequest, textStatus, error){
             $('#error').show();
@@ -451,7 +462,133 @@
          })
       } else {
         alert('Please select some rows')
-      }
-      
+      } 
     }
+
+
+
+  let officerTextareas = ["textarea","textarea1","textarea2","textarea3","textarea4"];
+  var officerDeleteData;
+  var officerDeleteRows;
+  $.ajax({
+    url: "/admin/api/getofficercolumns",
+    cache: false,
+    success: function(result) {
+      let rawColumns = [];
+      let columns = [];
+      for (let i = 0; i < result.length; i++) {
+        const element = result[i];
+        rawColumns.push(element.column_name);
+      }
+      for (let i = 0; i < rawColumns.length; i++) {
+        const element = rawColumns[i];
+        if (element.includes("textarea")) {
+          columns.push({
+            title: element,
+            field: element,
+            width: 200,
+            editor:"textarea"
+          });
+        } else {
+          if(element == 'user_id') {
+            columns.push({
+              title: element,
+              field: element
+            }); 
+          } else {
+            columns.push({
+              title: element,
+              field: element,
+              editor:"input"
+            }); 
+          }
+        }
+      }
+      buildOfficerTable(columns, rawColumns);
+    }
+  });
+
+
+  function buildOfficerTable(columns, rawColumns) {
+
+    var table = new Tabulator("#officer-table", {
+        ajaxURL:"/admin/api/allofficerdata", 
+        height:"800px",
+        pagination:"local",
+        layout:"fitDataFill",
+        selectable:true,
+        paginationSize:20,
+        paginationSizeSelector:[20, 30, 40, 50],
+        tooltips:true,
+        columns: columns,
+        cellEdited:function(cell){
+         // This callback is called any time a cell is edited.
+
+         $.ajax({
+           url: "/admin/api/update_officer_sql",
+           data: cell.getRow().getData(),
+           type: "post",
+           success: function(response, textStatus, xhr){
+            $('#sucsess').show();
+              $(".alert").delay(4000).slideUp(200, function() {
+                  $(this).hide();
+            });
+           },
+           error: function(XMLHttpRequest, textStatus, error){
+            $('#error').show();
+              $(".alert").delay(4000).slideUp(200, function() {
+                  $(this).hide();
+            });
+           }
+         })
+
+       },
+      rowSelectionChanged:function(data, rows) {
+        officerDeleteData = data;
+        officerDeleteRows = rows;
+      },
+    });
+    $("#selectAllOfficers").click(function() {
+      table.selectRow();
+    })
+    $("#download-csv-officers").click(function(){
+      table.download("csv", "data.csv");
+    });
+  }
+
+  function deleteOfficerRows() {
+
+    if (officerDeleteData.length != 0) {
+
+      var data = [];
+
+      officerDeleteData.forEach(row => {
+        data.push(row.user_id)
+      });
+
+      $.ajax({
+        url: "/admin/api/deleteOfficers",
+        data: {ids: data},
+        type: "post",
+        success: function(response, textStatus, xhr){
+          $('#sucsess').show();
+            $(".alert").delay(4000).slideUp(200, function() {
+                $(this).hide();
+          });
+          officerDeleteRows.forEach(row => {
+            row.delete()
+          })
+          officerDeleteData = [];
+        },
+        error: function(XMLHttpRequest, textStatus, error){
+          $('#error').show();
+            $(".alert").delay(4000).slideUp(200, function() {
+                $(this).hide();
+          });
+        }
+      })
+    } else {
+      alert('Please select some rows')
+    } 
+  }
 </script>
