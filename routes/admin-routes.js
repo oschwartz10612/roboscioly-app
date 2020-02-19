@@ -255,7 +255,6 @@ router.post('/api/update_sql_teachers', authCheck, express.urlencoded({ extended
   let sql = 'SELECT * FROM ' + table + ' WHERE ID = ?';
   mysql.query(sql, id, (err, result) => {
   if (err) throw err;
-  if (result[0] != null) { }
 
     let sql = 'UPDATE ' + table + ' SET ';
     for (var i = 0; i < keys.length - 1; i++) {
@@ -293,8 +292,7 @@ router.post('/api/deleteTeachers', authCheck, express.urlencoded({ extended: tru
   req.body.ids.forEach(id => {
     let sql = 'DELETE FROM ' + table + ' WHERE ID = ?';
     mysql.query(sql, id, (err, result) => {
-    if (err) throw err;
-    if (result[0] != null) { }
+      if (err) throw err;
     });
   });
 
@@ -309,8 +307,7 @@ router.post('/api/deleteOfficers', authCheck, express.urlencoded({ extended: tru
   req.body.ids.forEach(id => {
     let sql = 'DELETE FROM ' + table + ' WHERE user_id = ?';
     mysql.query(sql, id, (err, result) => {
-    if (err) throw err;
-    if (result[0] != null) { }
+      if (err) throw err;
     });
   });
 
@@ -325,8 +322,7 @@ router.post('/api/deleteTeam', authCheck, express.urlencoded({ extended: true })
   req.body.ids.forEach(id => {
     let sql = 'DELETE FROM ' + table + ' WHERE user_id = ?';
     mysql.query(sql, id, (err, result) => {
-    if (err) throw err;
-    if (result[0] != null) { }
+      if (err) throw err;
     });
   });
 
