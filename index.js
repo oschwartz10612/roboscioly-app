@@ -54,19 +54,43 @@ app.post('/emails', express.urlencoded({ extended: true }), function(req, res) {
   res.json({success : "Updated Successfully", status : 200});
 });
 
+app.use(function (req, res, next) {
+  res.locals = {
+    mainAppView: global.mainAppView,
+    officerAppView: global.officerAppView
+  };
+  next();
+});
+
+
 app.listen(keys.env.port);
 
-  var sql = `SELECT * FROM variables WHERE name = 'application'`;
-  mysql.query(sql, (err, result) => {
-    if (err) throw err;
-    if (result[0] != null) {
-      global.END = result[0].state;
-    }
-  });
-  sql = `SELECT * FROM variables WHERE name = 'collectEmail'`;
-  mysql.query(sql, (err, result) => {
-    if (err) throw err;
-    if (result[0] != null) {
-      global.collectEmail = result[0].state;
-    }
-  });
+var sql = `SELECT * FROM variables WHERE name = 'application'`;
+mysql.query(sql, (err, result) => {
+  if (err) throw err;
+  if (result[0] != null) {
+    global.END = result[0].state;
+  }
+});
+sql = `SELECT * FROM variables WHERE name = 'collectEmail'`;
+mysql.query(sql, (err, result) => {
+  if (err) throw err;
+  if (result[0] != null) {
+    global.collectEmail = result[0].state;
+  }
+});
+sql = `SELECT * FROM variables WHERE name = 'mainAppView'`;
+mysql.query(sql, (err, result) => {
+  if (err) throw err;
+  if (result[0] != null) {
+    global.mainAppView = result[0].state;
+  }
+});
+sql = `SELECT * FROM variables WHERE name = 'officerAppView'`;
+mysql.query(sql, (err, result) => {
+  if (err) throw err;
+  if (result[0] != null) {
+    global.officerAppView = result[0].state;
+  }
+});
+

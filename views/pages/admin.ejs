@@ -24,6 +24,13 @@
   <% include ../partials/navbar %>
 
   <div class="container">
+    <div class="alert alert-success collapse" role="alert" id="sucsess">
+        Successfully saved data!
+</div>
+
+    <div class="alert alert-danger collapse" role="alert" id="error">
+        There was an error!
+    </div>
 
     <h3>Team Apps Submmissions:</h3>
     <hr>
@@ -56,19 +63,47 @@
     <div id="team-table-textarea"></div>
 
     <button id="download-csv" class="btn btn-primary mt-4">Download CSV</button>
-    <button id="download-xlsx" class="btn btn-primary mt-4">Download XSLX</button>
-    <button id="show-text" class="btn btn-danger mt-4">Show text</button>
+    <button id="show-text" class="btn btn-warning mt-4">Show text</button>
+    <button class="btn btn-danger mt-4" id="selectAll">Select all rows</button>
+    <button class="btn btn-danger mt-4" onclick="deleteAppRows()">Delete Selected Rows</button>
 
     <br><hr><br>
 
-    <div class="alert alert-success collapse" role="alert" id="sucsess">
-      Successfully saved data!
-    </div>
-    <h3>Settings:</h3>
+    <h3>Teachers:</h3>
+    <hr>
+    <div id="officer-table"></div>
+    <button id="download-csv-officers" class="btn btn-primary mt-4">Download CSV</button>
+    <button class="btn btn-danger mt-4" id="selectAllOfficers">Select all rows</button>
+    <button class="btn btn-danger mt-4" onclick="deleteOfficerRows()">Delete Selected Rows</button>
 
+    <br><hr><br>
+
+    <h3>Teachers:</h3>
+    <hr>
+    <button class="btn btn-success mb-4" id="add-row">Add Teacher</button>
+    <div id="teacher-table"></div>
+    <button class="btn btn-danger mt-4" id="selectAllTeachers">Select all rows</button>
+    <button class="btn btn-danger mt-4" onclick="deleteTeacherRows()">Delete Selected Rows</button>
+
+    <br><hr><br>
+
+    <h3>Settings:</h3>
+    <hr>
     <p>Application State:</p>
-    <input type="button" value="Close Application" class="btn btn-danger" onClick="closeApp()">
-    <input type="button" value="Open Application" class="btn btn-success" onClick="openApp()">
+    <input type="button" value="Close All Applications" class="btn btn-danger" onClick="closeApp()"> 
+    <input type="button" value="Open All Applications" class="btn btn-success" onClick="openApp()">
+
+    <hr>
+
+    <p>Main App:</p>
+    <% if(mainAppView == 'no') { %> <input type="button" value="Close and Hide Main App" class="btn btn-danger" onClick="closeMain()">
+    <% } else { %> <input type="button" value="Open and Show Main App" class="btn btn-success" onClick="openMain()"> <% } %> 
+
+    <hr>
+
+    <p>Officer App:</p>
+    <% if(officerAppView == 'no') { %> <input type="button" value="Close and Hide Officer App" class="btn btn-danger" onClick="closeOfficer()">
+    <% } else { %> <input type="button" value="Open and Show Officer App" class="btn btn-success" onClick="openOfficer()"> <% } %> 
 
     <hr>
 
@@ -88,10 +123,7 @@
   function closeApp() {
     $.get( "/admin/api/closeApp", function( data ) {
       if (data == 'done') {
-        $('#sucsess').show();
-           $(".alert").delay(4000).slideUp(200, function() {
-              $(this).hide();
-        });
+        location.reload();
       }
     });
   }
@@ -99,10 +131,39 @@
   function openApp() {
     $.get( "/admin/api/openApp", function( data ) {
       if (data == 'done') {
-        $('#sucsess').show();
-           $(".alert").delay(4000).slideUp(200, function() {
-              $(this).hide();
-        });
+        location.reload();
+      }
+    });
+  }
+
+  function closeMain() {
+    $.get( "/admin/api/closeMain", function( data ) {
+      if (data == 'done') {
+        location.reload();
+      }
+    });
+  }
+
+  function openMain() {
+    $.get( "/admin/api/openMain", function( data ) {
+      if (data == 'done') {
+        location.reload();
+      }
+    });
+  }
+
+  function closeOfficer() {
+    $.get( "/admin/api/closeOfficer", function( data ) {
+      if (data == 'done') {
+        location.reload();
+      }
+    });
+  }
+
+  function openOfficer() {
+    $.get( "/admin/api/openOfficer", function( data ) {
+      if (data == 'done') {
+        location.reload();
       }
     });
   }
@@ -146,19 +207,30 @@
           columns.push({
             title: element,
             field: element,
-            width: 200
+            width: 200,
+            editor:"textarea"
           });
         } else {
-          columns.push({
-            title: element,
-            field: element
-          }); 
+          if(element == 'user_id') {
+            columns.push({
+              title: element,
+              field: element
+            }); 
+          } else {
+            columns.push({
+              title: element,
+              field: element,
+              editor:"input"
+            }); 
+          }
         }
       }
       buildTable(columns, rawColumns);
     }
   });
-
+  
+  var appDeleteData;
+  var appDeleteRows;
   function buildTable(columns, rawColumns) {
     let dropdown = $('#filter-field');
     for (let i = 0; i < rawColumns.length; i++) {
@@ -171,11 +243,42 @@
         height:"800px",
         pagination:"local",
         layout:"fitDataFill",
+        selectable:true,
         paginationSize:20,
         paginationSizeSelector:[20, 30, 40, 50],
         tooltips:true,
-        columns: columns
+        columns: columns,
+        cellEdited:function(cell){
+         // This callback is called any time a cell is edited.
+
+         $.ajax({
+           url: "/admin/api/update_sql",
+           data: cell.getRow().getData(),
+           type: "post",
+           success: function(response, textStatus, xhr){
+            $('#sucsess').show();
+              $(".alert").delay(4000).slideUp(200, function() {
+                  $(this).hide();
+            });
+           },
+           error: function(XMLHttpRequest, textStatus, error){
+            $('#error').show();
+              $(".alert").delay(4000).slideUp(200, function() {
+                  $(this).hide();
+            });
+           }
+         })
+
+       },
+      rowSelectionChanged:function(data, rows) {
+        appDeleteData = data;
+        appDeleteRows = rows;
+      },
     });
+    $("#selectAll").click(function() {
+      table.selectRow();
+    })
+
     $("#show-text").click(function(){
     let columns = [];
     let textareas = ["textarea","textarea1","textarea2","textarea3","textarea4","textarea5","textarea6","textarea7","textarea_rec"];
@@ -212,9 +315,6 @@
     table.download("csv", "data.csv");
   });
 
-  $("#download-xlsx").click(function(){
-      table.download("xlsx", "data.xlsx", {sheetName:"My Data"});
-  });
   //Update filters on value change
   $("#filter-field, #filter-type").change(updateFilter);
   $("#filter-value").keyup(updateFilter);
@@ -241,6 +341,254 @@
       }
 
       table.setFilter(filter, $("#filter-type").val(), $("#filter-value").val());
+      
   }
+  }
+
+  function deleteAppRows() {
+
+    if (appDeleteData.length != 0) {
+
+      var data = [];
+
+      appDeleteData.forEach(row => {
+        data.push(row.user_id)
+      });
+
+      $.ajax({
+        url: "/admin/api/deleteTeachers",
+        data: {ids: data},
+        type: "post",
+        success: function(response, textStatus, xhr){
+          $('#sucsess').show();
+            $(".alert").delay(4000).slideUp(200, function() {
+                $(this).hide();
+          });
+          appDeleteRows.forEach(row => {
+            row.delete()
+          })
+          appDeleteData = [];
+        },
+        error: function(XMLHttpRequest, textStatus, error){
+          $('#error').show();
+            $(".alert").delay(4000).slideUp(200, function() {
+                $(this).hide();
+          });
+        }
+      })
+    } else {
+      alert('Please select some rows')
+    }
+
+    }
+
+  var teacher_columns = [{title: "ID", field: "id"}, {title: "Email", field: "email", editor:"input"}, {title: "Name", field: "name", editor:"input"}, {title: "Department", field: "department", editor:"select", editorParams:{"science":"science", "math":"math"}}];
+  var teacherDeleteRows;
+  var teacherDeleteData;
+  var teachers = new Tabulator("#teacher-table", {
+        ajaxURL:"/admin/api/teacher_data", 
+        height:"800px",
+        pagination:"local",
+        layout:"fitDataFill",
+        paginationSize:20,
+        selectable:true,
+        paginationSizeSelector:[20, 30, 40, 50],
+        tooltips:true,
+        columns: teacher_columns,
+        cellEdited:function(cell){
+         // This callback is called any time a cell is edited.
+
+         $.ajax({
+           url: "/admin/api/update_sql_teachers",
+           data: cell.getRow().getData(),
+           type: "post",
+           success: function(response, textStatus, xhr){
+            $('#sucsess').show();
+              $(".alert").delay(4000).slideUp(200, function() {
+                  $(this).hide();
+            });
+           },
+           error: function(XMLHttpRequest, textStatus, error){
+            $('#error').show();
+              $(".alert").delay(4000).slideUp(200, function() {
+                  $(this).hide();
+            });
+           }
+         })
+
+       },
+       rowSelectionChanged:function(data, rows) {
+        teacherDeleteRows = rows;
+        teacherDeleteData = data;
+      }
+    });
+    $("#add-row").click(function(){
+    teachers.addRow({id: "new"});
+    });
+    $("#selectAllTeachers").click(function() {
+      teachers.selectRow();
+    })
+
+    function deleteTeacherRows() {
+
+      if (teacherDeleteData.length != 0) {
+
+        var data = [];
+
+        teacherDeleteData.forEach(row => {
+          data.push(row.id)
+        });
+
+        $.ajax({
+           url: "/admin/api/deleteTeachers",
+           data: {ids: data},
+           type: "post",
+           success: function(response, textStatus, xhr){
+            $('#sucsess').show();
+              $(".alert").delay(4000).slideUp(200, function() {
+                  $(this).hide();
+            });
+            teacherDeleteRows.forEach(row => {
+              row.delete()
+            })
+            teacherDeleteData = [];
+           },
+           error: function(XMLHttpRequest, textStatus, error){
+            $('#error').show();
+              $(".alert").delay(4000).slideUp(200, function() {
+                  $(this).hide();
+            });
+           }
+         })
+      } else {
+        alert('Please select some rows')
+      } 
+    }
+
+
+
+  let officerTextareas = ["textarea","textarea1","textarea2","textarea3","textarea4"];
+  var officerDeleteData;
+  var officerDeleteRows;
+  $.ajax({
+    url: "/admin/api/getofficercolumns",
+    cache: false,
+    success: function(result) {
+      let rawColumns = [];
+      let columns = [];
+      for (let i = 0; i < result.length; i++) {
+        const element = result[i];
+        rawColumns.push(element.column_name);
+      }
+      for (let i = 0; i < rawColumns.length; i++) {
+        const element = rawColumns[i];
+        if (element.includes("textarea")) {
+          columns.push({
+            title: element,
+            field: element,
+            width: 200,
+            editor:"textarea"
+          });
+        } else {
+          if(element == 'user_id') {
+            columns.push({
+              title: element,
+              field: element
+            }); 
+          } else {
+            columns.push({
+              title: element,
+              field: element,
+              editor:"input"
+            }); 
+          }
+        }
+      }
+      buildOfficerTable(columns, rawColumns);
+    }
+  });
+
+
+  function buildOfficerTable(columns, rawColumns) {
+
+    var table = new Tabulator("#officer-table", {
+        ajaxURL:"/admin/api/allofficerdata", 
+        height:"800px",
+        pagination:"local",
+        layout:"fitDataFill",
+        selectable:true,
+        paginationSize:20,
+        paginationSizeSelector:[20, 30, 40, 50],
+        tooltips:true,
+        columns: columns,
+        cellEdited:function(cell){
+         // This callback is called any time a cell is edited.
+
+         $.ajax({
+           url: "/admin/api/update_officer_sql",
+           data: cell.getRow().getData(),
+           type: "post",
+           success: function(response, textStatus, xhr){
+            $('#sucsess').show();
+              $(".alert").delay(4000).slideUp(200, function() {
+                  $(this).hide();
+            });
+           },
+           error: function(XMLHttpRequest, textStatus, error){
+            $('#error').show();
+              $(".alert").delay(4000).slideUp(200, function() {
+                  $(this).hide();
+            });
+           }
+         })
+
+       },
+      rowSelectionChanged:function(data, rows) {
+        officerDeleteData = data;
+        officerDeleteRows = rows;
+      },
+    });
+    $("#selectAllOfficers").click(function() {
+      table.selectRow();
+    })
+    $("#download-csv-officers").click(function(){
+      table.download("csv", "data.csv");
+    });
+  }
+
+  function deleteOfficerRows() {
+
+    if (officerDeleteData.length != 0) {
+
+      var data = [];
+
+      officerDeleteData.forEach(row => {
+        data.push(row.user_id)
+      });
+
+      $.ajax({
+        url: "/admin/api/deleteOfficers",
+        data: {ids: data},
+        type: "post",
+        success: function(response, textStatus, xhr){
+          $('#sucsess').show();
+            $(".alert").delay(4000).slideUp(200, function() {
+                $(this).hide();
+          });
+          officerDeleteRows.forEach(row => {
+            row.delete()
+          })
+          officerDeleteData = [];
+        },
+        error: function(XMLHttpRequest, textStatus, error){
+          $('#error').show();
+            $(".alert").delay(4000).slideUp(200, function() {
+                $(this).hide();
+          });
+        }
+      })
+    } else {
+      alert('Please select some rows')
+    } 
   }
 </script>

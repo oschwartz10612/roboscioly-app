@@ -20,7 +20,25 @@ const endCheck = function(req, res, next) {
   }
 };
 
-router.get('/apply', authCheck, endCheck, function(req, res) {
+const mainEndCheck = function(req, res, next) {
+  if (global.mainAppView == 'yes') {
+    res.redirect('/timesup');
+  }
+  else {
+    next();
+  }
+};
+
+const officerEndCheck = function(req, res, next) {
+  if (global.officerAppView == 'yes') {
+    res.redirect('/timesup');
+  }
+  else {
+    next();
+  }
+};
+
+router.get('/apply', authCheck, endCheck, mainEndCheck, function(req, res) {
 
   let sql = 'SELECT * FROM teachers WHERE department = ?; SELECT * FROM teachers WHERE department = ?';
   mysql.query(sql, ["math","science"], (err, result) => {  
@@ -84,7 +102,7 @@ router.get('/recommendations', authCheck, function(req, res) {
   }
 });
 
-router.get('/officer', authCheck, endCheck, function(req, res) {
+router.get('/officer', authCheck, endCheck, officerEndCheck, function(req, res) {
   let sql = 'SELECT * FROM officers WHERE user_id = ?';
   mysql.query(sql, req.user.user_id, (err, result) => {
       if (err) throw err;
@@ -92,11 +110,17 @@ router.get('/officer', authCheck, endCheck, function(req, res) {
         var data = result[0];
         delete data.user_id;
 
-        res.render('pages/officer', {
-          user: req.user,
-          data: data,
-          officer: true
-        });
+          if (data.final == "final") {
+            res.render('pages/submitted', {
+              user: req.user
+            });
+          } else {
+          res.render('pages/officer', {
+            user: req.user,
+            data: data,
+            officer: true
+          });
+        }
       } else {
         res.render('pages/officer', {
           user: req.user,
