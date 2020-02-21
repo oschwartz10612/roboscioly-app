@@ -267,6 +267,7 @@ router.post('/api/update_sql_teachers', authCheck, express.urlencoded({ extended
 
     mysql.query(sql, data, (err) => {
       if (err) throw err;
+      res.json({success : "Updated Successfully", status : 200});
     });
   });
 
@@ -275,19 +276,15 @@ router.post('/api/update_sql_teachers', authCheck, express.urlencoded({ extended
     //new submittion
     let submittion = req.body;
     let sql = 'INSERT INTO ' + table + ' SET ?';
-    mysql.query(sql, submittion, (err) => {
+    mysql.query(sql, submittion, (err, result) => {
       if (err) throw err;
+      res.json({success : "Added Successfully", status : 200, insertId: result.insertId});
     });
   }
-
-
-  res.json({success : "Updated Successfully", status : 200});
 });
 
 router.post('/api/deleteTeachers', authCheck, express.urlencoded({ extended: true }), function(req, res) {
   const table = "teachers";
-
-  console.log(req.body.ids);
   
   req.body.ids.forEach(id => {
     let sql = 'DELETE FROM ' + table + ' WHERE ID = ?';

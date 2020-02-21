@@ -136,8 +136,8 @@ function finalSubmit() {
           url:'/profile/form',
           type:'post',
           data:$('#mainform').serialize(),
-          success:function(){
-            location.reload();
+          success:function() {
+            location.reload(); //TODO: Page not reloading after submit
           }
       });
     }
