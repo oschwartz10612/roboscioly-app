@@ -42,13 +42,17 @@ router.get('/apply', authCheck, endCheck, mainEndCheck, function(req, res) {
 
   let sql = 'SELECT * FROM teachers WHERE department = ?; SELECT * FROM teachers WHERE department = ?';
   mysql.query(sql, ["math","science"], (err, result) => {  
-    if (err) throw err;
+    if (err) {
+      res.json({error : "SQL Error", status : 500});
+    }
     var mathTeachers = result[0];
     var scienceTeachers = result[1];
 
     let sql = 'SELECT * FROM team WHERE user_id = ?';
     mysql.query(sql, req.user.user_id, (err, result) => {
-        if (err) throw err;
+      if (err) {
+        res.json({error : "SQL Error", status : 500});
+      }
         if (result[0] != null) {
           var data = result[0];
           delete data.user_id;
@@ -81,11 +85,14 @@ router.get('/apply', authCheck, endCheck, mainEndCheck, function(req, res) {
 
 router.get('/recommendations', authCheck, function(req, res) {
   if (req.user.role == 'teacher') {
-    let sql = 'SELECT * FROM team WHERE math_teacher = ? OR science_teacher = ?';
-    mysql.query(sql, [req.user.email, req.user.email], (err, result) => {
+    let sql = 'SELECT * FROM team WHERE math_teacher = ? OR science_teacher = ?; SELECT * FROM officers WHERE math_teacher = ? OR science_teacher = ?';
+    mysql.query(sql, [req.user.email, req.user.email, req.user.email, req.user.email], (err, result) => {
+      if (err) {
+        res.json({error : "SQL Error", status : 500});
+      }
       if (result[0] != null) {
             res.render('pages/recommendations', {
-              data: result,
+              data: result[0].concat(result[1]),
               user: req.user,
               rec: true
             });
@@ -103,34 +110,57 @@ router.get('/recommendations', authCheck, function(req, res) {
 });
 
 router.get('/officer', authCheck, endCheck, officerEndCheck, function(req, res) {
-  let sql = 'SELECT * FROM officers WHERE user_id = ?';
-  mysql.query(sql, req.user.user_id, (err, result) => {
-      if (err) throw err;
-      if (result[0] != null) {
-        var data = result[0];
-        delete data.user_id;
+  var error = false;
 
-          if (data.final == "final") {
-            res.render('pages/submitted', {
-              user: req.user
+  let sql = 'SELECT * FROM teachers WHERE department = ?; SELECT * FROM teachers WHERE department = ?';
+  mysql.query(sql, ["math","science"], (err, result) => {  
+    if (err) {
+      console.log(err);
+      error = true;
+    }
+    var mathTeachers = result[0];
+    var scienceTeachers = result[1];
+
+    let sql = 'SELECT * FROM officers WHERE user_id = ?';
+    mysql.query(sql, req.user.user_id, (err, result) => {
+      if (err) {
+        console.log(err);
+        error = true;
+      }
+        if (result[0] != null) {
+          var data = result[0];
+          delete data.user_id;
+
+            if (data.final == "final") {
+              res.render('pages/submitted', {
+                user: req.user
+              });
+            } else {
+            res.render('pages/officer', {
+              user: req.user,
+              data: data,
+              officer: true,
+              mathTeachers: mathTeachers,
+              scienceTeachers: scienceTeachers
             });
-          } else {
+          }
+        } else {
           res.render('pages/officer', {
             user: req.user,
-            data: data,
-            officer: true
+            officer: true,
+            mathTeachers: mathTeachers,
+            scienceTeachers: scienceTeachers
           });
-        }
-      } else {
-        res.render('pages/officer', {
-          user: req.user,
-          officer: true
-        });
-    }
+      }
+    });
   });
+  if (error) {
+    res.json({error : "SQL Error", status : 500});
+  }
 });
 
 router.post('/form', express.urlencoded({ extended: true }), function(req, res) {
+  var error = false;
   const table = req.body.table;
   delete req.body.table;
   const values = Object.values(req.body);
@@ -139,7 +169,10 @@ router.post('/form', express.urlencoded({ extended: true }), function(req, res) 
   //Update table
   let sql = 'SELECT * FROM ' + table + ' WHERE user_id = ?';
   mysql.query(sql, req.user.user_id, (err, result) => {
-  if (err) throw err;
+    if (err) {
+      console.log(err);
+      error = true;
+    }
   if (result[0] != null) {
 
     let sql = 'UPDATE ' + table + ' SET ';
@@ -152,7 +185,10 @@ router.post('/form', express.urlencoded({ extended: true }), function(req, res) 
     data.push(req.user.user_id);
 
     mysql.query(sql, data, (err) => {
-      if (err) throw err;
+      if (err) {
+        console.log(err);
+        error = true;
+      }
     });
   } else {
 
@@ -162,7 +198,10 @@ router.post('/form', express.urlencoded({ extended: true }), function(req, res) 
 
     let sql = 'INSERT INTO ' + table + ' SET ?';
     mysql.query(sql, submittion, (err) => {
-      if (err) throw err;
+      if (err) {
+        console.log(err);
+        error = true;
+      }
     });
   }
   });
@@ -208,10 +247,15 @@ router.post('/form', express.urlencoded({ extended: true }), function(req, res) 
     });
   }
 
-  res.json({success : "Updated Successfully", status : 200});
+  if (error) {
+    res.json({error : "SQL Error", status : 500});
+  } else {
+    res.json({success : "Updated Successfully", status : 200});
+  }
 });
 
 router.post('/rec_form', express.urlencoded({ extended: true }), function(req, res) {
+  var error = false;
   const table = req.body.table;
   const student_id = req.body.student_id;
   delete req.body.table;
@@ -222,7 +266,10 @@ router.post('/rec_form', express.urlencoded({ extended: true }), function(req, r
   //Update table
   let sql = 'SELECT * FROM ' + table + ' WHERE user_id = ?';
   mysql.query(sql, student_id, (err, result) => {
-  if (err) throw err;
+    if (err) {
+      console.log(err);
+      error = true;
+    }
   if (result[0] != null) {
 
     let sql = 'UPDATE ' + table + ' SET ';
@@ -235,7 +282,10 @@ router.post('/rec_form', express.urlencoded({ extended: true }), function(req, r
     data.push(student_id);
 
     mysql.query(sql, data, (err) => {
-      if (err) throw err;
+      if (err) {
+        console.log(err);
+        error = true;
+      }
     });
   } else {
 
@@ -245,11 +295,18 @@ router.post('/rec_form', express.urlencoded({ extended: true }), function(req, r
 
     let sql = 'INSERT INTO ' + table + ' SET ?';
     mysql.query(sql, submittion, (err) => {
-      if (err) throw err;
+      if (err) {
+        console.log(err);
+        error = true;
+      }
     });
   }
   });
+  if (error) {
+    res.json({error : "SQL Error", status : 500});
+  } else {
     res.json({success : "Updated Successfully", status : 200});
+  }
 });
 
 module.exports = router;

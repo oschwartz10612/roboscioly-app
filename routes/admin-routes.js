@@ -312,48 +312,68 @@ router.post('/api/update_sql_teachers', authCheck, express.urlencoded({ extended
 
 router.post('/api/deleteTeachers', authCheck, express.urlencoded({ extended: true }), function(req, res) {
   const table = "teachers";
+  var error = false;
   
   req.body.ids.forEach(id => {
     let sql = 'DELETE FROM ' + table + ' WHERE ID = ?';
     mysql.query(sql, id, (err) => {
-      if (err) {
-        res.json({error : "SQL Error", status : 500});
-      } else {
-        res.json({success : "Updated Successfully", status : 200});
+      if(err) {
+        console.log(err);
+        error = true;
       }
     });
   });
-
+  if (error) {
+    res.json({error : "SQL Error", status : 500});
+  } else {
+    res.json({success : "Updated Successfully", status : 200});
+  }
 });
 
 router.post('/api/deleteOfficers', authCheck, express.urlencoded({ extended: true }), function(req, res) {
   const table = "officers";
+  var error = false;
   
   req.body.ids.forEach(id => {
     let sql = 'DELETE FROM ' + table + ' WHERE user_id = ?';
     mysql.query(sql, id, (err) => {
-      if (err) {
-        res.json({error : "SQL Error", status : 500});
-      } else {
-        res.json({success : "Updated Successfully", status : 200});
+      if(err) {
+        console.log(err);
+        error = true;
       }
     });
   });
+  if (error) {
+    res.json({error : "SQL Error", status : 500});
+  } else {
+    res.json({success : "Updated Successfully", status : 200});
+  }
 });
 
 router.post('/api/deleteTeam', authCheck, express.urlencoded({ extended: true }), function(req, res) {
   const table = "team";
+  var error = false;
 
   req.body.ids.forEach(id => {
     let sql = 'DELETE FROM ' + table + ' WHERE user_id = ?';
     mysql.query(sql, id, (err) => {
-      if (err) {
-        res.json({error : "SQL Error", status : 500});
-      } else {
-        res.json({success : "Updated Successfully", status : 200});
+      if(err) {
+        console.log(err);
+        error = true;
       }
     });
   });
+  if (error) {
+    res.json({error : "SQL Error", status : 500});
+  } else {
+    res.json({success : "Updated Successfully", status : 200});
+  }
 });
 
 module.exports = router;
+
+
+
+
+// TODO:
+// JSON error response for other routers

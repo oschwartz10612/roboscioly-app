@@ -59,7 +59,7 @@
             
               <hr>
                 <form method="post" action="/profile/rec_form" id="rec<%=i%>">
-                  <input type="hidden" name="table" value="team">
+                  <input type="hidden" name="table" value="<%=data[i].type%>">
                   <input type="hidden" name="student_id" value="<%=data[i].user_id%>">
                   <div class="form-group">
                     <label>Rate the student based on how successful you believe they would be in Science Olympiad:</label>

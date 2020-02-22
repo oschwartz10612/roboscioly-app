@@ -354,7 +354,7 @@
       });
 
       $.ajax({
-        url: "/admin/api/deleteTeachers",
+        url: "/admin/api/deleteTeam",
         data: {ids: data},
         type: "post",
         success: function(response, textStatus, xhr){
@@ -377,8 +377,7 @@
     } else {
       alert('Please select some rows')
     }
-
-    }
+  }
 
   var teacher_columns = [{title: "ID", field: "id"}, {title: "Email", field: "email", editor:"input"}, {title: "Name", field: "name", editor:"input"}, {title: "Department", field: "department", editor:"select", editorParams:{"science":"science", "math":"math"}}];
   var teacherDeleteRows;
