@@ -35,6 +35,9 @@
     <div class="alert alert-success collapse" role="alert" id="sucsess">
       Successfully saved data!
     </div>
+    <div class="alert alert-danger collapse" role="alert" id="error">
+      There was an error.
+    </div>
 
     <form method="post" action="/profile/form" id="mainform">
       <input type="hidden" name="type" value="team">
@@ -413,7 +416,13 @@
            $(".alert").delay(4000).slideUp(200, function() {
               $(this).hide();
           });
-        }
+        },
+        error: function(){
+            $('#error').show();
+              $(".alert").delay(4000).slideUp(200, function() {
+                  $(this).hide();
+            });
+           }
     });
 });
 
@@ -449,7 +458,13 @@ function finalSubmit() {
           data:$('#mainform').serialize(),
           success:function(){
             location.reload();
-          }
+          },
+          error: function(){
+            $('#error').show();
+              $(".alert").delay(4000).slideUp(200, function() {
+                  $(this).hide();
+            });
+           }
       });
     }
   }

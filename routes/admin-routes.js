@@ -41,8 +41,6 @@ router.get('/', authCheck, function(req, res) {
   });
   if (error) {
     res.json({error : "SQL Error", status : 500});
-  } else {
-    res.json({success : "Updated Successfully", status : 200});
   }
 });
 
@@ -63,8 +61,6 @@ router.get('/api/alldata', authCheck, function(req, res) {
   });
   if (error) {
     res.json({error : "SQL Error", status : 500});
-  } else {
-    res.json({success : "Updated Successfully", status : 200});
   }
 });
 
@@ -85,8 +81,6 @@ router.get('/api/allofficerdata', authCheck, function(req, res) {
   });
   if (error) {
     res.json({error : "SQL Error", status : 500});
-  } else {
-    res.json({success : "Updated Successfully", status : 200});
   }
 });
 
@@ -107,8 +101,6 @@ router.get('/api/teacher_data', authCheck, function(req, res) {
   });
   if (error) {
     res.json({error : "SQL Error", status : 500});
-  } else {
-    res.json({success : "Updated Successfully", status : 200});
   }
 });
 
@@ -129,8 +121,6 @@ router.get('/api/getcolumns', authCheck, function(req, res) {
   });
   if (error) {
     res.json({error : "SQL Error", status : 500});
-  } else {
-    res.json({success : "Updated Successfully", status : 200});
   }
 });
 
@@ -151,8 +141,6 @@ router.get('/api/getofficercolumns', authCheck, function(req, res) {
   });
   if (error) {
     res.json({error : "SQL Error", status : 500});
-  } else {
-    res.json({success : "Updated Successfully", status : 200});
   }
 });
 
