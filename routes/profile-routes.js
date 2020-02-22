@@ -43,7 +43,7 @@ router.get('/apply', authCheck, endCheck, mainEndCheck, function(req, res) {
   let sql = 'SELECT * FROM teachers WHERE department = ?; SELECT * FROM teachers WHERE department = ?';
   mysql.query(sql, ["math","science"], (err, result) => {  
     if (err) {
-      res.json({error : "SQL Error", status : 500});
+      res.status(500).send({error: 'There was an error!'}); 
     }
     var mathTeachers = result[0];
     var scienceTeachers = result[1];
@@ -51,7 +51,7 @@ router.get('/apply', authCheck, endCheck, mainEndCheck, function(req, res) {
     let sql = 'SELECT * FROM team WHERE user_id = ?';
     mysql.query(sql, req.user.user_id, (err, result) => {
       if (err) {
-        res.json({error : "SQL Error", status : 500});
+        res.status(500).send({error: 'There was an error!'}); 
       }
         if (result[0] != null) {
           var data = result[0];
@@ -88,7 +88,7 @@ router.get('/recommendations', authCheck, function(req, res) {
     let sql = 'SELECT * FROM team WHERE math_teacher = ? OR science_teacher = ?; SELECT * FROM officers WHERE math_teacher = ? OR science_teacher = ?';
     mysql.query(sql, [req.user.email, req.user.email, req.user.email, req.user.email], (err, result) => {
       if (err) {
-        res.json({error : "SQL Error", status : 500});
+        res.status(500).send({error: 'There was an error!'}); 
       }
       if (result[0] != null) {
             res.render('pages/recommendations', {
@@ -155,7 +155,7 @@ router.get('/officer', authCheck, endCheck, officerEndCheck, function(req, res) 
     });
   });
   if (error) {
-    res.json({error : "SQL Error", status : 500});
+    res.status(500).send({error: 'There was an error!'}); 
   }
 });
 
@@ -248,7 +248,7 @@ router.post('/form', express.urlencoded({ extended: true }), function(req, res) 
   }
 
   if (error) {
-    res.json({error : "SQL Error", status : 500});
+    res.status(500).send({error: 'There was an error!'}); 
   } else {
     res.json({success : "Updated Successfully", status : 200});
   }
@@ -303,7 +303,7 @@ router.post('/rec_form', express.urlencoded({ extended: true }), function(req, r
   }
   });
   if (error) {
-    res.json({error : "SQL Error", status : 500});
+    res.status(500).send({error: 'There was an error!'}); 
   } else {
     res.json({success : "Updated Successfully", status : 200});
   }

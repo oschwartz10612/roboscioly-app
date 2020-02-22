@@ -234,7 +234,7 @@
           <div class="jumbotron pt-4 pb-3">
             <h4>Classes</h4>
             <div class="form-group">
-              <label>Which science and/or technology courses have you, are currently, or signed up to take next year?</label>
+              <label>Which science and/or technology courses have you, or are currently taking?</label>
               <div>
                 <%
                 if(typeof data != "undefined") {
@@ -279,11 +279,11 @@
               </div>
             </div>
             <div class="form-group">
-              <label>What Math classes have you, are currently, or signed up to take?</label>
+              <label>What Math classes have you, or are currently taking?</label>
               <div>
                 <%
                 if(typeof data != "undefined") {
-                var boxes = ["Algebra 1", "Geometry", "Geometry HN", "Algebra 2", "Algebra 2 HN", "Algebra 2 with Trig HN", "Discrete Math", "Trigonometry", "Pre-Calculus With Trig", "AP Statistics", "AP Calculus AB", "AP Calculus BC", "Probability & Statistics", "IB Math Studies SL", "IB Math I SL", "IB Math II SL", "IB Math I HL", "IB Math II HL", "IB Computer Science SL", "Multivariable Calculus", "Matrix Algebra", "IB Math Analysis I", "IB Math Application I"];
+                var boxes = ["Algebra 1", "Geometry", "Geometry HN", "Algebra 2", "Algebra 2 HN", "Algebra 2 with Trig HN", "Discrete Math", "Trigonometry", "Pre-Calculus With Trig", "AP Statistics", "AP Calculus AB", "AP Calculus BC", "Probability & Statistics", "IB Math Studies SL", "IB Math I SL", "IB Math II SL", "IB Math I HL", "IB Math II HL", "IB Computer Science SL", "Multivariable Calculus", "Matrix Algebra", "IB Math Analysis I SL", "IB Math Application I SL", "IB Math Analysis II HL", "IB Math Application II HL"];
                   for ( var i = 0; i < boxes.length; i++ ) {
                     if(typeof data != "undefined") {
                       var checked = ( data['math_' + i] == boxes[i] ) ? "checked" : "";
@@ -307,7 +307,7 @@
                 <%
                     }
                   } else {
-                    var boxes = ["Algebra 1", "Geometry", "Geometry HN", "Algebra 2", "Algebra 2 HN", "Algebra 2 with Trig HN", "Discrete Math", "Trigonometry", "Pre-Calculus With Trig", "AP Statistics", "AP Calculus AB", "AP Calculus BC", "Probability & Statistics", "IB Math Studies SL", "IB Math I SL", "IB Math II SL", "IB Math I HL", "IB Math II HL", "IB Computer Science SL", "Multivariable Calculus", "Matrix Algebra", "IB Math Analysis I", "IB Math Application I"];
+                    var boxes = ["Algebra 1", "Geometry", "Geometry HN", "Algebra 2", "Algebra 2 HN", "Algebra 2 with Trig HN", "Discrete Math", "Trigonometry", "Pre-Calculus With Trig", "AP Statistics", "AP Calculus AB", "AP Calculus BC", "Probability & Statistics", "IB Math Studies SL", "IB Math I SL", "IB Math II SL", "IB Math I HL", "IB Math II HL", "IB Computer Science SL", "Multivariable Calculus", "Matrix Algebra", "IB Math Analysis I SL", "IB Math Application I SL", "IB Math Analysis II HL", "IB Math Application II HL"];
                       for ( var i = 0; i < boxes.length; i++ ) {
                           %>
                 <div class="custom-controls-stacked">
@@ -410,14 +410,17 @@
         url:'/profile/form',
         type:'post',
         data:$('#mainform').serialize(),
-        success:function(){
+        success:function(response){
+          console.log(response);
+          
            $('#sucsess').show();
            $('html,body').scrollTop(0);
            $(".alert").delay(4000).slideUp(200, function() {
               $(this).hide();
           });
         },
-        error: function(){
+        error: function(XMLHttpRequest, textStatus, error){
+          console.log(error);
             $('#error').show();
               $(".alert").delay(4000).slideUp(200, function() {
                   $(this).hide();

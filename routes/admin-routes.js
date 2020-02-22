@@ -40,7 +40,7 @@ router.get('/', authCheck, function(req, res) {
     }
   });
   if (error) {
-    res.json({error : "SQL Error", status : 500});
+    res.status(500).send({error: 'There was an error!'}); 
   }
 });
 
@@ -60,7 +60,7 @@ router.get('/api/alldata', authCheck, function(req, res) {
     }
   });
   if (error) {
-    res.json({error : "SQL Error", status : 500});
+    res.status(500).send({error: 'There was an error!'}); 
   }
 });
 
@@ -80,7 +80,7 @@ router.get('/api/allofficerdata', authCheck, function(req, res) {
     }
   });
   if (error) {
-    res.json({error : "SQL Error", status : 500});
+    res.status(500).send({error: 'There was an error!'}); 
   }
 });
 
@@ -100,7 +100,7 @@ router.get('/api/teacher_data', authCheck, function(req, res) {
     }
   });
   if (error) {
-    res.json({error : "SQL Error", status : 500});
+    res.status(500).send({error: 'There was an error!'}); 
   }
 });
 
@@ -120,7 +120,7 @@ router.get('/api/getcolumns', authCheck, function(req, res) {
     }
   });
   if (error) {
-    res.json({error : "SQL Error", status : 500});
+    res.status(500).send({error: 'There was an error!'}); 
   }
 });
 
@@ -140,7 +140,7 @@ router.get('/api/getofficercolumns', authCheck, function(req, res) {
     }
   });
   if (error) {
-    res.json({error : "SQL Error", status : 500});
+    res.status(500).send({error: 'There was an error!'}); 
   }
 });
 
@@ -248,7 +248,7 @@ router.post('/api/update_sql', authCheck, express.urlencoded({ extended: true })
     }
   });
   if (error) {
-    res.json({error : "SQL Error", status : 500});
+    res.status(500).send({error: 'There was an error!'}); 
   } else {
     res.json({success : "Updated Successfully", status : 200});
   }
@@ -302,7 +302,7 @@ router.post('/api/update_officer_sql', authCheck, express.urlencoded({ extended:
     }
   });
   if (error) {
-    res.json({error : "SQL Error", status : 500});
+    res.status(500).send({error: 'There was an error!'}); 
   } else {
     res.json({success : "Updated Successfully", status : 200});
   }
@@ -356,7 +356,7 @@ router.post('/api/update_sql_teachers', authCheck, express.urlencoded({ extended
     });
   }
   if (error) {
-    res.json({error : "SQL Error", status : 500});
+    res.status(500).send({error: 'There was an error!'}); 
   } else {
     res.json({success : "Updated Successfully", status : 200});
   }
@@ -376,7 +376,7 @@ router.post('/api/deleteTeachers', authCheck, express.urlencoded({ extended: tru
     });
   });
   if (error) {
-    res.json({error : "SQL Error", status : 500});
+    res.status(500).send({error: 'There was an error!'}); 
   } else {
     res.json({success : "Updated Successfully", status : 200});
   }
@@ -396,7 +396,7 @@ router.post('/api/deleteOfficers', authCheck, express.urlencoded({ extended: tru
     });
   });
   if (error) {
-    res.json({error : "SQL Error", status : 500});
+    res.status(500).send({error: 'There was an error!'}); 
   } else {
     res.json({success : "Updated Successfully", status : 200});
   }
@@ -416,7 +416,7 @@ router.post('/api/deleteTeam', authCheck, express.urlencoded({ extended: true })
     });
   });
   if (error) {
-    res.json({error : "SQL Error", status : 500});
+    res.status(500).send({error: 'There was an error!'}); 
   } else {
     res.json({success : "Updated Successfully", status : 200});
   }
