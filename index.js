@@ -54,17 +54,6 @@ app.post('/emails', express.urlencoded({ extended: true }), function(req, res) {
   res.json({success : "Updated Successfully", status : 200});
 });
 
-app.use(function (req, res, next) {
-  res.locals = {
-    mainAppView: global.mainAppView,
-    officerAppView: global.officerAppView
-  };
-  next();
-});
-
-
-app.listen(keys.env.port);
-
 var sql = `SELECT * FROM variables WHERE name = 'application'`;
 mysql.query(sql, (err, result) => {
   if (err) throw err;
@@ -93,4 +82,16 @@ mysql.query(sql, (err, result) => {
     global.officerAppView = result[0].state;
   }
 });
+
+app.use(function (req, res, next) {
+  res.locals = {
+    mainAppView: global.mainAppView,
+    officerAppView: global.officerAppView
+  };
+  next();
+});
+
+app.listen(keys.env.port);
+
+
 
