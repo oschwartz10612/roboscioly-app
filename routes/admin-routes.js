@@ -13,10 +13,12 @@ const authCheck = function(req, res, next) {
 };
 
 router.get('/', authCheck, function(req, res) {
+  var error = false;
   let sql = `SELECT * FROM team`;
   mysql.query(sql, req.user.user_id, (err, result) => {
     if (err) {
-      res.json({error : "SQL Error", status : 500});
+      console.log(err);
+      error = true;
     }
     if (result[0] != null) {
       var payload = {
@@ -27,7 +29,6 @@ router.get('/', authCheck, function(req, res) {
       let sql = `SELECT * FROM officers`;
       mysql.query(sql, req.user.user_id, (err, result) => {
         if (err) {
-          res.json({error : "SQL Error", status : 500});
         }
         if (result[0] != null) {
           payload.officers = result;
@@ -38,13 +39,20 @@ router.get('/', authCheck, function(req, res) {
       res.render('pages/admin', {user: req.user, submissions: true});
     }
   });
+  if (error) {
+    res.json({error : "SQL Error", status : 500});
+  } else {
+    res.json({success : "Updated Successfully", status : 200});
+  }
 });
 
 router.get('/api/alldata', authCheck, function(req, res) {
+  var error = false;
   let sql = `SELECT * FROM team`;
   mysql.query(sql, (err, result) => {
     if (err) {
-      res.json({error : "SQL Error", status : 500});
+      console.log(err);
+      error = true;
     }
     if (result[0] != null) {
       var resultJson = JSON.stringify(result);
@@ -53,13 +61,20 @@ router.get('/api/alldata', authCheck, function(req, res) {
       res.send(resultJson);
     }
   });
+  if (error) {
+    res.json({error : "SQL Error", status : 500});
+  } else {
+    res.json({success : "Updated Successfully", status : 200});
+  }
 });
 
 router.get('/api/allofficerdata', authCheck, function(req, res) {
+  var error = false;
   let sql = `SELECT * FROM officers`;
   mysql.query(sql, (err, result) => {
     if (err) {
-      res.json({error : "SQL Error", status : 500});
+      console.log(err);
+      error = true;
     }
     if (result[0] != null) {
       var resultJson = JSON.stringify(result);
@@ -68,13 +83,20 @@ router.get('/api/allofficerdata', authCheck, function(req, res) {
       res.send(resultJson);
     }
   });
+  if (error) {
+    res.json({error : "SQL Error", status : 500});
+  } else {
+    res.json({success : "Updated Successfully", status : 200});
+  }
 });
 
 router.get('/api/teacher_data', authCheck, function(req, res) {
+  var error = false;
   let sql = `SELECT * FROM teachers`;
   mysql.query(sql, (err, result) => {
     if (err) {
-      res.json({error : "SQL Error", status : 500});
+      console.log(err);
+      error = true;
     }
     if (result[0] != null) {
       var resultJson = JSON.stringify(result);
@@ -83,13 +105,20 @@ router.get('/api/teacher_data', authCheck, function(req, res) {
       res.send(resultJson);
     }
   });
+  if (error) {
+    res.json({error : "SQL Error", status : 500});
+  } else {
+    res.json({success : "Updated Successfully", status : 200});
+  }
 });
 
 router.get('/api/getcolumns', authCheck, function(req, res) {
+  var error = false;
   let sql = `SELECT column_name FROM information_schema.columns WHERE table_schema = 'apps' AND table_name = 'team'`;
   mysql.query(sql, (err, result) => {
     if (err) {
-      res.json({error : "SQL Error", status : 500});
+      console.log(err);
+      error = true;
     }
     if (result[0] != null) {
       var resultJson = JSON.stringify(result);
@@ -98,13 +127,20 @@ router.get('/api/getcolumns', authCheck, function(req, res) {
       res.send(resultJson);
     }
   });
+  if (error) {
+    res.json({error : "SQL Error", status : 500});
+  } else {
+    res.json({success : "Updated Successfully", status : 200});
+  }
 });
 
 router.get('/api/getofficercolumns', authCheck, function(req, res) {
+  var error = false;
   let sql = `SELECT column_name FROM information_schema.columns WHERE table_schema = 'apps' AND table_name = 'officers'`;
   mysql.query(sql, (err, result) => {
     if (err) {
-      res.json({error : "SQL Error", status : 500});
+      console.log(err);
+      error = true;
     }
     if (result[0] != null) {
       var resultJson = JSON.stringify(result);
@@ -113,6 +149,11 @@ router.get('/api/getofficercolumns', authCheck, function(req, res) {
       res.send(resultJson);
     }
   });
+  if (error) {
+    res.json({error : "SQL Error", status : 500});
+  } else {
+    res.json({success : "Updated Successfully", status : 200});
+  }
 });
 
 router.get('/api/closeApp', authCheck, function(req, res) {
@@ -172,6 +213,7 @@ router.get('/api/openCollectEmail', authCheck, function(req, res) {
 });
 
 router.post('/api/update_sql', authCheck, express.urlencoded({ extended: true }), function(req, res) {
+  var error = false;
   const table = "team";
   const user_id = req.body.user_id;
   delete req.body.user_id;
@@ -182,7 +224,8 @@ router.post('/api/update_sql', authCheck, express.urlencoded({ extended: true })
   let sql = 'SELECT * FROM ' + table + ' WHERE user_id = ?';
   mysql.query(sql, user_id, (err, result) => {
     if (err) {
-      res.json({error : "SQL Error", status : 500});
+      console.log(err);
+      error = true;
     } 
     if (result[0] != null) {
 
@@ -196,7 +239,10 @@ router.post('/api/update_sql', authCheck, express.urlencoded({ extended: true })
       data.push(user_id);
 
       mysql.query(sql, data, (err) => {
-        if (err) throw err;
+        if (err) {
+          console.log(err);
+          error = true;
+        }
       });
     } else {
 
@@ -207,16 +253,21 @@ router.post('/api/update_sql', authCheck, express.urlencoded({ extended: true })
       let sql = 'INSERT INTO ' + table + ' SET ?';
       mysql.query(sql, submittion, (err) => {
         if (err) {
-          res.json({error : "SQL Error", status : 500});
-        } else {
-          res.json({success : "Updated Successfully", status : 200});
+          console.log(err);
+          error = true;
         }
       });
     }
   });
+  if (error) {
+    res.json({error : "SQL Error", status : 500});
+  } else {
+    res.json({success : "Updated Successfully", status : 200});
+  }
 });
 
 router.post('/api/update_officer_sql', authCheck, express.urlencoded({ extended: true }), function(req, res) {
+  var error = false;
   const table = "officers";
   const user_id = req.body.user_id;
   delete req.body.user_id;
@@ -227,7 +278,8 @@ router.post('/api/update_officer_sql', authCheck, express.urlencoded({ extended:
   let sql = 'SELECT * FROM ' + table + ' WHERE user_id = ?';
   mysql.query(sql, user_id, (err, result) => {
     if (err) {
-      res.json({error : "SQL Error", status : 500});
+      console.log(err);
+      error = true;
     }
     if (result[0] != null) {
 
@@ -241,7 +293,10 @@ router.post('/api/update_officer_sql', authCheck, express.urlencoded({ extended:
       data.push(user_id);
 
       mysql.query(sql, data, (err) => {
-        if (err) throw err;
+        if (err) {
+          console.log(err);
+          error = true;
+        }
       });
     } else {
 
@@ -252,16 +307,21 @@ router.post('/api/update_officer_sql', authCheck, express.urlencoded({ extended:
       let sql = 'INSERT INTO ' + table + ' SET ?';
       mysql.query(sql, submittion, (err) => {
         if (err) {
-          res.json({error : "SQL Error", status : 500});
-        } else {
-          res.json({success : "Updated Successfully", status : 200});
+          console.log(err);
+          error = true;
         }
       });
     }
   });
+  if (error) {
+    res.json({error : "SQL Error", status : 500});
+  } else {
+    res.json({success : "Updated Successfully", status : 200});
+  }
 });
 
 router.post('/api/update_sql_teachers', authCheck, express.urlencoded({ extended: true }), function(req, res) {
+  var error = false;
   const table = "teachers";
   const id = req.body.id;
   delete req.body.id;
@@ -274,7 +334,8 @@ router.post('/api/update_sql_teachers', authCheck, express.urlencoded({ extended
   let sql = 'SELECT * FROM ' + table + ' WHERE ID = ?';
   mysql.query(sql, id, (err) => {
     if (err) {
-      res.json({error : "SQL Error", status : 500});
+      console.log(err);
+      error = true;
     }
 
     let sql = 'UPDATE ' + table + ' SET ';
@@ -288,9 +349,8 @@ router.post('/api/update_sql_teachers', authCheck, express.urlencoded({ extended
 
     mysql.query(sql, data, (err) => {
       if (err) {
-        res.json({error : "SQL Error", status : 500});
-      } else {
-        res.json({success : "Updated Successfully", status : 200});
+        console.log(err);
+        error = true;
       }
     });
   });
@@ -302,11 +362,15 @@ router.post('/api/update_sql_teachers', authCheck, express.urlencoded({ extended
     let sql = 'INSERT INTO ' + table + ' SET ?';
     mysql.query(sql, submittion, (err, result) => {
       if (err) {
-        res.json({error : "SQL Error", status : 500});
-      } else {
-        res.json({success : "Added Successfully", status : 200, insertId: result.insertId});
+        console.log(err);
+        error = true;
       }
     });
+  }
+  if (error) {
+    res.json({error : "SQL Error", status : 500});
+  } else {
+    res.json({success : "Updated Successfully", status : 200});
   }
 });
 
@@ -371,9 +435,3 @@ router.post('/api/deleteTeam', authCheck, express.urlencoded({ extended: true })
 });
 
 module.exports = router;
-
-
-
-
-// TODO:
-// JSON error response for other routers
