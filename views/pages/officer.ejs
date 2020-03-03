@@ -21,7 +21,9 @@
 
         <div class="jumbotron pt-4 pb-4">
           <form method="post" action="/profile/form" id="mainform">
+            <input type="hidden" name="type" value="officers">
             <input type="hidden" name="table" value="officers">
+            <h4>Personal Information</h4>
             <div class="form-group">
               <label for="name">Name</label>
               <input id="name" name="name" type="text" class="form-control" value="<%= typeof data!='undefined' ? data.name : '' %>">
@@ -54,6 +56,80 @@
                 </select>
               </div>
             </div>
+            <h4>Teacher Recommendation</h4>
+            <p>Select your Science teacher for your recommendation. We will automagically contact them and they
+              will complete your recommendation electronically here. Be sure to inform your teachers that you have used them. <strong>Only use a Math teacher if your Science teacher is not listed.</strong></p>
+            <div class="form-group">
+              <label for="science_teacher">Science teacher for recommendation</label>
+              <div>
+                <select id="science_teacher" name="science_teacher" class="custom-select" required="required">
+                  <%
+                var options = ["None"];
+                var emails = ["None"];
+                for (let i = 0; i < scienceTeachers.length; i++) {
+                  const element = scienceTeachers[i];
+                  options.push(element.name);
+                  emails.push(element.email);
+                }
+                
+                if(typeof data === "undefined") {
+                  for ( var i = 0; i < options.length; i++ ) { %>
+                  <option value="<%=emails[ i ] %>" <%=selected %>>
+                    <%= options[i] %>
+                  </option>
+                  <%
+                  }
+                }
+                else {
+                  for ( var i = 0; i < options.length; i++ ) {
+                      var selected = ( data.science_teacher == emails[i] ) ? "selected" : "";
+                      %>
+                  <option value="<%=emails[ i ] %>" <%=selected %>>
+                    <%= options[i] %>
+                  </option>
+                  <%
+                  }
+                }
+                %>
+                </select>
+              </div>
+              <div class="form-group">
+              <label for="math_teacher">Math teacher for recommendation</label>
+              <div>
+                <select id="math_teacher" name="math_teacher" class="custom-select" required="required">
+                  <%
+                var options = ["None"];
+                var emails = ["None"];
+                for (let i = 0; i < mathTeachers.length; i++) {
+                  const element = mathTeachers[i];
+                  options.push(element.name);
+                  emails.push(element.email);
+                }
+                
+                if(typeof data === "undefined") {
+                  for ( var i = 0; i < options.length; i++ ) { %>
+                  <option value="<%=emails[ i ] %>">
+                    <%= options[i] %>
+                  </option>
+                  <%
+                  }
+                }
+                else {
+                  for ( var i = 0; i < options.length; i++ ) {
+                      var selected = ( data.math_teacher == emails[i] ) ? "selected" : "";
+                      %>
+                  <option value="<%=emails[ i ] %>" <%=selected %>>
+                    <%= options[i] %>
+                  </option>
+                  <%
+                  }
+                }
+                %>
+                </select>
+              </div>
+            </div>
+            </div>
+            <h4>Short Answer</h4>
             <div class="form-group">
               <label for="textarea">Why do you think you would be a good Science Olympiad officer?</label>
               <textarea id="textarea" name="textarea" spellcheck="true" cols="40" rows="8" aria-describedby="textareaHelpBlock" class="form-control"><%= typeof data!='undefined' ? data.textarea : '' %></textarea>
@@ -123,11 +199,29 @@
            $(".alert").delay(4000).slideUp(200, function() {
               $(this).hide();
           });
-        }
+        },
+        error: function(){
+            $('#error').show();
+              $(".alert").delay(4000).slideUp(200, function() {
+                  $(this).hide();
+            });
+           }
     });
 });
 
 function finalSubmit() { 
+
+  var pass = true;
+
+  var math_teacher = $('#math_teacher option:selected').val();
+  var science_teacher = $('#science_teacher option:selected').val();
+  if (math_teacher == 'None' && science_teacher == 'None') {
+    pass = false;
+  }
+
+  if (!pass) {
+    alert('You have not completed all required fields!');
+  } else {
 
     var r = confirm("Are you sure you want to submit now?");
     if (r == true) {
@@ -136,11 +230,32 @@ function finalSubmit() {
           url:'/profile/form',
           type:'post',
           data:$('#mainform').serialize(),
-          success:function(){
+          success:function() {
             location.reload();
-          }
+          },
+          error: function(){
+            $('#error').show();
+              $(".alert").delay(4000).slideUp(200, function() {
+                  $(this).hide();
+            });
+           }
       });
     }
+  }
 }
 
+$('#math_teacher').change(
+    function() {
+        var math_teacher = $('#math_teacher option:selected').val();
+        if (math_teacher != 'None') {
+          $("#science_teacher").val("None");
+        } 
+  });
+$('#science_teacher').change(
+    function() {
+        var science_teacher = $('#science_teacher option:selected').val();
+        if (science_teacher != 'None') {
+          $("#math_teacher").val("None");
+        }
+  });
 </script>

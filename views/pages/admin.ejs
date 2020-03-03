@@ -15,8 +15,6 @@
   </style>
   <link href="/css/tabulator.min.css" rel="stylesheet">
   <script type="text/javascript" src="/js/tabulator.min.js"></script>
-  <script type="text/javascript" src="http://oss.sheetjs.com/js-xlsx/xlsx.full.min.js"></script>
-
 
 </head>
 
@@ -63,29 +61,29 @@
     <div id="team-table-textarea"></div>
 
     <button id="download-csv" class="btn btn-primary mt-4">Download CSV</button>
-    <button id="show-text" class="btn btn-warning mt-4">Show text</button>
-    <button class="btn btn-danger mt-4" id="selectAll">Select all rows</button>
+    <button id="show-text" class="btn btn-secondary mt-4">Show text</button>
+    <button class="btn btn-warning mt-4" id="selectAll">Select all rows</button>
     <button class="btn btn-danger mt-4" onclick="deleteAppRows()">Delete Selected Rows</button>
 
-    <br><hr><br>
+    <br><br>
 
-    <h3>Teachers:</h3>
+    <h3>Officer App Submmissions:</h3>
     <hr>
     <div id="officer-table"></div>
     <button id="download-csv-officers" class="btn btn-primary mt-4">Download CSV</button>
-    <button class="btn btn-danger mt-4" id="selectAllOfficers">Select all rows</button>
+    <button class="btn btn-warning mt-4" id="selectAllOfficers">Select all rows</button>
     <button class="btn btn-danger mt-4" onclick="deleteOfficerRows()">Delete Selected Rows</button>
 
-    <br><hr><br>
+    <br><br>
 
     <h3>Teachers:</h3>
     <hr>
     <button class="btn btn-success mb-4" id="add-row">Add Teacher</button>
     <div id="teacher-table"></div>
-    <button class="btn btn-danger mt-4" id="selectAllTeachers">Select all rows</button>
+    <button class="btn btn-warning mt-4" id="selectAllTeachers">Select all rows</button>
     <button class="btn btn-danger mt-4" onclick="deleteTeacherRows()">Delete Selected Rows</button>
 
-    <br><hr><br>
+    <br><br>
 
     <h3>Settings:</h3>
     <hr>
@@ -356,7 +354,7 @@
       });
 
       $.ajax({
-        url: "/admin/api/deleteTeachers",
+        url: "/admin/api/deleteTeam",
         data: {ids: data},
         type: "post",
         success: function(response, textStatus, xhr){
@@ -379,8 +377,7 @@
     } else {
       alert('Please select some rows')
     }
-
-    }
+  }
 
   var teacher_columns = [{title: "ID", field: "id"}, {title: "Email", field: "email", editor:"input"}, {title: "Name", field: "name", editor:"input"}, {title: "Department", field: "department", editor:"select", editorParams:{"science":"science", "math":"math"}}];
   var teacherDeleteRows;
@@ -397,25 +394,30 @@
         columns: teacher_columns,
         cellEdited:function(cell){
          // This callback is called any time a cell is edited.
-
-         $.ajax({
-           url: "/admin/api/update_sql_teachers",
-           data: cell.getRow().getData(),
-           type: "post",
-           success: function(response, textStatus, xhr){
+          
+          $.ajax({
+          url: "/admin/api/update_sql_teachers",
+          data: cell.getRow().getData(),
+          type: "post",
+          success: function(response, textStatus, xhr){
+            console.log(response);
+            if (response.success == 'Added Successfully') {
+              cell.getRow().update({'id': response.insertId})
+            }
+            
             $('#sucsess').show();
               $(".alert").delay(4000).slideUp(200, function() {
                   $(this).hide();
             });
-           },
-           error: function(XMLHttpRequest, textStatus, error){
+          },
+          error: function(XMLHttpRequest, textStatus, error){
             $('#error').show();
               $(".alert").delay(4000).slideUp(200, function() {
                   $(this).hide();
             });
-           }
-         })
-
+          }
+        })
+         
        },
        rowSelectionChanged:function(data, rows) {
         teacherDeleteRows = rows;

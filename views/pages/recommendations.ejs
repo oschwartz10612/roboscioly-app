@@ -17,6 +17,9 @@
     <div class="alert alert-success collapse" role="alert" id="sucsess">
       Successfully saved data!
     </div>
+    <div class="alert alert-danger collapse" role="alert" id="error">
+      There was an error!
+    </div>
 
     <% if(typeof data == 'undefined') { %>
       <div class="jumbotron">
@@ -52,14 +55,18 @@
           <div class="tab-pane fade" id="nav-profile<%=i%>" role="tabpanel" aria-labelledby="nav-profile-tab">
             <div class="jumbotron pt-4 pb-4">
             
-
-                <h2>Recommendation for <%= data[i].name %></h1>
-                <p>You may save and come back to this at any time, but please be sure to complete it by ASAP. Please note that a 5 in any field is considered very high.</p>
+                <% if (data[i].type == 'officers') {%>
+                  <h2>Officer Recommendation for <%= data[i].name %></h1>
+                  <p>This is an officer application. This student has applied to be a member of Science Olympiad's leadership team next year. You may save and come back to this at any time, but please be sure to complete it by ASAP. Please note that a 5 in any field is considered very high.</p>
+                <% } else { %>
+                  <h2>Recommendation for <%= data[i].name %></h1>
+                  <p>You may save and come back to this at any time, but please be sure to complete it by ASAP. Please note that a 5 in any field is considered very high.</p>
+                <% } %>
 
             
               <hr>
                 <form method="post" action="/profile/rec_form" id="rec<%=i%>">
-                  <input type="hidden" name="table" value="team">
+                  <input type="hidden" name="table" value="<%=data[i].type%>">
                   <input type="hidden" name="student_id" value="<%=data[i].user_id%>">
                   <div class="form-group">
                     <label>Rate the student based on how successful you believe they would be in Science Olympiad:</label>
@@ -298,7 +305,13 @@ for(var i = 0; i < data.length; i++) { %>
               $(this).hide();
               $(".container").scrollTop(0);
           });
-        }
+        },
+        error: function(){
+            $('#error').show();
+              $(".alert").delay(4000).slideUp(200, function() {
+                  $(this).hide();
+            });
+           }
     });
 });
 <% } 
