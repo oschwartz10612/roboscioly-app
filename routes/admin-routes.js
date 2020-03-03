@@ -29,6 +29,7 @@ router.get('/', authCheck, function(req, res) {
       let sql = `SELECT * FROM officers`;
       mysql.query(sql, req.user.user_id, (err, result) => {
         if (err) {
+          error = true;
         }
         if (result[0] != null) {
           payload.officers = result;
@@ -348,7 +349,7 @@ router.post('/api/update_sql_teachers', authCheck, express.urlencoded({ extended
     //new submittion
     let submittion = req.body;
     let sql = 'INSERT INTO ' + table + ' SET ?';
-    mysql.query(sql, submittion, (err, result) => {
+    mysql.query(sql, submittion, (err) => {
       if (err) {
         console.log(err);
         error = true;
