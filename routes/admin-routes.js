@@ -327,24 +327,26 @@ router.post('/api/update_sql_teachers', authCheck, express.urlencoded({ extended
       }
     });
   });
+  if (error) {
+    res.status(500).send({error: 'There was an error!'}); 
+  } else {
+    res.json({success : "Updated Successfully", status : 200});
+  }
 
   } else {
 
     //new submittion
     let submittion = req.body;
     let sql = 'INSERT INTO ' + table + ' SET ?';
-    mysql.query(sql, submittion, (err) => {
+    mysql.query(sql, submittion, (err, result) => {
       if (err) {
         console.log(err);
         error = true;
       }
+      res.json({success : "Added Successfully", status : 200, insertId: result.insertId});
     });
   }
-  if (error) {
-    res.status(500).send({error: 'There was an error!'}); 
-  } else {
-    res.json({success : "Updated Successfully", status : 200});
-  }
+
 });
 
 router.post('/api/deleteTeachers', authCheck, express.urlencoded({ extended: true }), function(req, res) {

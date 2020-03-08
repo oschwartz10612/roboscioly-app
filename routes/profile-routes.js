@@ -90,21 +90,30 @@ router.get('/recommendations', authCheck, function(req, res) {
       if (err) {
         res.status(500).send({error: 'There was an error!'}); 
       }
-      if (result[0] != null) {
-            res.render('pages/recommendations', {
-              data: result[0].concat(result[1]),
-              user: req.user,
-              rec: true
-            });
-          }
-          else {
-            res.render('pages/recommendations', {
-              user: req.user,
-              rec: true
-            });
-          }
+      var data = result[0].concat(result[1]);
+      
+      if (!data.length) {
+        res.render('pages/recommendations', {
+          user: req.user,
+          rec: true
         });
       } else {
+        let sql = `SELECT * FROM variables`;
+        mysql.query(sql, (err, result) => {
+          if (err) {
+            console.log(err);
+            res.status(500).send({error: 'There was an error!'}); 
+          }
+          res.render('pages/recommendations', {
+              data: data,
+              user: req.user,
+              rec: true,
+              variables: result
+            });
+          });
+      }
+    });
+  } else {
     res.redirect('/home');
   }
 });
