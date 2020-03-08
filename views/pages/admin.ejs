@@ -30,114 +30,176 @@
         There was an error!
     </div>
 
-    <h3>Team Apps Submmissions:</h3>
-    <hr>
+    <ul class="nav nav-tabs" id="myTab" role="tablist">
+      <li class="nav-item">
+        <a class="nav-link active" id="team-tab" data-toggle="tab" href="#team" role="tab" aria-controls="team" aria-selected="true"">Team</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" id="officer-tab" data-toggle="tab" href="#officer" role="tab" aria-controls="officer" aria-selected="false" onclick="fixTable()"">Officers</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" id="teachers-tab" data-toggle="tab" href="#teachers" role="tab" aria-controls="teachers" aria-selected="false" onclick="fixTable()"">Teachers</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" id="settings-tab" data-toggle="tab" href="#settings" role="tab" aria-controls="settings" aria-selected="false">Settings</a>
+      </li>
+    </ul>
+    <div class="tab-content" id="myTabContent">
 
-    <form class="form-inline mb-4">
-      <div class="form-group">
-        <label for="filter-field">Column: </label>
-        <select type="dropdown" name="field" id="filter-field" class="form-control ml-2" placeholder=""></select>
+
+      <div class="tab-pane show active" id="team" role="tabpanel" aria-labelledby="team-tab">
+        <div class="card mt-3">
+          <div class="card-body">
+            <h4 class="card-title">Team Apps Submmissions</h4>
+            <form class="form-inline mb-4">
+              <div class="form-group">
+                <label for="filter-field">Column: </label>
+                <select type="dropdown" name="field" id="filter-field" class="form-control ml-2" placeholder=""></select>
+              </div>
+              <div class="form-group ml-3">
+                <label for="filter-type">Filter:</label>
+                <select type="dropdown" name="filter-type" id="filter-type" class="form-control ml-2" placeholder="">
+                  <option value="=">=</option>
+                  <option value="<"><</option>
+                  <option value="<="><=</option>
+                  <option value=">">></option>
+                  <option value=">=">>=</option>
+                  <option value="!=">!=</option>
+                  <option value="like">like</option>
+                </select>
+              </div>
+              <div class="form-group ml-3">
+                <label for="filter-value">Filter Value:</label>
+                <input type="text" name="filter-value" id="filter-value" class="form-control ml-2" placeholder="">
+              </div>
+              <button class="btn btn-primary" id="filter-clear">Clear</button>
+            </form>
+    
+            <div id="team-table"></div>
+            <div id="team-table-textarea"></div>
+    
+            <button id="download-csv" class="btn btn-primary mt-4">Download CSV</button>
+            <button id="show-text" class="btn btn-secondary mt-4">Show text</button>
+            <button class="btn btn-warning mt-4" id="selectAll">Select all rows</button>
+            <button class="btn btn-danger mt-4" onclick="deleteAppRows()">Delete Selected Rows</button>
+          </div>
+        </div>
       </div>
-      <div class="form-group ml-3">
-        <label for="filter-type">Filter:</label>
-        <select type="dropdown" name="filter-type" id="filter-type" class="form-control ml-2" placeholder="">
-          <option value="=">=</option>
-          <option value="<"><</option>
-          <option value="<="><=</option>
-          <option value=">">></option>
-          <option value=">=">>=</option>
-          <option value="!=">!=</option>
-          <option value="like">like</option>
-        </select>
+
+
+      <div class="tab-pane" id="officer" role="tabpanel" aria-labelledby="officer-tab">
+        <div class="card mt-3">
+          <div class="card-body">
+            <h4 class="card-title">Officer App Submmissions</h4>
+            <div id="officer-table"></div>
+            <button id="download-csv-officers" class="btn btn-primary mt-4">Download CSV</button>
+            <button class="btn btn-warning mt-4" id="selectAllOfficers">Select all rows</button>
+            <button class="btn btn-danger mt-4" onclick="deleteOfficerRows()">Delete Selected Rows</button>  
+          </div>
+        </div>
       </div>
-      <div class="form-group ml-3">
-        <label for="filter-value">Filter Value:</label>
-        <input type="text" name="filter-value" id="filter-value" class="form-control ml-2" placeholder="">
+
+
+      <div class="tab-pane" id="teachers" role="tabpanel" aria-labelledby="teachers-tab">
+        <div class="card mt-3">
+          <div class="card-body">
+            <h4 class="card-title">Teacher Information</h4>
+            <button class="btn btn-success mb-4" id="add-row">Add Teacher</button>
+            <div id="teacher-table"></div>
+            <button class="btn btn-warning mt-4" id="selectAllTeachers">Select all rows</button>
+            <button class="btn btn-danger mt-4" onclick="deleteTeacherRows()">Delete Selected Rows</button>
+          </div>
+        </div>
       </div>
-      <button class="btn btn-primary" id="filter-clear">Clear</button>
-    </form>
 
-    <div id="team-table"></div>
-    <div id="team-table-textarea"></div>
 
-    <button id="download-csv" class="btn btn-primary mt-4">Download CSV</button>
-    <button id="show-text" class="btn btn-secondary mt-4">Show text</button>
-    <button class="btn btn-warning mt-4" id="selectAll">Select all rows</button>
-    <button class="btn btn-danger mt-4" onclick="deleteAppRows()">Delete Selected Rows</button>
+      <div class="tab-pane" id="settings" role="tabpanel" aria-labelledby="settings-tab">
+        <div class="card mt-3">
+          <div class="card-body">
+            <h4 class="card-title">Settings</h4>
+            <div class="row">
+              <div class="col col-4">
+                <div class="card">
+                  <div class="card-body">
+                    <h4 class="card-title">Instructions</h4>
+        
+                    <p>Application State:</p>
+                    <input type="button" value="Close All Applications" class="btn btn-danger" onClick="closeApp()"> 
+                    <input type="button" value="Open All Applications" class="btn btn-success mt-3" onClick="openApp()">
+                
+                    <hr>
+                
+                    <p>Main App:</p>
+                    <% if(mainAppView == 'no') { %> <input type="button" value="Close and Hide Main App" class="btn btn-danger" onClick="closeMain()">
+                    <% } else { %> <input type="button" value="Open and Show Main App" class="btn btn-success" onClick="openMain()"> <% } %> 
+                
+                    <hr>
+                
+                    <p>Officer App:</p>
+                    <% if(officerAppView == 'no') { %> <input type="button" value="Close and Hide Officer App" class="btn btn-danger" onClick="closeOfficer()">
+                    <% } else { %> <input type="button" value="Open and Show Officer App" class="btn btn-success" onClick="openOfficer()"> <% } %> 
+                
+                    <hr>
+                
+                    <p>Collect email on index page:</p>
+                    <input type="button" value="Close Collect Email Dialog" class="btn btn-danger" onClick="closeCollectEmail()">
+                    <input type="button" value="Open Collect Email Dialog" class="btn btn-success mt-3" onClick="openCollectEmail()">
 
-    <br><br>
+                    <hr>
 
-    <h3>Officer App Submmissions:</h3>
-    <hr>
-    <div id="officer-table"></div>
-    <button id="download-csv-officers" class="btn btn-primary mt-4">Download CSV</button>
-    <button class="btn btn-warning mt-4" id="selectAllOfficers">Select all rows</button>
-    <button class="btn btn-danger mt-4" onclick="deleteOfficerRows()">Delete Selected Rows</button>
+                    <p>Collected emails:</p>
+                    
+                    
+        
+                  </div>
+                </div>
+              </div>
+              <div class="col col-8">
+                <div class="card">
+                  <div class="card-body">
+                    <h4 class="card-title">Application State</h4>
+                    <form action="/admin/api/instructions" method="post" id="instructionsForm">
+                      <div class="form-group">
+                        <label for="textarea2">Main Application Instructions</label>
+                        <textarea id="mainAppView" name="mainAppView" spellcheck="true" cols="40" rows="5"
+                          class="form-control"><%= typeof data!='undefined' ? data[2].text : '' %></textarea>
+                      </div>
+                      <div class="form-group">
+                        <label for="textarea2">Officer Application Instructions</label>
+                        <textarea id="officerAppView" name="officerAppView" spellcheck="true" cols="40" rows="5"
+                          class="form-control"><%= typeof data!='undefined' ? data[3].text : '' %></textarea>
+                      </div>
+                      <div class="form-group">
+                        <label for="textarea2">Recommendations Instructions</label>
+                        <textarea id="recInstructions" name="recInstructions" spellcheck="true" cols="40" rows="5"
+                          class="form-control"><%= typeof data!='undefined' ? data[4].text : '' %></textarea>
+                      </div>
+                      <button name="submit" type="submit" class="btn btn-success mb-5 mt-1" id="submit">Save</button>
+                    </form>
+                
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
 
-    <br><br>
-
-    <h3>Teachers:</h3>
-    <hr>
-    <button class="btn btn-success mb-4" id="add-row">Add Teacher</button>
-    <div id="teacher-table"></div>
-    <button class="btn btn-warning mt-4" id="selectAllTeachers">Select all rows</button>
-    <button class="btn btn-danger mt-4" onclick="deleteTeacherRows()">Delete Selected Rows</button>
-
-    <br><br>
-
-    <h3>Settings:</h3>
-    <hr>
-    <p>Application State:</p>
-    <input type="button" value="Close All Applications" class="btn btn-danger" onClick="closeApp()"> 
-    <input type="button" value="Open All Applications" class="btn btn-success" onClick="openApp()">
-
-    <hr>
-
-    <p>Main App:</p>
-    <% if(mainAppView == 'no') { %> <input type="button" value="Close and Hide Main App" class="btn btn-danger" onClick="closeMain()">
-    <% } else { %> <input type="button" value="Open and Show Main App" class="btn btn-success" onClick="openMain()"> <% } %> 
-
-    <hr>
-
-    <p>Officer App:</p>
-    <% if(officerAppView == 'no') { %> <input type="button" value="Close and Hide Officer App" class="btn btn-danger" onClick="closeOfficer()">
-    <% } else { %> <input type="button" value="Open and Show Officer App" class="btn btn-success" onClick="openOfficer()"> <% } %> 
-
-    <hr>
-
-    <p>Collect email on index page:</p>
-    <input type="button" value="Close Collect Email Dialog" class="btn btn-danger" onClick="closeCollectEmail()">
-    <input type="button" value="Open Collect Email Dialog" class="btn btn-success" onClick="openCollectEmail()">
-
-    <hr>
-
-    <form action="/admin/api/instructions" method="post" id="instructionsForm">
-      <div class="form-group">
-        <label for="textarea2">Main Application Instructions</label>
-        <textarea id="mainAppView" name="mainAppView" spellcheck="true" cols="40" rows="5"
-          class="form-control"><%= typeof data!='undefined' ? data[2].text : '' %></textarea>
       </div>
-      <div class="form-group">
-        <label for="textarea2">Officer Application Instructions</label>
-        <textarea id="officerAppView" name="officerAppView" spellcheck="true" cols="40" rows="5"
-          class="form-control"><%= typeof data!='undefined' ? data[3].text : '' %></textarea>
-      </div>
-      <div class="form-group">
-        <label for="textarea2">Recommendations Instructions</label>
-        <textarea id="recInstructions" name="recInstructions" spellcheck="true" cols="40" rows="5"
-          class="form-control"><%= typeof data!='undefined' ? data[4].text : '' %></textarea>
-      </div>
-      <button name="submit" type="submit" class="btn btn-success mb-5 mt-1" id="submit">Save</button>
-    </form>
 
-    <footer class="container">
-    <hr>
-    <p>&copy; Robinson Science Olympiad 2019-2020</p>
-  </footer>
+    </div>
+
+    <footer class="mt-3">
+      <hr>
+      <p>&copy; Robinson Science Olympiad 2019-2020</p>
+    </footer>
 </body>
 </html>
 
 <script>
+
+  var team_table;
+  var officer_table;
+  var teacher_table;
 
   function closeApp() {
     $.get( "/admin/api/closeApp", function( data ) {
@@ -257,7 +319,7 @@
       dropdown.append($('<option></option>').val(element).html(element));
     }
     
-    var table = new Tabulator("#team-table", {
+    team_table = new Tabulator("#team-table", {
         ajaxURL:"/admin/api/alldata", 
         height:"800px",
         pagination:"local",
@@ -403,7 +465,7 @@
   var teacher_columns = [{title: "ID", field: "id"}, {title: "Email", field: "email", editor:"input"}, {title: "Name", field: "name", editor:"input"}, {title: "Department", field: "department", editor:"select", editorParams:{"science":"science", "math":"math"}}];
   var teacherDeleteRows;
   var teacherDeleteData;
-  var teachers = new Tabulator("#teacher-table", {
+  teacher_table = new Tabulator("#teacher-table", {
         ajaxURL:"/admin/api/teacher_data", 
         height:"800px",
         pagination:"local",
@@ -534,7 +596,7 @@
 
   function buildOfficerTable(columns, rawColumns) {
 
-    var table = new Tabulator("#officer-table", {
+    officer_table = new Tabulator("#officer-table", {
         ajaxURL:"/admin/api/allofficerdata", 
         height:"800px",
         pagination:"local",
@@ -639,4 +701,11 @@
            }
     });
 });
+
+function fixTable() {
+  setTimeout(() => {
+    officer_table.redraw(true);
+    teacher_table.redraw(true);
+  }, 1)
+}
 </script>
