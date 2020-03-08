@@ -89,6 +89,26 @@ router.get('/api/teacher_data', authCheck, function(req, res) {
   }
 });
 
+router.get('/api/emails_data', authCheck, function(req, res) {
+  var error = false;
+  let sql = `SELECT * FROM emails`;
+  mysql.query(sql, (err, result) => {
+    if (err) {
+      console.log(err);
+      error = true;
+    }
+    if (result[0] != null) {
+      var resultJson = JSON.stringify(result);
+      resultJson = JSON.parse(resultJson);
+
+      res.send(resultJson);
+    }
+  });
+  if (error) {
+    res.status(500).send({error: 'There was an error!'}); 
+  }
+});
+
 router.get('/api/getcolumns', authCheck, function(req, res) {
   var error = false;
   let sql = `SELECT column_name FROM information_schema.columns WHERE table_schema = 'apps' AND table_name = 'team'`;
@@ -351,6 +371,26 @@ router.post('/api/update_sql_teachers', authCheck, express.urlencoded({ extended
 
 router.post('/api/deleteTeachers', authCheck, express.urlencoded({ extended: true }), function(req, res) {
   const table = "teachers";
+  var error = false;
+  
+  req.body.ids.forEach(id => {
+    let sql = 'DELETE FROM ' + table + ' WHERE ID = ?';
+    mysql.query(sql, id, (err) => {
+      if(err) {
+        console.log(err);
+        error = true;
+      }
+    });
+  });
+  if (error) {
+    res.status(500).send({error: 'There was an error!'}); 
+  } else {
+    res.json({success : "Updated Successfully", status : 200});
+  }
+});
+
+router.post('/api/deleteEmails', authCheck, express.urlencoded({ extended: true }), function(req, res) {
+  const table = "emails";
   var error = false;
   
   req.body.ids.forEach(id => {
