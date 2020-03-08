@@ -30,7 +30,18 @@ app.use('/profile', profileRoutes);
 app.use('/admin', adminRoutes);
 
 app.get('/home', function(req, res) {
-  res.render('pages/index', {user: req.user, index: true, instructions: true, end: global.END, collectEmail: global.collectEmail});
+  var error = false;
+  let sql = `SELECT * FROM variables`;
+  mysql.query(sql, (err, result) => {
+    if (err) {
+      console.log(err);
+      error = true;
+    }
+    res.render('pages/index', {user: req.user, index: true, instructions: true, end: global.END, collectEmail: global.collectEmail, data: result});
+  });
+  if (error) {
+    res.status(500).send({error: 'There was an error!'}); 
+  }
 });
 
 app.get('/', function(req, res) {

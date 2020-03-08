@@ -109,6 +109,27 @@
     <input type="button" value="Close Collect Email Dialog" class="btn btn-danger" onClick="closeCollectEmail()">
     <input type="button" value="Open Collect Email Dialog" class="btn btn-success" onClick="openCollectEmail()">
 
+    <hr>
+
+    <form action="/admin/api/instructions" method="post" id="instructionsForm">
+      <div class="form-group">
+        <label for="textarea2">Main Application Instructions</label>
+        <textarea id="mainAppView" name="mainAppView" spellcheck="true" cols="40" rows="5"
+          class="form-control"><%= typeof data!='undefined' ? data[2].text : '' %></textarea>
+      </div>
+      <div class="form-group">
+        <label for="textarea2">Officer Application Instructions</label>
+        <textarea id="officerAppView" name="officerAppView" spellcheck="true" cols="40" rows="5"
+          class="form-control"><%= typeof data!='undefined' ? data[3].text : '' %></textarea>
+      </div>
+      <div class="form-group">
+        <label for="textarea2">Recommendations Instructions</label>
+        <textarea id="recInstructions" name="recInstructions" spellcheck="true" cols="40" rows="5"
+          class="form-control"><%= typeof data!='undefined' ? data[4].text : '' %></textarea>
+      </div>
+      <button name="submit" type="submit" class="btn btn-success mb-5 mt-1" id="submit">Save</button>
+    </form>
+
     <footer class="container">
     <hr>
     <p>&copy; Robinson Science Olympiad 2019-2020</p>
@@ -593,4 +614,29 @@
       alert('Please select some rows')
     } 
   }
+
+  $('#instructionsForm').submit(function(e){
+    e.preventDefault();
+    $.ajax({
+        url:'/admin/api/instructions',
+        type:'post',
+        data:$('#instructionsForm').serialize(),
+        success:function(response){
+          console.log(response);
+          
+           $('#sucsess').show();
+           $('html,body').scrollTop(0);
+           $(".alert").delay(4000).slideUp(200, function() {
+              $(this).hide();
+          });
+        },
+        error: function(XMLHttpRequest, textStatus, error){
+          console.log(error);
+            $('#error').show();
+              $(".alert").delay(4000).slideUp(200, function() {
+                  $(this).hide();
+            });
+           }
+    });
+});
 </script>

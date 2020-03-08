@@ -14,32 +14,16 @@ const authCheck = function(req, res, next) {
 
 router.get('/', authCheck, function(req, res) {
   var error = false;
-  let sql = `SELECT * FROM team`;
-  mysql.query(sql, req.user.user_id, (err, result) => {
+  let sql = `SELECT * FROM variables`;
+  mysql.query(sql, (err, result) => {
     if (err) {
       console.log(err);
       error = true;
     }
-    if (result[0] != null) {
-      var payload = {
-        user: req.user,
-        team: result,
-        submissions: true
-      }
-      let sql = `SELECT * FROM officers`;
-      mysql.query(sql, req.user.user_id, (err, result) => {
-        if (err) {
-          error = true;
-        }
-        if (result[0] != null) {
-          payload.officers = result;
-        }
-        res.render('pages/admin', payload);
-      });
-    } else {
-      res.render('pages/admin', {user: req.user, submissions: true});
-    }
+    
+    res.render('pages/admin', {user: req.user, data: result});
   });
+
   if (error) {
     res.status(500).send({error: 'There was an error!'}); 
   }
@@ -416,6 +400,45 @@ router.post('/api/deleteTeam', authCheck, express.urlencoded({ extended: true })
       }
     });
   });
+  if (error) {
+    res.status(500).send({error: 'There was an error!'}); 
+  } else {
+    res.json({success : "Updated Successfully", status : 200});
+  }
+});
+
+router.post('/api/instructions', express.urlencoded({ extended: true }), function(req, res) {
+  var error = false;
+  
+  var main = req.body.mainAppView
+  var officer = req.body.officerAppView
+  var rec = req.body.recInstructions
+  
+  let sql = 'UPDATE variables SET text = ? WHERE name = "mainAppView"';
+  mysql.query(sql, main, (err) => {
+    if(err) {
+      console.log(err);
+      error = true;
+    }
+  });
+
+  sql = 'UPDATE variables SET text = ? WHERE name = "officerAppView"';
+  mysql.query(sql, officer, (err) => {
+    if(err) {
+      console.log(err);
+      error = true;
+    }
+  });
+
+  sql = 'UPDATE variables SET text = ? WHERE name = "recInstructions"';
+  mysql.query(sql, rec, (err) => {
+    if(err) {
+      console.log(err);
+      error = true;
+    }
+  });
+
+
   if (error) {
     res.status(500).send({error: 'There was an error!'}); 
   } else {
