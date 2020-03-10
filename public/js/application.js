@@ -40,9 +40,8 @@ $("#math_teacher").change(function() {
     }
   });
 
-/* eslint-disable no-unused-vars */
 
-function finalSubmit() {
+$("#finalSubmit").click(() => {
   var pass = true;
 
   var math_teacher = $("#math_teacher option:selected").val();
@@ -90,8 +89,8 @@ function finalSubmit() {
       });
     }
   }
-}
+})
 
-function submit() {
-    document.getElementById("submit").click();
-  }
+$("#navSubmit").click(() => {
+  document.getElementById("submit").click();
+})
