@@ -93,21 +93,21 @@ mysql.query(sql, (err, result) => {
   if (err) throw err;
   if (result[0] != null) {
     global.mainAppView = result[0].state;
+    sql = `SELECT * FROM variables WHERE name = 'officerAppView'`;
+    mysql.query(sql, (err, result) => {
+      if (err) throw err;
+      if (result[0] != null) {
+        global.officerAppView = result[0].state;
+        app.use(function(req, res, next) {
+          res.locals = {
+            mainAppView: global.mainAppView,
+            officerAppView: global.officerAppView
+          };
+          next();
+        });
+      }
+    });
   }
-  sql = `SELECT * FROM variables WHERE name = 'officerAppView'`;
-  mysql.query(sql, (err, result) => {
-    if (err) throw err;
-    if (result[0] != null) {
-      global.officerAppView = result[0].state;
-    }
-  });
-  app.use(function(req, res, next) {
-    res.locals = {
-      mainAppView: global.mainAppView,
-      officerAppView: global.officerAppView
-    };
-    next();
-  });
 });
 
 app.listen(keys.env.port);
