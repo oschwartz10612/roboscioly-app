@@ -15,7 +15,6 @@
   </style>
   <link href="/css/tabulator.min.css" rel="stylesheet">
   <script type="text/javascript" src="/js/tabulator.min.js"></script>
-
 </head>
 
 <body>
@@ -35,13 +34,13 @@
         <a class="nav-link active" id="team-tab" data-toggle="tab" href="#team" role="tab" aria-controls="team" aria-selected="true"">Team</a>
       </li>
       <li class="nav-item">
-        <a class="nav-link" id="officer-tab" data-toggle="tab" href="#officer" role="tab" aria-controls="officer" aria-selected="false" onclick="fixTable()">Officers</a>
+        <a class="nav-link" id="officer-tab" data-toggle="tab" href="#officer" role="tab" aria-controls="officer" aria-selected="false">Officers</a>
       </li>
       <li class="nav-item">
-        <a class="nav-link" id="teachers-tab" data-toggle="tab" href="#teachers" role="tab" aria-controls="teachers" aria-selected="false" onclick="fixTable()">Teachers</a>
+        <a class="nav-link" id="teachers-tab" data-toggle="tab" href="#teachers" role="tab" aria-controls="teachers" aria-selected="false">Teachers</a>
       </li>
       <li class="nav-item">
-        <a class="nav-link" id="emails-tab" data-toggle="tab" href="#emails" role="tab" aria-controls="emails" aria-selected="false" onclick="fixTable()">Emails</a>
+        <a class="nav-link" id="emails-tab" data-toggle="tab" href="#emails" role="tab" aria-controls="emails" aria-selected="false">Emails</a>
       </li>
       <li class="nav-item">
         <a class="nav-link" id="settings-tab" data-toggle="tab" href="#settings" role="tab" aria-controls="settings" aria-selected="false">Settings</a>
@@ -84,7 +83,7 @@
             <button id="download-csv" class="btn btn-primary mt-4">Download CSV</button>
             <button id="show-text" class="btn btn-secondary mt-4">Show text</button>
             <button class="btn btn-warning mt-4" id="selectAll">Select all rows</button>
-            <button class="btn btn-danger mt-4" onclick="deleteAppRows()">Delete Selected Rows</button>
+            <button class="btn btn-danger mt-4" id="deleteAppRows">Delete Selected Rows</button>
           </div>
         </div>
       </div>
@@ -97,7 +96,7 @@
             <div id="officer-table"></div>
             <button id="download-csv-officers" class="btn btn-primary mt-4">Download CSV</button>
             <button class="btn btn-warning mt-4" id="selectAllOfficers">Select all rows</button>
-            <button class="btn btn-danger mt-4" onclick="deleteOfficerRows()">Delete Selected Rows</button>  
+            <button class="btn btn-danger mt-4" id="deleteOfficerRows">Delete Selected Rows</button>  
           </div>
         </div>
       </div>
@@ -110,7 +109,7 @@
             <button class="btn btn-success mb-4" id="add-row">Add Teacher</button>
             <div id="teacher-table"></div>
             <button class="btn btn-warning mt-4" id="selectAllTeachers">Select all rows</button>
-            <button class="btn btn-danger mt-4" onclick="deleteTeacherRows()">Delete Selected Rows</button>
+            <button class="btn btn-danger mt-4" id="deleteTeacherRows">Delete Selected Rows</button>
           </div>
         </div>
       </div>
@@ -127,26 +126,26 @@
                     <h4 class="card-title">Instructions</h4>
         
                     <p>Application State:</p>
-                    <input type="button" value="Close All Applications" class="btn btn-danger" onClick="closeApp()"> 
-                    <input type="button" value="Open All Applications" class="btn btn-success mt-3" onClick="openApp()">
+                    <input type="button" value="Close All Applications" class="btn btn-danger" id="closeApp"> 
+                    <input type="button" value="Open All Applications" class="btn btn-success mt-3" id="openApp">
                 
                     <hr>
                 
                     <p>Main App:</p>
-                    <% if(mainAppView == 'no') { %> <input type="button" value="Close and Hide Main App" class="btn btn-danger" onClick="closeMain()">
-                    <% } else { %> <input type="button" value="Open and Show Main App" class="btn btn-success" onClick="openMain()"> <% } %> 
+                    <% if(mainAppView == 'no') { %> <input type="button" value="Close and Hide Main App" class="btn btn-danger" id="closeMain">
+                    <% } else { %> <input type="button" value="Open and Show Main App" class="btn btn-success" id="openMain"> <% } %> 
                 
                     <hr>
                 
                     <p>Officer App:</p>
-                    <% if(officerAppView == 'no') { %> <input type="button" value="Close and Hide Officer App" class="btn btn-danger" onClick="closeOfficer()">
-                    <% } else { %> <input type="button" value="Open and Show Officer App" class="btn btn-success" onClick="openOfficer()"> <% } %> 
+                    <% if(officerAppView == 'no') { %> <input type="button" value="Close and Hide Officer App" class="btn btn-danger" id="closeOfficer">
+                    <% } else { %> <input type="button" value="Open and Show Officer App" class="btn btn-success" id="openOfficer"> <% } %> 
                 
                     <hr>
                 
                     <p>Collect email on index page:</p>
-                    <input type="button" value="Close Collect Email Dialog" class="btn btn-danger" onClick="closeCollectEmail()">
-                    <input type="button" value="Open Collect Email Dialog" class="btn btn-success mt-3" onClick="openCollectEmail()">
+                    <input type="button" value="Close Collect Email Dialog" class="btn btn-danger" id="closeCollectEmail">
+                    <input type="button" value="Open Collect Email Dialog" class="btn btn-success mt-3" id="openCollectEmail">
         
                   </div>
                 </div>
@@ -189,7 +188,7 @@
             <h4 class="card-title">Collected Emails</h4>
             <div id="emails-table"></div>
             <button class="btn btn-warning mt-4" id="selectAllTeachers">Select all rows</button>
-            <button class="btn btn-danger mt-4" onclick="deleteEmailsRows()">Delete Selected Rows</button>
+            <button class="btn btn-danger mt-4" id="deleteEmailsRows">Delete Selected Rows</button>
           </div>
         </div>
       </div>

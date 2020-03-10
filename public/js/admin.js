@@ -377,239 +377,241 @@ $("#selectAllEmails").click(function() {
   emails_table.selectRow();
 });
 
-/* eslint-disable no-unused-vars */
+$("#officer-tab").click(() => {
+  fixTable()
+})
+$("#teachers-tab").click(() => {
+  fixTable()
+})
+$("#emails-tab").click(() => {
+  fixTable()
+})
 
 function fixTable() {
-    setTimeout(() => {
-      officer_table.redraw(true);
-      teacher_table.redraw(true);
-      emails_table.redraw(true);
-    }, 1);
-
-  function closeApp() {
-    $.get("/admin/api/closeApp", function(data) {
-      if (data == "done") {
-        location.reload();
-      }
-    });
-  }
-
-  function openApp() {
-    $.get("/admin/api/openApp", function(data) {
-      if (data == "done") {
-        location.reload();
-      }
-    });
-  }
-
-  function closeMain() {
-    $.get("/admin/api/closeMain", function(data) {
-      if (data == "done") {
-        location.reload();
-      }
-    });
-  }
-
-  function openMain() {
-    $.get("/admin/api/openMain", function(data) {
-      if (data == "done") {
-        location.reload();
-      }
-    });
-  }
-
-  function closeOfficer() {
-    $.get("/admin/api/closeOfficer", function(data) {
-      if (data == "done") {
-        location.reload();
-      }
-    });
-  }
-
-  function openOfficer() {
-    $.get("/admin/api/openOfficer", function(data) {
-      if (data == "done") {
-        location.reload();
-      }
-    });
-  }
-
-  function closeCollectEmail() {
-    $.get("/admin/api/closeCollectEmail", function(data) {
-      if (data == "done") {
-        $("#sucsess").show();
-        $(".alert")
-          .delay(4000)
-          .slideUp(200, function() {
-            $(this).hide();
-          });
-      }
-    });
-  }
-
-  function openCollectEmail() {
-    $.get("/admin/api/openCollectEmail", function(data) {
-      if (data == "done") {
-        $("#sucsess").show();
-        $(".alert")
-          .delay(4000)
-          .slideUp(200, function() {
-            $(this).hide();
-          });
-      }
-    });
-  }
+  setTimeout(() => {
+    officer_table.redraw(true);
+    teacher_table.redraw(true);
+    emails_table.redraw(true);
+  }, 1);
 }
 
-function deleteAppRows() {
-    if (appDeleteData.length != 0) {
-      var data = [];
-  
-      appDeleteData.forEach(row => {
-        data.push(row.user_id);
-      });
-  
-      $.ajax({
-        url: "/admin/api/deleteTeam",
-        data: { ids: data },
-        type: "post",
-        success: function() {
-          $("#sucsess").show();
-          $(".alert")
-            .delay(4000)
-            .slideUp(200, function() {
-              $(this).hide();
-            });
-          appDeleteRows.forEach(row => {
-            row.delete();
-          });
-          appDeleteData = [];
-        },
-        error: function() {
-          $("#error").show();
-          $(".alert")
-            .delay(4000)
-            .slideUp(200, function() {
-              $(this).hide();
-            });
-        }
-      });
-    } else {
-      alert("Please select some rows");
-    }
-  }
+/* eslint-disable no-unused-vars */
 
-  function deleteTeacherRows() {
-    if (teacherDeleteData.length != 0) {
-      var data = [];
-  
-      teacherDeleteData.forEach(row => {
-        data.push(row.id);
-      });
-  
-      $.ajax({
-        url: "/admin/api/deleteTeachers",
-        data: { ids: data },
-        type: "post",
-        success: function() {
-          $("#sucsess").show();
-          $(".alert")
-            .delay(4000)
-            .slideUp(200, function() {
-              $(this).hide();
-            });
-          teacherDeleteRows.forEach(row => {
-            row.delete();
-          });
-          teacherDeleteData = [];
-        },
-        error: function() {
-          $("#error").show();
-          $(".alert")
-            .delay(4000)
-            .slideUp(200, function() {
-              $(this).hide();
-            });
-        }
-      });
-    } else {
-      alert("Please select some rows");
-    }
-  }
 
-  function deleteOfficerRows() {
-    if (officerDeleteData.length != 0) {
-      var data = [];
-  
-      officerDeleteData.forEach(row => {
-        data.push(row.user_id);
-      });
-  
-      $.ajax({
-        url: "/admin/api/deleteOfficers",
-        data: { ids: data },
-        type: "post",
-        success: function() {
-          $("#sucsess").show();
-          $(".alert")
-            .delay(4000)
-            .slideUp(200, function() {
-              $(this).hide();
-            });
-          officerDeleteRows.forEach(row => {
-            row.delete();
-          });
-          officerDeleteData = [];
-        },
-        error: function() {
-          $("#error").show();
-          $(".alert")
-            .delay(4000)
-            .slideUp(200, function() {
-              $(this).hide();
-            });
-        }
-      });
-    } else {
-      alert("Please select some rows");
+$("#closeApp").click(() => {
+  $.get("/admin/api/closeApp", function(data) {
+    if (data == "done") {
+      location.reload();
     }
-  }
-  
-  function deleteEmailsRows() {
-    if (emailsDeleteData.length != 0) {
-      var data = [];
-  
-      emailsDeleteData.forEach(row => {
-        data.push(row.id);
-      });
-  
-      $.ajax({
-        url: "/admin/api/deleteEmails",
-        data: { ids: data },
-        type: "post",
-        success: function() {
-          $("#sucsess").show();
-          $(".alert")
-            .delay(4000)
-            .slideUp(200, function() {
-              $(this).hide();
-            });
-          emailsDeleteRows.forEach(row => {
-            row.delete();
-          });
-          emailsDeleteData = [];
-        },
-        error: function() {
-          $("#error").show();
-          $(".alert")
-            .delay(4000)
-            .slideUp(200, function() {
-              $(this).hide();
-            });
-        }
-      });
-    } else {
-      alert("Please select some rows");
+  });
+})
+$("#openApp").click(() => {
+  $.get("/admin/api/openApp", function(data) {
+    if (data == "done") {
+      location.reload();
     }
+  });
+})
+$("#closeMain").click(() => {
+  $.get("/admin/api/closeMain", function(data) {
+    if (data == "done") {
+      location.reload();
+    }
+  });
+})
+$("#openMain").click(() => {
+  $.get("/admin/api/openMain", function(data) {
+    if (data == "done") {
+      location.reload();
+    }
+  });
+})
+$("#closeOfficer").click(() => {
+  $.get("/admin/api/closeOfficer", function(data) {
+    if (data == "done") {
+      location.reload();
+    }
+  });
+})
+$("#openOfficer").click(() => {
+  $.get("/admin/api/openOfficer", function(data) {
+    if (data == "done") {
+      location.reload();
+    }
+  });
+})
+$("#closeCollectEmail").click(() => {
+  $.get("/admin/api/closeCollectEmail", function(data) {
+    if (data == "done") {
+      $("#sucsess").show();
+      $(".alert")
+        .delay(4000)
+        .slideUp(200, function() {
+          $(this).hide();
+        });
+    }
+  });
+})
+$("#openCollectEmail").click(() => {
+  $.get("/admin/api/openCollectEmail", function(data) {
+    if (data == "done") {
+      $("#sucsess").show();
+      $(".alert")
+        .delay(4000)
+        .slideUp(200, function() {
+          $(this).hide();
+        });
+    }
+  });
+})
+
+$("#deleteAppRows").click(() => {
+  if (appDeleteData.length != 0) {
+    var data = [];
+
+    appDeleteData.forEach(row => {
+      data.push(row.user_id);
+    });
+
+    $.ajax({
+      url: "/admin/api/deleteTeam",
+      data: { ids: data },
+      type: "post",
+      success: function() {
+        $("#sucsess").show();
+        $(".alert")
+          .delay(4000)
+          .slideUp(200, function() {
+            $(this).hide();
+          });
+        appDeleteRows.forEach(row => {
+          row.delete();
+        });
+        appDeleteData = [];
+      },
+      error: function() {
+        $("#error").show();
+        $(".alert")
+          .delay(4000)
+          .slideUp(200, function() {
+            $(this).hide();
+          });
+      }
+    });
+  } else {
+    alert("Please select some rows");
   }
-/* eslint-enable no-unused-vars */
+})
+
+$("#deleteTeacherRows").click(() => {
+  if (teacherDeleteData.length != 0) {
+    var data = [];
+
+    teacherDeleteData.forEach(row => {
+      data.push(row.id);
+    });
+
+    $.ajax({
+      url: "/admin/api/deleteTeachers",
+      data: { ids: data },
+      type: "post",
+      success: function() {
+        $("#sucsess").show();
+        $(".alert")
+          .delay(4000)
+          .slideUp(200, function() {
+            $(this).hide();
+          });
+        teacherDeleteRows.forEach(row => {
+          row.delete();
+        });
+        teacherDeleteData = [];
+      },
+      error: function() {
+        $("#error").show();
+        $(".alert")
+          .delay(4000)
+          .slideUp(200, function() {
+            $(this).hide();
+          });
+      }
+    });
+  } else {
+    alert("Please select some rows");
+  }
+})
+$("#deleteOfficerRows").click(() => {
+  if (officerDeleteData.length != 0) {
+    var data = [];
+
+    officerDeleteData.forEach(row => {
+      data.push(row.user_id);
+    });
+
+    $.ajax({
+      url: "/admin/api/deleteOfficers",
+      data: { ids: data },
+      type: "post",
+      success: function() {
+        $("#sucsess").show();
+        $(".alert")
+          .delay(4000)
+          .slideUp(200, function() {
+            $(this).hide();
+          });
+        officerDeleteRows.forEach(row => {
+          row.delete();
+        });
+        officerDeleteData = [];
+      },
+      error: function() {
+        $("#error").show();
+        $(".alert")
+          .delay(4000)
+          .slideUp(200, function() {
+            $(this).hide();
+          });
+      }
+    });
+  } else {
+    alert("Please select some rows");
+  }
+})
+
+$("#deleteEmailsRows").click(() => {
+  if (emailsDeleteData.length != 0) {
+    var data = [];
+
+    emailsDeleteData.forEach(row => {
+      data.push(row.id);
+    });
+
+    $.ajax({
+      url: "/admin/api/deleteEmails",
+      data: { ids: data },
+      type: "post",
+      success: function() {
+        $("#sucsess").show();
+        $(".alert")
+          .delay(4000)
+          .slideUp(200, function() {
+            $(this).hide();
+          });
+        emailsDeleteRows.forEach(row => {
+          row.delete();
+        });
+        emailsDeleteData = [];
+      },
+      error: function() {
+        $("#error").show();
+        $(".alert")
+          .delay(4000)
+          .slideUp(200, function() {
+            $(this).hide();
+          });
+      }
+    });
+  } else {
+    alert("Please select some rows");
+  }
+})
