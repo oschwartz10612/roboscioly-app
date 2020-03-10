@@ -376,6 +376,9 @@ emails_table = new Tabulator("#emails-table", {
 $("#selectAllEmails").click(function() {
   emails_table.selectRow();
 });
+$("#download-csv-emails").click(function() {
+  emails_table.download("csv", "data.csv");
+});
 
 $("#officer-tab").click(() => {
   fixTable()
