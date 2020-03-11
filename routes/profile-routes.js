@@ -250,7 +250,7 @@ router.post("/form", express.urlencoded({ extended: true }), function(
       subject: req.body.name + " Has Requested a Recommendation",
       html: `<p>Hello,</p>
       <p>This is a notification that ${req.body.name} has requested a Science Olympiad recommendation from you.</p>
-      <p>When it is a convenient time, please complete this brief form at <a href="apply.roboscienceolympiad.org">apply.roboscienceolympiad.org</a>.&nbsp;<strong> Log in with your fcpsschools.net email address.</strong>&nbsp;</p>
+      <p>When it is a convenient time, please complete this brief form at <a href="https://apply.roboscienceolympiad.org/home?login=y">apply.roboscienceolympiad.org</a>.&nbsp;<strong> Log in with your fcpsschools.net email address.</strong>&nbsp;</p>
       <p>Regards,</p>
       <p>The Science Olympiad Team</p>`
     };
