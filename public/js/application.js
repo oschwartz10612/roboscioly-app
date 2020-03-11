@@ -48,16 +48,18 @@ $("#finalSubmit").click(() => {
   var science_teacher = $("#science_teacher option:selected").val();
   if (math_teacher == "None" && science_teacher == "None") {
     pass = false;
+    console.log('teacher');
+    
   }
 
   $(":input", "#mainform").each(function() {
     if (this.value == "") {
-      if (
-        !this.name.includes("class") ||
-        !this.name.includes("math") ||
-        !this.name.includes("submit") ||
-        !this.name.includes("events")
-      ) {
+      if (!(
+        this.name.includes("class") ||
+        this.name.includes("math") ||
+        this.name.includes("submit") ||
+        this.name.includes("events") 
+      )) {
         pass = false;
       }
     }
