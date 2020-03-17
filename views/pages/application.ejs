@@ -8,12 +8,12 @@
   <% include ../partials/head %>
   <style>
     .left_side_1 {
-      padding-top: 38px;
-      padding-bottom: 38px;
+      padding-top: 36px;
+      padding-bottom: 36px;
     }
     .left_side_2 {
-      padding-top: 38px;
-      padding-bottom: 39px;
+      padding-top: 35px;
+      padding-bottom: 35px;
     }
     .left .form-group {
       margin-top: 21px;
@@ -61,7 +61,7 @@
                 you after applications have been received. You must check this email!</span>
             </div>
             <div class="form-group">
-              <label for="grade">Current grade level:</label>
+              <label for="grade">Grade level:</label>
               <div>
                 <select id="grade" name="grade" class="custom-select">
                   <%
@@ -89,9 +89,10 @@
                 %>
                 </select>
               </div>
+              <span id="gradeHelpBlock" class="form-text text-muted">If applying in the spring, provide your <strong>rising</strong> grade.</span>
             </div>
             <div class="form-group">
-              <label>Were you on the Science Olympiad team last year?</label>
+              <label>Were you on the Science Olympiad team last season?</label>
               <div>
                 <div class="custom-control custom-radio custom-control-inline">
                   <input name="team" id="radio_0" type="radio" class="custom-control-input" value="Yes"
@@ -109,7 +110,7 @@
               </div>
             </div>
             <div class="form-group">
-              <label>Were you on the Science Olympiad States team last year?</label>
+              <label>Were you on the Science Olympiad States team last season?</label>
               <div>
                 <div class="custom-control custom-radio custom-control-inline">
                   <input name="statesteam" id="statesteam_0" type="radio" aria-describedby="statesteamHelpBlock"
@@ -226,6 +227,7 @@
                 </select>
               </div>
             </div>
+            <span id="teachersHelpBlock" class="form-text text-muted">If applying in the spring, provide your <strong>current</strong> teacher.</span>
             </div>
           </div>
         </div>
@@ -277,6 +279,7 @@
                     }
                     %>
               </div>
+              <span id="science_gradeHelpBlock" class="form-text text-muted">If applying in the spring, provide <strong>enrolled</strong> classes as well.</span>
             </div>
             <div class="form-group">
               <label>What Math classes have you, or are currently taking?</label>
@@ -326,10 +329,11 @@
               </div>
             </div>
             <div class="form-group">
-              <label for="science_grade">Please provide your  end-of-course grade for your Science class last
-                year as a percentage:</label>
+              <label for="science_grade">Please provide your end-of-course grade for your Science class last
+                year as a percentage or letter grade:</label>
               <input id="science_grade" name="science_grade" type="text" class="form-control"
                 value="<%= typeof data!='undefined' ? data.science_grade : '' %>">
+              <span id="scoreHelpBlock" class="form-text text-muted">If applying in the spring, provide your <strong>current</strong> score.</span>
             </div>
           </div>
         </div>
@@ -344,6 +348,7 @@
             activities may conflict with Science Olympiad, how will you dedicate your time to this team?</label>
           <textarea id="textarea" name="textarea" spellcheck="true" cols="40" rows="5"
             class="form-control"><%= typeof data!='undefined' ? data.textarea : '' %></textarea>
+            <span id="textareaHelpBlock" class="form-text text-muted">If applying in the spring, also think about activities you will participate in next year.</span>
         </div>
         <div class="form-group">
           <label for="textarea1">What do you believe your science/academic strengths are? Weaknesses? Have you

@@ -3,3 +3,5 @@ node_modules/
 keys.js
 client-secret.json
 credentials.tar.gz
+scioly_sql.sh
+cloud_sql_proxy
