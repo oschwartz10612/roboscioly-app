@@ -12,8 +12,8 @@
       padding-bottom: 36px;
     }
     .left_side_2 {
-      padding-top: 35px;
-      padding-bottom: 35px;
+      padding-top: 36px;
+      padding-bottom: 37px;
     }
     .left .form-group {
       margin-top: 21px;
@@ -61,7 +61,7 @@
                 you after applications have been received. You must check this email!</span>
             </div>
             <div class="form-group">
-              <label for="grade">Grade level:</label>
+              <label for="grade">Grade level</label>
               <div>
                 <select id="grade" name="grade" class="custom-select">
                   <%
@@ -156,8 +156,8 @@
 
           <div class="jumbotron left_side_2">
             <h4>Teacher Recommendation</h4>
-            <p>Select your previous year's Science teacher for your recommendation. We will automagically contact them and they
-              will complete your recommendation electronically here. Be sure to inform your teachers that you have used them. <strong>Only use a Math teacher if your Science teacher is not listed.</strong></p>
+            <p>Select your previous year's science teacher for your recommendation. We will automagically contact them and they
+              will complete your recommendation electronically here. Be sure to inform your teachers that you have used them. <strong>Only use a math teacher if your science teacher is not listed.</strong></p>
             <div class="form-group">
               <label for="science_teacher">Science teacher for recommendation</label>
               <div>
@@ -235,6 +235,7 @@
         <div class="col-6">
           <div class="jumbotron pt-4 pb-3">
             <h4>Classes</h4>
+            <span id="science_gradeHelpBlock" class="form-text text-muted mb-2">If applying in the spring, provide all <strong>enrolled</strong> classes as well.</span>
             <div class="form-group">
               <label>Which science and/or technology courses have you, or are currently taking?</label>
               <div>
@@ -279,7 +280,6 @@
                     }
                     %>
               </div>
-              <span id="science_gradeHelpBlock" class="form-text text-muted">If applying in the spring, provide <strong>enrolled</strong> classes as well.</span>
             </div>
             <div class="form-group">
               <label>What Math classes have you, or are currently taking?</label>
@@ -329,8 +329,8 @@
               </div>
             </div>
             <div class="form-group">
-              <label for="science_grade">Please provide your end-of-course grade for your Science class last
-                year as a percentage or letter grade:</label>
+              <label for="science_grade">Please provide your end-of-course grade for your science class(es) last
+                year as a letter grade</label>
               <input id="science_grade" name="science_grade" type="text" class="form-control"
                 value="<%= typeof data!='undefined' ? data.science_grade : '' %>">
               <span id="scoreHelpBlock" class="form-text text-muted">If applying in the spring, provide your <strong>current</strong> score.</span>
