@@ -41,6 +41,7 @@ mysql.query(sql, (err, result) => {
           };
           next();
         });
+        app.listen(keys.env.port);
       }
     });
   }
@@ -112,4 +113,3 @@ app.post("/emails", express.urlencoded({ extended: true }), function(req, res) {
 
 
 
-app.listen(keys.env.port);
